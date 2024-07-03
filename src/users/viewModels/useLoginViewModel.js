@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { login } from "../api/userApi";
-import useForm from '../hooks/useForm';  // default import 사용
+import useForm from '../hooks/useForm'; 
 
 export function useLoginViewModel() {
   const { values, handleChange } = useForm({
@@ -21,7 +21,8 @@ export function useLoginViewModel() {
   };
 
   return {
-    ...values,
+    email: values.email,
+    password: values.password,
     handleChange,
     handleSubmit,
     error,

@@ -46,7 +46,7 @@ function LoginView() {
       </Grid>
 
       <br />
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} >
         <CustomInput
           label="이메일"
           type="email"
@@ -70,10 +70,14 @@ function LoginView() {
         <Typography color="error" style={{ marginTop: '10px' }}>{error}</Typography>
       )}
 
-      <Grid container justifyContent="flex-end" style={{ marginTop: '10px' }}>
+      <Grid container justifyContent="flex-start" style={{ marginTop: '10px' }}>
         <Grid item>
           <Link href="/signup" variant="body2" style={{ color: "#8A8A8A" }}>
             회원가입
+          </Link>
+          &nbsp;
+          <Link href="/find" variant="body2" style={{ color: "#8A8A8A" }}>
+            아이디/비밀번호 찾기
           </Link>
         </Grid>
       </Grid>
@@ -84,6 +88,7 @@ function LoginView() {
         {['kakao', 'naver', 'google'].map((provider) => (
           <Button key={provider} className={provider} aria-label={provider}>
             <img
+              style={{ width: "60%", height: 'auto' }}
               src={`/assets/${provider}.png`}
               alt={`${provider} login`}
               onClick={() => window.open(`https://${provider}.com`)}

@@ -1,7 +1,30 @@
-import React from "react";
-import { TextField, Button, Container, Typography, Grid, Link } from '@mui/material';
+import React, { useState } from "react";
+import { Container, Typography, Grid, Link, Button } from '@mui/material';
 import { useLoginViewModel } from "../viewModels/useLoginViewModel";
-import { useForm } from "react-hook-form";
+import "../components/css/LoginView.css";
+
+const CustomInput = ({ label, type, id, value, onChange, ...props }) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleFocus = () => setIsFocused(true);
+  const handleBlur = () => setIsFocused(value !== '' ? true : false);
+
+  return (
+    <div className={`input-container ${isFocused ? 'focused' : ''}`}>
+      <label htmlFor={id} className="input-label">{label}</label>
+      <input 
+        type={type}
+        id={id}
+        className="custom-input"
+        value={value}
+        onChange={onChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        {...props}
+      />
+    </div>
+  );
+};
 
 function LoginView() {
   const {
@@ -16,62 +39,58 @@ function LoginView() {
     <Container component="main" maxWidth="xs" sx={{ marginTop: "8%" }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography component="h1" variant="h5">
-            로그인
+          <Typography component="h1" variant="h5" style={{ textAlign: "center" }}>
+            <b>로그인</b>
           </Typography>
         </Grid>
       </Grid>
-      <form noValidate onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              id="email"
-              label="이메일 주소"
-              name="email"
-              autoComplete="email"
-              value={email}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="password"
-              label="패스워드"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={handleChange}
-            />
-          </Grid>
-          {error && (
-            <Grid item xs={12}>
-              <Typography color="error">{error}</Typography>
-            </Grid>
-          )}
-          <Grid item xs={12}>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-            >
-              로그인
-            </Button>
-          </Grid>
-          <Grid item xs={12}>
-            <Link href="/signup" variant="body2">
-              계정이 없습니까? 여기서 가입 하세요.
-            </Link>
-          </Grid>
-        </Grid>
+
+      <br />
+      <form onSubmit={handleSubmit}>
+        <CustomInput
+          label="이메일"
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => handleChange('email', e.target.value)}
+          required
+        />
+        <CustomInput
+          label="비밀번호"
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => handleChange('password', e.target.value)}
+          required
+        />
+        <button className="login-button" type="submit">로그인</button>
       </form>
+
+      {error && (
+        <Typography color="error" style={{ marginTop: '10px' }}>{error}</Typography>
+      )}
+
+      <Grid container justifyContent="flex-end" style={{ marginTop: '10px' }}>
+        <Grid item>
+          <Link href="/signup" variant="body2" style={{ color: "#8A8A8A" }}>
+            회원가입
+          </Link>
+        </Grid>
+      </Grid>
+
+      <div className="hr-sect">&nbsp; 또는 &nbsp;</div>
+
+      <div className="btns">
+        {['kakao', 'naver', 'google'].map((provider) => (
+          <Button key={provider} className={provider} aria-label={provider}>
+            <img
+              src={`/assets/${provider}.png`}
+              alt={`${provider} login`}
+              onClick={() => window.open(`https://${provider}.com`)}
+            />
+          </Button>
+        ))}
+      </div>
     </Container>
   );
 }

@@ -1,15 +1,19 @@
 // 사용자 객체 생성을 위한 클래스
 class User {
-    constructor(email, username, password) {
+    constructor(email, realName, password, nickName, address, detailAddress, phone) {
      
       this.email = email; // 이메일
-      this.username = username; // real name
       this.password = password; // password
+      this.realName = realName; // real name
+      this.nickName = nickName; // real name
+      this.address = address; // real name
+      this.detailAddress = detailAddress; // real name
+      this.phone = phone; // real name
     }
   
     // 사용자 정보를 문자열로 반환
     toString() {
-      return `User: ${this.username} (${this.email})`;
+      return `User: ${this.realName} (${this.email})`;
     }
   }
   
@@ -26,7 +30,7 @@ class User {
   }
   
   // 사용자 객체 생성 함수
-  function createUser(email, username, password) {
+  function createUser(email, username, password, nickName, address, detailAddress, phone) {
     if (!isValidEmail(email)) {
       throw new Error('Invalid email address');
     }
@@ -35,7 +39,7 @@ class User {
     }
     // 실제 애플리케이션에서는 ID를 서버에서 생성하거나 UUID를 사용할 수 있습니다.
     
-    return new User(email, username, password);
+    return new User(email, username, password, nickName, address, detailAddress, phone);
   }
   
   // 사용자 객체를 평문 객체로 변환 (API 요청 등에 사용)

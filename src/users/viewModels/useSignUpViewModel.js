@@ -9,6 +9,10 @@ export function useSignUpViewModel() {
     email: '',
     password: '',
     realName: '',
+    nickName: '',
+    address: '',
+    detailAddress: '',
+    phone: '',
   });
 
   const handleSubmit = async (event) => {
@@ -16,8 +20,10 @@ export function useSignUpViewModel() {
     setError(null);
     try {
       // values가 undefined인 경우를 대비해 기본값 설정
-      const { email = '', password = '', realName = '' } = values || {};
+      const { email = '', password = '', realName = '', 
+        nickName = '', address = '', detailAddress = '', phone = '' } = values || {};
 
+        console.log(email, password, realName, nickName, address, detailAddress, phone);
       if (!email || !isValidEmail(email)) {
         setError('유효하지 않은 이메일 주소입니다.');
         return;
@@ -31,7 +37,7 @@ export function useSignUpViewModel() {
         return;
       }
 
-      const user = createUser(email, realName, password);
+      const user = createUser(email, realName, password, nickName, address, detailAddress, phone);
       await signup(user);
       // 성공 처리 로직 (예: 로그인 페이지로 리디렉션)
     } catch (error) {
@@ -43,6 +49,10 @@ export function useSignUpViewModel() {
     email: values?.email || '',
     password: values?.password || '',
     realName: values?.realName || '',
+    nickName: values?.nickName || '',
+    address: values?.address || '',
+    detailAddress: values?.detailAddress || '',
+    phone: values?.phone || '',
     handleChange,
     handleSubmit,
     error,

@@ -2,11 +2,16 @@ import React from "react";
 import { useSignUpViewModel } from "../viewModels/useSignUpViewModel";
 import Input from "../components/common/Input";
 import { Container, Grid, Typography } from "@mui/material";
+import WhiteButton from "../../component/WhiteButton";
+import Footer from "../../component/Footer";
+import BlueButton from "../../component/BlueButton";
 
 function SignUpView() {
-    const { email, password, realName, handleChange, handleSubmit, error } = useSignUpViewModel();
+    const { email, password, realName,nickName,address, detailAddress, phone, handleChange, handleSubmit, error } = useSignUpViewModel();
   
     return (
+        <>
+        
         <Container component="main" maxWidth="xs" sx={{ marginTop: "8%" }}>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -77,13 +82,22 @@ function SignUpView() {
                     required
                 />
                 <div>
-                    <button className="reset-button" type="reset">취소</button>
-                    <button className="signup-button" type="submit">회원가입</button>
+                    <WhiteButton className="reset-button" type="reset" btnName={"취소"}
+                    onClick={() => window.history.back()}
+                    />
+                    <BlueButton className="signup-button" type="submit" btnName={"회원가입"}/>
                 </div>
                
             </form>
             </Grid>
+
+            <Grid sx={{ marginBottom: "20%" }}>
+
+            </Grid>
         </Container>
+        
+        <Footer />
+        </>
     );
 }
 

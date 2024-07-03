@@ -57,5 +57,6 @@ export function call(api, method, request) {
 
 // 회원가입 함수
 export function signup(userDTO) {
+  console.log("회원가입: ", userDTO);
   return call("/users", "POST", userDTO);
 }

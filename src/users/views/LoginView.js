@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Container, Typography, Grid, Link, Button } from '@mui/material';
 import { useLoginViewModel } from "../viewModels/useLoginViewModel";
-import "../components/css/LoginView.css";
+import "../components/css/users.css";
 import Input from "../components/common/Input";
+import Footer from "../../component/Footer";
 
 
 function LoginView() {
@@ -15,6 +16,7 @@ function LoginView() {
   } = useLoginViewModel();
 
   return (
+  <>
     <Container component="main" maxWidth="xs" sx={{ marginTop: "8%" }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -76,6 +78,8 @@ function LoginView() {
         ))}
       </div>
     </Container>
+    <Footer />
+    </>
   );
 }
 

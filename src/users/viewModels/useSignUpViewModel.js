@@ -1,47 +1,50 @@
 import { useState } from 'react';
 import { createUser, isValidEmail, isValidPassword } from '../models/User';
-import { useForm } from 'react-hook-form';
-
-// signup 함수를 import 하거나, 여기서 mock 함수로 정의합니다.
-const signup = async (user) => {
-  // 실제 signup 로직을 여기에 구현하거나 import 합니다.
-  console.log('Signing up user:', user);
-  // 예시: return api.signup(user);
-};
+import useForm from '../hooks/useForm';
+import { signup } from '../api/userApi';
 
 export function useSignUpViewModel() {
-    const [error, setError] = useState(null);
-    const { register, handleSubmit, formState: { errors }, getValues } = useForm({
-      defaultValues: {
-        email: '',
-        password: '',
-        username: '', // username 필드 추가
-      }
-    });
-    
-  const onSubmit = async (data) => {
+  const [error, setError] = useState(null);
+  const { values, handleChange } = useForm({
+    email: '',
+    password: '',
+    realName: '',
+  });
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError(null);
     try {
-      const { email, password, username } = data;
-      if (!isValidEmail(email)) {
+      // values가 undefined인 경우를 대비해 기본값 설정
+      const { email = '', password = '', realName = '' } = values || {};
+
+      if (!email || !isValidEmail(email)) {
         setError('유효하지 않은 이메일 주소입니다.');
         return;
       }
-      if (!isValidPassword(password)) {
+      if (!password || !isValidPassword(password)) {
         setError('비밀번호는 최소 8자 이상이며, 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.');
         return;
       }
-      const user = createUser(email, username, password);
+      if (!realName) {
+        setError('이름을 입력해주세요.');
+        return;
+      }
+
+      const user = createUser(email, realName, password);
       await signup(user);
-      // 성공 처리
+      // 성공 처리 로직 (예: 로그인 페이지로 리디렉션)
     } catch (error) {
       setError(error.message);
     }
   };
-  
+
   return {
-    register,
-    handleSubmit: handleSubmit(onSubmit),
-    errors,
+    email: values?.email || '',
+    password: values?.password || '',
+    realName: values?.realName || '',
+    handleChange,
+    handleSubmit,
     error,
   };
 }

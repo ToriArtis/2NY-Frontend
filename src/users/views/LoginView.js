@@ -1,12 +1,7 @@
 import React from "react";
-import {
-  Grid,
-  Container,
-  Typography,
-  Link,
-} from "@material-ui/core";
-import { Button, TextField } from '../components/common';
+import { TextField, Button, Container, Typography, Grid, Link } from '@mui/material';
 import { useLoginViewModel } from "../viewModels/useLoginViewModel";
+import { useForm } from "react-hook-form";
 
 function LoginView() {
   const {
@@ -18,7 +13,7 @@ function LoginView() {
   } = useLoginViewModel();
 
   return (
-    <Container component="main" maxWidth="xs" style={{ marginTop: "8%" }}>
+    <Container component="main" maxWidth="xs" sx={{ marginTop: "8%" }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography component="h1" variant="h5">

@@ -3,7 +3,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import { Typography } from "@mui/material";
 import App from "./App";
 import LoginView from "./users/views/LoginView";
-import Logout from "./users/api/userApi";
+import Logout from "./users/api/userLoginApi";
 import SignUpView from "./users/views/SignUpView";
 
 

@@ -2,29 +2,8 @@ import React, { useState } from "react";
 import { Container, Typography, Grid, Link, Button } from '@mui/material';
 import { useLoginViewModel } from "../viewModels/useLoginViewModel";
 import "../components/css/LoginView.css";
+import Input from "../components/common/Input";
 
-const CustomInput = ({ label, type, id, value, onChange, ...props }) => {
-  const [isFocused, setIsFocused] = useState(false);
-
-  const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => setIsFocused(value !== '' ? true : false);
-
-  return (
-    <div className={`input-container ${isFocused ? 'focused' : ''}`}>
-      <label htmlFor={id} className="input-label">{label}</label>
-      <input 
-        type={type}
-        id={id}
-        className="custom-input"
-        value={value}
-        onChange={onChange}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        {...props}
-      />
-    </div>
-  );
-};
 
 function LoginView() {
   const {
@@ -47,7 +26,7 @@ function LoginView() {
 
       <br />
       <form onSubmit={handleSubmit} >
-        <CustomInput
+        <Input
           label="이메일"
           type="email"
           id="email"
@@ -55,7 +34,7 @@ function LoginView() {
           onChange={(e) => handleChange('email', e.target.value)}
           required
         />
-        <CustomInput
+        <Input
           label="비밀번호"
           type="password"
           id="password"

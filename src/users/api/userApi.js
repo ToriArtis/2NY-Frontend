@@ -55,61 +55,8 @@ export function call(api, method, request) {
 
 
 
-// 로그인 함수
-export async function login(userDTO) {
-  console.log("로그인 시도:", userDTO);
-
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-
-  const raw = JSON.stringify({
-    "email": userDTO.email,
-    "password": userDTO.password
-  });
-  const requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow"
-  };
-
-  try {
-    const response = await fetch(API_BASE_URL + "/users/login", requestOptions);
-    
-    if (!response.ok) {
-      // HTTP 오류 상태 처리 (400, 401, 403 등)
-      const errorData = await response.json();
-      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-    console.log("로그인 성공:", result);
-
-    if (result.token) {
-      localStorage.setItem(ACCESS_TOKEN, result.token);
-      // 토큰이 존재하는 경우 메인 페이지('/')로 리디렉션
-      window.location.href = "/";
-    } else {
-      throw new Error("토큰이 없습니다.");
-    }
-
-    return result;
-  } catch (error) {
-    console.error("로그인 오류:", error);
-    throw error;  // 오류를 상위로 전파하여 컴포넌트에서 처리할 수 있게 함
-  }
-}
-
-// 로그아웃 함수
-export default function Logout() {
-  console.log("signout");
-  // 로컬 스토리지에서 토큰 제거
-  localStorage.setItem(ACCESS_TOKEN, null);
-  // 로그인 페이지로 리디렉션
-  window.location.href = "/login";
-}
-
 // 회원가입 함수
 export function signup(userDTO) {
+  console.log("회원가입: ", userDTO);
   return call("/users", "POST", userDTO);
 }

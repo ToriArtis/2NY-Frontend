@@ -1,15 +1,27 @@
-import { createUser, isValidEmail, isValidPassword } from '../models/users';
+import { useState } from 'react';
+import { createUser, isValidEmail, isValidPassword } from '../models/User';
+import { useForm } from 'react-hook-form';
+
+// signup 함수를 import 하거나, 여기서 mock 함수로 정의합니다.
+const signup = async (user) => {
+  // 실제 signup 로직을 여기에 구현하거나 import 합니다.
+  console.log('Signing up user:', user);
+  // 예시: return api.signup(user);
+};
 
 export function useSignUpViewModel() {
     const [error, setError] = useState(null);
-    const { values, handleChange } = useForm({
-    email: '',
-    password: '',
+    const { register, handleSubmit, formState: { errors }, getValues } = useForm({
+      defaultValues: {
+        email: '',
+        password: '',
+        username: '', // username 필드 추가
+      }
     });
     
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = async (data) => {
     try {
+      const { email, password, username } = data;
       if (!isValidEmail(email)) {
         setError('유효하지 않은 이메일 주소입니다.');
         return;
@@ -27,9 +39,9 @@ export function useSignUpViewModel() {
   };
   
   return {
-    ...values,
-    handleChange,
-    handleSubmit,
+    register,
+    handleSubmit: handleSubmit(onSubmit),
+    errors,
     error,
   };
 }

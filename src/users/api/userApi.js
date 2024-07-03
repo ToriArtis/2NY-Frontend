@@ -53,7 +53,7 @@ export function call(api, method, request) {
 }
 
 // 로그인 함수
-export function signin(userDTO) {
+export function login(userDTO) {
   return call("/users", "POST", userDTO).then((response) => {
     if (response.token) {   // 로컬 스토리지에 토큰 저장
       localStorage.setItem(ACCESS_TOKEN, response.token);
@@ -64,7 +64,8 @@ export function signin(userDTO) {
 }
 
 // 로그아웃 함수
-export function signout() {
+export default function Logout() {
+  console.log("signout");
   // 로컬 스토리지에서 토큰 제거
   localStorage.setItem(ACCESS_TOKEN, null);
   // 로그인 페이지로 리디렉션

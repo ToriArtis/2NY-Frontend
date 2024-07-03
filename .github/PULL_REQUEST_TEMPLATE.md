@@ -12,7 +12,7 @@ Closes
 
 🧵Chore: 그 외 자잘한 수정에 대한 커밋
 
-💄Design: CSS 및 UI 추가
+💄Style: CSS 및 UI 추가
 
 📝Docs: 문서 수정
 

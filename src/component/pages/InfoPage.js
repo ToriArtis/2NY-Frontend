@@ -4,6 +4,7 @@ import Footer from "../Footer";
 import Header from "../Header";
 import UserRoleInfo from "../../users/components/common/UserRoleInfo";
 import UserInfoViewModel from "../../users/viewModels/userInfoViewModel";
+import CartsListPage from "./CartsListPage";
 
 function InfoPage() {
     const { email, password, realName, nickName, address, detailAddress, phone, error } = UserInfoViewModel();

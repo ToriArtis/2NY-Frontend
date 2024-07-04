@@ -2,8 +2,10 @@ import React from "react";
 import { Grid, Typography } from "@mui/material";
 import Footer from "../Footer";
 import Header from "../Header";
-import UserInfoViewModel from "../../users/viewModels/useInfoViewModel";
 import UserRoleInfo from "../../users/components/common/UserRoleInfo";
+
+import UserInfoViewModel from "../../users/viewModels/userInfoViewModel";
+import CartsListPage from "./CartsListPage";
 
 function InfoPage() {
     const nickName = localStorage.getItem("UESR_NICKNAME");

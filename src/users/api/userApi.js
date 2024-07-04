@@ -54,12 +54,19 @@ export function call(api, method, request) {
 
 // 회원가입 함수
 export function signup(userDTO) {
-  console.log("회원가입: ", userDTO);
   return call("/users", "POST", userDTO);
 }
 
 // 회원가입 함수
 export function info() {
-  console.log("info : ", );
   return call("/users", "GET");
+}
+
+export function verifyPassword(passwordVaild){
+  console.log(passwordVaild)
+  return call("/users/password", "POST", passwordVaild);
+}
+export function deleteUser(){
+  console.log("deleteUser")
+  return call("/users", "DELETE");
 }

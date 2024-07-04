@@ -6,19 +6,14 @@ import UserInfoViewModel from "../../users/viewModels/useInfoViewModel";
 import UserRoleInfo from "../../users/components/common/UserRoleInfo";
 
 function InfoPage() {
-    const { error, ...values } = UserInfoViewModel();
-
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
-
+    const nickName = localStorage.getItem("UESR_NICKNAME");
     return (
         <>
         <Header />
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <Typography component="h1" variant="h5" style={{ float: "left", margin: "0 0 0 5%" }}>
-                    <h1 style={{ display: "inline" }}><b>({values.nickName}) 님</b> &nbsp;</h1>
+                    <h1 style={{ display: "inline" }}><b>({nickName}) 님</b> &nbsp;</h1>
                     <a style={{ color: "#8A8A8A", textDecoration: "none" }} href="/logout"> 로그아웃</a>
                 </Typography>
             </Grid>

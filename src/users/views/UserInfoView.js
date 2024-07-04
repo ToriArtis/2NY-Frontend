@@ -1,12 +1,12 @@
-
 import React, { useEffect, useState } from 'react';
 import { Container, Grid, Typography } from '@mui/material';
 import BlueButton from '../../component/BlueButton';
 import WhiteButton from '../../component/WhiteButton';
 import useInfoViewModel from '../viewModels/useInfoViewModel';
+import { deleteUser, verifyPassword } from '../api/userApi';
+import Input from '../components/common/Input';
 
-
-function InfoView({...userInfo}) {
+function InfoView({ ...userInfo }) {
   return (
     <>
       <Grid container spacing={2}>
@@ -23,7 +23,7 @@ function InfoView({...userInfo}) {
           <p>Nick Name: {userInfo.nickName || 'N/A'}</p>
         </Grid>
       </Grid>
-      
+
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography component="h1" variant="h5">
@@ -42,41 +42,101 @@ function InfoView({...userInfo}) {
   );
 }
 
-function EditView({...userInfo}) {
-  return (
-    <Typography>수정 폼이 여기에 표시됩니다.</Typography>
-  );
+function EditView({ ...userInfo }) {
+  return <Typography>수정 폼이 여기에 표시됩니다.</Typography>;
 }
 
-export default function UserInfoView() {
-  const [activeView, setActiveView] = useState('info');
 
+function Password({ onVerify }) {
+  const [password, setPassword] = useState('');
+  const email = localStorage.getItem("UESR_EMAIL");
+  const passwordVaild = {
+    email: email,
+    password: password
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const isValid = await verifyPassword(passwordVaild);
+      onVerify(isValid);
+    } catch (error) {
+      console.error('Error during password verification:', error);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <Input
+        label="Email"
+        type="email"
+        id="email"
+        value={email}
+        readOnly
+      />
+      <Input
+        label="Password"
+        type="password"
+        id="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <WhiteButton className="button" type="submit" btnName="확인" />
+    </form>
+  );
+}
+export default function UserInfoView() {
+  const [isPasswordVerified, setIsPasswordVerified] = useState(false);
+  const [activeView, setActiveView] = useState('info');
   const { ...userInfo } = useInfoViewModel();
 
+  const handlePasswordVerification = (isValid) => {
+    setIsPasswordVerified(isValid);
+    if (isValid) {
+      setActiveView('info');
+    }
+  };
+
   const handleClick = (viewName) => {
-    setActiveView(viewName);
+    if (viewName === 'edit') {
+      setActiveView('edit');
+    } else if (viewName === 'delete') {
+      setActiveView('delete');
+    }
   };
 
   return (
     <>
       <Container>
-        {activeView === 'info' && <InfoView {...userInfo} />}
-        {activeView === 'edit' && <EditView {...userInfo} />}
-        {activeView === 'delete' && <Typography>회원 탈퇴 확인 메시지가 여기에 표시됩니다.</Typography>}
-      </Container>
-      <Container className='right-btn'>
-        {activeView === 'info'?
-        (<>
-        <WhiteButton className="modify-button" type="button" btnName="수정" onClick={() => handleClick('edit')} />
-        <BlueButton className="delete-button" type="button" btnName="회원탈퇴" onClick={() => handleClick('delete')} />
-        </>)
-        : <BlueButton className="delete-button"
-        type="button"
-        btnName="확인"
-        onClick={() => handleClick('edit')}/>
-        
-      }
-        
+        {!isPasswordVerified ? (
+          <Password onVerify={handlePasswordVerification} />
+        ) : (
+          <>
+            {activeView === 'info' && <InfoView {...userInfo} />}
+            {activeView === 'edit' && <EditView {...userInfo} />}
+            {activeView === 'delete' && (
+              <>
+                <InfoView {...userInfo} />
+                <Typography>회원 탈퇴 확인 메시지가 여기에 표시됩니다.</Typography>
+              </>
+            )}
+            {activeView === 'info' && (
+              <Container className="right-btn">
+                <WhiteButton
+                  className="modify-button"
+                  type="button"
+                  btnName="수정"
+                  onClick={() => handleClick('edit')}
+                />
+                <BlueButton
+                  className="delete-button"
+                  type="button"
+                  btnName="회원탈퇴"
+                  onClick={() => deleteUser()}
+                />
+              </Container>
+            )}
+          </>
+        )}
       </Container>
     </>
   );

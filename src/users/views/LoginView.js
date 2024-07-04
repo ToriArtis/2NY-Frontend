@@ -7,6 +7,9 @@ import { useLoginViewModel } from "../viewModels/useLoginViewModel";
 
 
 function LoginView() {
+  if(localStorage.getItem("ACCESS_TOKEN") ) {
+    window.location.href = "/";
+  }
   const {
     email,
     password,

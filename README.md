@@ -68,3 +68,173 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+```
+2NY-Frontend
+├─ .git
+│  ├─ config
+│  ├─ description
+│  ├─ FETCH_HEAD
+│  ├─ HEAD
+│  ├─ hooks
+│  │  ├─ applypatch-msg.sample
+│  │  ├─ commit-msg.sample
+│  │  ├─ fsmonitor-watchman.sample
+│  │  ├─ post-update.sample
+│  │  ├─ pre-applypatch.sample
+│  │  ├─ pre-commit.sample
+│  │  ├─ pre-merge-commit.sample
+│  │  ├─ pre-push.sample
+│  │  ├─ pre-rebase.sample
+│  │  ├─ pre-receive.sample
+│  │  ├─ prepare-commit-msg.sample
+│  │  ├─ push-to-checkout.sample
+│  │  ├─ sendemail-validate.sample
+│  │  └─ update.sample
+│  ├─ index
+│  ├─ info
+│  │  └─ exclude
+│  ├─ logs
+│  │  ├─ HEAD
+│  │  └─ refs
+│  │     ├─ heads
+│  │     │  └─ main
+│  │     └─ remotes
+│  │        └─ origin
+│  │           ├─ HEAD
+│  │           └─ main
+│  ├─ objects
+│  │  ├─ info
+│  │  └─ pack
+│  │     ├─ pack-285127670a6a570becd485adad692aab93f1b46d.idx
+│  │     ├─ pack-285127670a6a570becd485adad692aab93f1b46d.pack
+│  │     ├─ pack-285127670a6a570becd485adad692aab93f1b46d.rev
+│  │     ├─ pack-6936b64bab690582426128baa3021948187f5b86.idx
+│  │     ├─ pack-6936b64bab690582426128baa3021948187f5b86.pack
+│  │     └─ pack-6936b64bab690582426128baa3021948187f5b86.rev
+│  ├─ ORIG_HEAD
+│  ├─ packed-refs
+│  └─ refs
+│     ├─ heads
+│     │  └─ main
+│     ├─ remotes
+│     │  └─ origin
+│     │     ├─ HEAD
+│     │     └─ main
+│     └─ tags
+├─ .github
+│  ├─ ISSUE_TEMPLATE
+│  │  ├─ bug_report.md
+│  │  ├─ etc.md
+│  │  └─ feature_request.md
+│  ├─ PULL_REQUEST_TEMPLATE
+│  │  └─ PULL_REQUEST_TEMPLATE.md
+│  └─ PULL_REQUEST_TEMPLATE.md
+├─ .gitignore
+├─ package-lock.json
+├─ package.json
+├─ public
+│  ├─ assets
+│  │  ├─ figma.png
+│  │  ├─ google.png
+│  │  ├─ jira.png
+│  │  ├─ kakao.png
+│  │  └─ naver.png
+│  ├─ favicon.ico
+│  ├─ index.html
+│  ├─ manifest.json
+│  └─ robots.txt
+├─ README.md
+├─ README.old.md
+└─ src
+   ├─ App.css
+   ├─ App.js
+   ├─ App.test.js
+   ├─ AppRouter.js
+   ├─ cart
+   │  ├─ api
+   │  │  └─ user.js
+   │  ├─ components
+   │  │  └─ Auth.js
+   │  ├─ hooks
+   │  │  └─ useUser.js
+   │  ├─ models
+   │  │  └─ UserModel.js
+   │  ├─ viewModels
+   │  │  └─ UserViewModel.js
+   │  └─ views
+   │     └─ User.JS
+   ├─ component
+   │  ├─ BlueButton.js
+   │  ├─ css
+   │  │  └─ rainbow.css
+   │  ├─ Footer.js
+   │  ├─ Header.js
+   │  └─ WhiteButton.js
+   ├─ config
+   │  └─ app-config.js
+   ├─ index.css
+   ├─ index.js
+   ├─ items
+   │  ├─ api
+   │  │  └─ user.js
+   │  ├─ components
+   │  │  └─ Auth.js
+   │  ├─ hooks
+   │  │  └─ useUser.js
+   │  ├─ models
+   │  │  └─ UserModel.js
+   │  ├─ viewModels
+   │  │  └─ UserViewModel.js
+   │  └─ views
+   │     └─ User.JS
+   ├─ logo.svg
+   ├─ orders
+   │  ├─ api
+   │  │  └─ user.js
+   │  ├─ components
+   │  │  └─ Auth.js
+   │  ├─ hooks
+   │  │  └─ useUser.js
+   │  ├─ models
+   │  │  └─ UserModel.js
+   │  ├─ viewModels
+   │  │  └─ UserViewModel.js
+   │  └─ views
+   │     └─ User.JS
+   ├─ reportWebVitals.js
+   ├─ review
+   │  ├─ api
+   │  │  └─ user.js
+   │  ├─ components
+   │  │  └─ Auth.js
+   │  ├─ hooks
+   │  │  └─ useUser.js
+   │  ├─ models
+   │  │  └─ UserModel.js
+   │  ├─ viewModels
+   │  │  └─ UserViewModel.js
+   │  └─ views
+   │     └─ User.JS
+   ├─ setupTests.js
+   └─ users
+      ├─ api
+      │  ├─ userApi.js
+      │  └─ userLoginApi.js
+      ├─ components
+      │  ├─ common
+      │  │  └─ Input.js
+      │  └─ css
+      │     └─ users.css
+      ├─ hooks
+      │  └─ useForm.js
+      ├─ models
+      │  └─ User.js
+      ├─ viewModels
+      │  ├─ useLoginViewModel.js
+      │  └─ useSignUpViewModel.js
+      └─ views
+         ├─ LoginView.js
+         └─ SignUpView.js
+
+```

@@ -1,0 +1,47 @@
+.left-btn{
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: white;
+    border: none;
+}
+.left-btn > button {
+    background-color: white;
+    border: none;
+}
+.left-btn > button > img {
+    width: 60%;
+    height: auto;
+}
+
+
+.right-btn{
+    float: right;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: white;
+    border: none;   
+}
+.right-btn > button {
+    background-color: white;
+    border: none;
+    
+}
+.right-btn > button >div> img {
+    width: 40%;
+    height: auto;
+    max-width: 50%;
+    max-height: 50%;
+}
+.category-nav> button{
+    background-color: white;
+    border: none;   
+}
+.category-nav> button>*{
+    font-size: 200%;
+    font-weight: bold;
+}

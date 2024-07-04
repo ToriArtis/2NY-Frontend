@@ -1,8 +1,6 @@
 // app-config.js 파일에서 API_BASE_URL을 가져옵니다.
-import { API_BASE_URL } from "../../config/app-config";
+import { API_BASE_URL, ACCESS_TOKEN } from "../../config/app-config";
 
-// 액세스 토큰을 저장하기 위한 키 상수
-const ACCESS_TOKEN = "ACCESS_TOKEN";
 
 // API 호출을 위한 함수
 export function call(api, method, request) {

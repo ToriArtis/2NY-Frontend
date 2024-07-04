@@ -6,15 +6,16 @@ import Footer from './component/Footer';
 
 function App() {
   return (
-    <>
+    <div style={{overflowX:"hidden"}}>
     <Header />
 
     <div>
       여기는 본문!!!
+      입니당
     </div>
 
     <Footer/>
-    </>
+    </div>
   );
 }
 

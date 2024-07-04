@@ -32,9 +32,13 @@ const ItemListView = () => {
         <ul>
           {localItems.map(item => (
             <li key={item.id}>
-              {item.title} - ${item.price}
+             아이템 id : {item.itemId}   상품이름: {item.title}    상품 내용 : {item.content} <br/> 
+             원래 가격 : ${item.price}   할인율 : {item.discountRate}%   할인된 가격: {item.discountPrice}   <br/> 
+             카테고리 : {item.category}   사이즈 : {item.size}    색상 : {item.color}    평균 별점 : {item.avgStar} <br/>
+             썸네일 위치 : {item.thumbnail} 상세 이미지 : {item.descriptionImage} <br/>
               <button onClick={() => navigate(`/items/${item.id}`)}>View</button>
               <button onClick={() => navigate(`/items/${item.id}/edit`)}>Edit</button>
+              <br/> <br/> <br/> 
             </li>
           ))}
         </ul>

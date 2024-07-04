@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
-import AppRouter from './AppRouter';  // 경로가 정확한지 확인하세요
+import AppRouter from './AppRouter';
 import Header from './component/Header';
 import Footer from './component/Footer';
 
 function App() {
+
   return (
     <>
     <Header />
@@ -17,6 +18,7 @@ function App() {
     <Footer/>
     </>
   );
+
 }
 
 export default App;

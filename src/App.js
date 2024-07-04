@@ -6,7 +6,7 @@ import Footer from './component/Footer';
 
 function App() {
   return (
-    <div style={{overflowX:"hidden"}}>
+    <>
     <Header />
 
     <div>
@@ -15,7 +15,7 @@ function App() {
     </div>
 
     <Footer/>
-    </div>
+    </>
   );
 }
 

@@ -1,7 +1,6 @@
 // app-config.js 파일에서 API_BASE_URL을 가져옵니다.
 import { API_BASE_URL, ACCESS_TOKEN } from "../../config/app-config";
 
-
 // API 호출을 위한 함수
 export function call(api, method, request) {
   // 기본 헤더 설정
@@ -57,4 +56,10 @@ export function call(api, method, request) {
 export function signup(userDTO) {
   console.log("회원가입: ", userDTO);
   return call("/users", "POST", userDTO);
+}
+
+// 회원가입 함수
+export function info() {
+  console.log("info : ", );
+  return call("/users", "GET");
 }

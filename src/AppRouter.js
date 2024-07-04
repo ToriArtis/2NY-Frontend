@@ -5,7 +5,7 @@ import App from "./App";
 import LoginView from "./users/views/LoginView";
 import Logout from "./users/api/userLoginApi";
 import SignUpView from "./users/views/SignUpView";
-import InfoView from "./users/views/InfoView";
+import InfoPage from "./component/pages/InfoPage";
 
 
 function AppRouter() {
@@ -15,7 +15,7 @@ function AppRouter() {
             <Route path="/login" element={<LoginView />} />
             <Route path="/logout" element={<Logout />}/>
             <Route path="/signup" element={<SignUpView />}/>
-            <Route path="/info" element={<InfoView />}/>
+            <Route path="/info" element={<InfoPage />}/>
         </Routes>
                 
     );

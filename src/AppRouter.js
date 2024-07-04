@@ -8,14 +8,12 @@ import ItemListView from "./items/views/ItemListView";
 import ItemDetailView from "./items/views/ItemDetailView";
 import ItemCreateView from "./items/views/ItemCreateView";
 import ItemEditView from "./items/views/ItemEditView";
-import App from "./App";
-
 import CartsListPage from "./component/pages/CartsListPage";
 
 function AppRouter() {
     return (
         <Routes>
-            <Route path="/" element={<App />} />
+            <Route path="/" element={<InfoPage />} />
             <Route path="/login" element={<LoginView />} />
             <Route path="/logout" element={<Logout />}/>
             <Route path="/signup" element={<SignUpView />}/>

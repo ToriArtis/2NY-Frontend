@@ -1,0 +1,89 @@
+.user-review-list-page {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h2 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.review-item {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.review-item-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.review-item-content {
+    flex: 1;
+}
+
+.review-item h3 {
+    margin: 0 0 10px 0;
+}
+
+.review-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.star {
+    color: #ddd;
+    font-size: 20px;
+}
+
+.star.filled {
+    color: gold;
+}
+
+.review-date {
+    margin-left: 10px;
+    font-size: 0.9em;
+    color: #888;
+}
+
+.review-text {
+    margin: 0;
+}
+
+.review-item-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    font-size: 0.9em;
+    color: #888;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.pagination span {
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+}
+
+.pagination span.active {
+    background-color: #f0f0f0;
+}

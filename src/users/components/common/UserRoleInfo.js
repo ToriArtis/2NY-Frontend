@@ -3,6 +3,7 @@ import { Container, Grid, Button, Typography } from "@mui/material";
 import UserInfoView from "../../views/UserInfoView";
 import useInfoViewModel from '../../viewModels/useInfoViewModel';
 import OrdersListPage from '../../../component/pages/OrdersListPage';
+import UserReviewListPage from '../../../component/pages/UserReviewListPage';
 
 export default function UserRoleInfo() {
     const [activeView, setActiveView] = useState(<UserInfoView />);
@@ -21,7 +22,7 @@ export default function UserRoleInfo() {
                 setActiveView(<OrdersListPage />);
                 break;
             case "작성글":
-                setActiveView(<Typography>작성글 내용이 여기에 표시됩니다.</Typography>);
+                setActiveView(<UserReviewListPage />);
                 break;
             default:
                 setActiveView(<UserInfoView />);

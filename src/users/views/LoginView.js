@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Container, Typography, Grid, Link, Button } from '@mui/material';
-import { useLoginViewModel } from "../viewModels/useLoginViewModel";
 import "../components/css/users.css";
 import Input from "../components/common/Input";
 import Footer from "../../component/Footer";
+import { useLoginViewModel } from "../viewModels/useLoginViewModel";
 
 
 function LoginView() {
+  if(localStorage.getItem("ACCESS_TOKEN") ) {
+    window.location.href = "/";
+  }
   const {
     email,
     password,

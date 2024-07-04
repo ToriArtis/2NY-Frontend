@@ -8,6 +8,8 @@ import ItemListView from "./items/views/ItemListView";
 import ItemDetailView from "./items/views/ItemDetailView";
 import ItemCreateView from "./items/views/ItemCreateView";
 import ItemEditView from "./items/views/ItemEditView";
+import App from "./App";
+
 import CartsListPage from "./component/pages/CartsListPage";
 
 function AppRouter() {

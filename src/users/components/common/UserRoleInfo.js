@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Grid, Button, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import UserInfoView from "../../views/UserInfoView";
+import useInfoViewModel from '../../viewModels/useInfoViewModel';
 import OrdersListPage from '../../../component/pages/OrdersListPage';
 
 export default function UserRoleInfo() {
-    const [activeView, setActiveView] = useState(null);
-    const navigate = useNavigate();
+    const [activeView, setActiveView] = useState(<UserInfoView />);
+
+    useEffect(() => {
+        // 컴포넌트 마운트 시 회원정보 뷰를 기본으로 설정
+        handleClick("회원정보");
+    }, []);
 
     const handleClick = (viewName) => {
         switch(viewName) {
@@ -20,7 +24,7 @@ export default function UserRoleInfo() {
                 setActiveView(<Typography>작성글 내용이 여기에 표시됩니다.</Typography>);
                 break;
             default:
-                setActiveView(null);
+                setActiveView(<UserInfoView />);
         }
     };
 

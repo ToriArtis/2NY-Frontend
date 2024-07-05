@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, Typography } from "@mui/material";
 import Footer from "../Footer";
 import Header from "../Header";
 import UserRoleInfo from "../../users/components/common/UserRoleInfo";
 
 
-import UserInfoViewModel from "../../users/viewModels/userInfoViewModel";
 import CartsListPage from "./CartsListPage";
+import { useNavigate } from "react-router-dom";
 
 function InfoPage() {
-    const nickName = localStorage.getItem("UESR_NICKNAME");
+    const navigate = useNavigate();
+    const [nickName, setNickName] = useState(() => {
+        return localStorage.getItem("UESR_NICKNAME") || "";
+    });
+    
+    useEffect(() => {
+        console.log("Current nickname:", nickName);
+        if (!nickName) {
+            console.log("Redirecting to login page");
+            navigate("/login");
+        }
+    }, [nickName, navigate]);
+
     return (
         <>
         <Header />

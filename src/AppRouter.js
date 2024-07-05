@@ -15,7 +15,7 @@ import CartsListPage from "./component/pages/CartsListPage";
 function AppRouter() {
     return (
         <Routes>
-            <Route path="/" element={<InfoPage />} />
+            <Route path="/" element={<App />} />
             <Route path="/login" element={<LoginView />} />
             <Route path="/logout" element={<Logout />}/>
             <Route path="/signup" element={<SignUpView />}/>

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Grid, Button, Typography } from "@mui/material";
-import UserInfoView from "../../views/UserInfoView";
-import useInfoViewModel from '../../viewModels/useInfoViewModel';
+import UserInfo from "./UserInfo";
 import OrdersListPage from '../../../component/pages/OrdersListPage';
 import UserReviewListPage from '../../../component/pages/UserReviewListPage';
 
 export default function UserRoleInfo() {
-    const [activeView, setActiveView] = useState(<UserInfoView />);
+    const [activeView, setActiveView] = useState(<UserInfo />);
 
     useEffect(() => {
         // 컴포넌트 마운트 시 회원정보 뷰를 기본으로 설정
@@ -16,7 +15,7 @@ export default function UserRoleInfo() {
     const handleClick = (viewName) => {
         switch(viewName) {
             case "회원정보":
-                setActiveView(<UserInfoView />);
+                setActiveView(<UserInfo />);
                 break;
             case "주문내역":
                 setActiveView(<OrdersListPage />);
@@ -25,7 +24,7 @@ export default function UserRoleInfo() {
                 setActiveView(<UserReviewListPage />);
                 break;
             default:
-                setActiveView(<UserInfoView />);
+                setActiveView(<UserInfo />);
         }
     };
 

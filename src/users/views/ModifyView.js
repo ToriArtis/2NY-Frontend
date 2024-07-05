@@ -1,94 +1,97 @@
 import React from 'react';
-import { TextField, Button, Grid, Typography, Container, CircularProgress } from '@mui/material';
+import { Grid, Typography, Container, CircularProgress } from '@mui/material';
 import { useModifyViewModel } from '../viewModels/useModifyViewModel';
 import Input from '../components/common/Input';
+import BlueButton from '../../component/BlueButton';
+import WhiteButton from '../../component/WhiteButton';
+import DeleteView from './DeleteView';
 
-export default function ModifyView({ ...initialValues }) {
+export default function ModifyView(userInfo) {
   const {
-    email,
-    password,
-    realName,
-    nickName,
-    address,
-    detailAddress,
-    phone,
+    values,
     handleChange,
     handleSubmit,
     error,
     isSubmitting
-  } = useModifyViewModel();
+  } = useModifyViewModel(userInfo);
+
+  if (!values.email) {
+    return <CircularProgress />;
+  }
 
   return (
     <Container>
       <Typography variant="h4">
-        사용자 정보 수정
+      로그인 정보
       </Typography>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
+        <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Typography style={{ display: 'inline' }}>이메일</Typography>
-            <Input
-              name="email"
-              value={initialValues.email}
-              onChange={handleChange}
-              readOnly
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography style={{ display: 'inline' }}>비밀번호</Typography>
-            <Input
-                style={{ display: 'inline' }}
-              fullWidth
-              name="password"
-              type="password"
-              value={password}
-              onChange={handleChange}
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography style={{ display: 'inline' }}>모든 이름</Typography>
-            <Input
-              name="realName"
-              value={initialValues.realName}
-              readOnly
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography style={{ display: 'inline' }}>닉네임</Typography>
+            <Typography>닉네임</Typography>
             <Input
               name="nickName"
-              value={initialValues.nickName}
-              onclick={(e)=>{
-                alert("아직 개발중입니다.");
-              }}
+              value={values.nickName}
               onChange={handleChange}
               required
             />
           </Grid>
           <Grid item xs={12}>
-            <Typography style={{ display: 'inline' }}>주소</Typography>
+            <Typography>이메일</Typography>
+            <Input
+              name="email"
+              value={values.email}
+              onChange={handleChange}
+              readOnly
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography>비밀번호</Typography>
+            <Input
+              name="password"
+              type="password"
+              value={values.password}
+              onChange={handleChange}
+              required
+            />
+          </Grid>
+        
+        </Grid>
+        
+
+        <Typography variant="h4">
+          배송지 정보
+      </Typography>
+          <Grid item xs={12}>
+            <Typography>전화번호</Typography>
+            <Input
+              name="phone"
+              value={values.phone}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography>이름</Typography>
+            <Input
+              name="realName"
+              value={values.realName}
+              onChange={handleChange}
+              readOnly
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography>주소</Typography>
             <Input
               name="address"
-              value={initialValues.address}
+              value={values.address}
               onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12}>
-            <Typography style={{ display: 'inline' }}>상세주소</Typography>
+            <Typography>상세주소</Typography>
             <Input
-              fullWidth
               name="detailAddress"
-              value={initialValues.detailAddress}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography style={{ display: 'inline' }}>phone</Typography>
-            <Input
-              fullWidth
-              name="phone"
-              value={initialValues.phone}
+              value={values.detailAddress}
               onChange={handleChange}
             />
           </Grid>
@@ -98,15 +101,17 @@ export default function ModifyView({ ...initialValues }) {
             </Grid>
           )}
           <Grid item xs={12}>
-            <Button
+            <WhiteButton
               type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
+              btnName="수정하기"
               disabled={isSubmitting}
-            >
-              {isSubmitting ? <CircularProgress size={24} /> : '수정하기'}
-            </Button>
+            />
+            <BlueButton
+              className="delete-button"
+              type="button"
+              btnName="회원탈퇴"
+              onClick={() => <DeleteView />}
+            />
           </Grid>
         </Grid>
       </form>

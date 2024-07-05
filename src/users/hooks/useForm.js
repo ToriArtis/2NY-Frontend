@@ -22,7 +22,8 @@ const useForm = (initialState = {}) => {
 
   return {
     values,
-    handleChange
+    handleChange,
+    setValues
   };
 };
 

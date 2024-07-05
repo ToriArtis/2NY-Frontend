@@ -31,7 +31,9 @@ export function call(api, method, request) {
   return fetch(options.url, options)
     .then((response) =>
       response.json().then((json) => {
-        if (!response.ok) {
+        if(response.status === 401) {
+          
+        }else if (!response.ok) {
           // response.ok가 true이면 정상적인 응답, 아니면 에러 응답
           return Promise.reject(json);
         }
@@ -40,7 +42,6 @@ export function call(api, method, request) {
     )
     .catch((error) => {
       // 에러 처리
-      console.log(error.status);
       if (error.status === 403) {
         // 403 에러(권한 없음)인 경우 로그인 페이지로 리디렉션
         window.location.href = "/login";
@@ -60,7 +61,6 @@ export function info() {
 }
 
 export function verifyPassword(passwordVaild){
-  console.log(passwordVaild)
   return call("/users/password", "POST", passwordVaild);
 }
 
@@ -77,5 +77,6 @@ export async function deleteUser() {
 }
 
 export function modify(userDTO){
+  console.log("modify" , userDTO);
   return call("/users", "PUT", userDTO);
 }

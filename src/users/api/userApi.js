@@ -35,7 +35,6 @@ export function call(api, method, request) {
           // response.ok가 true이면 정상적인 응답, 아니면 에러 응답
           return Promise.reject(json);
         }
-        console.log(json);
         return json;
       })
     )
@@ -49,8 +48,6 @@ export function call(api, method, request) {
       return Promise.reject(error);
     });
 }
-
-
 
 // 회원가입 함수
 export function signup(userDTO) {
@@ -66,7 +63,19 @@ export function verifyPassword(passwordVaild){
   console.log(passwordVaild)
   return call("/users/password", "POST", passwordVaild);
 }
-export function deleteUser(){
-  console.log("deleteUser")
-  return call("/users", "DELETE");
+
+export async function deleteUser() {
+  console.log("deleteUser");
+  try {
+    const response = await call("/users", "DELETE");
+    console.log(response);
+    return !!response; // response가 truthy면 true, falsy면 false 반환
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    return false;
+  }
+}
+
+export function modify(userDTO){
+  return call("/users", "PUT", userDTO);
 }

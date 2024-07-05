@@ -12,8 +12,6 @@ export class UserItem {
       this.size = itemData.size;
       this.color = itemData.color;
       this.category = itemData.category;
-      this.createdAt = new Date(itemData.createdAt);
-      this.updatedAt = new Date(itemData.updatedAt);
       this.avgStar = itemData.avgStar;
     }
   

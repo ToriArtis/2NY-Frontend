@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useItemViewModel } from '../viewModels/ItemViewModel';
+import { useItemViewModel } from '../hooks/useItemViewModel';
 
 const ItemDetailView = () => {
   const { id } = useParams();

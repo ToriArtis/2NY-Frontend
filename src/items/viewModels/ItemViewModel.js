@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
-import { itemCreate, itemRead, itemUpdate, itemDelete, itemList } from '../api/itemApi';
+import { itemRead, itemList } from '../api/itemApi';
+import { itemCreate, itemDelete, itemUpdate } from '../../users/api/userApi';
 
 export const useItemViewModel = () => {
   const [items, setItems] = useState([]);

@@ -59,6 +59,7 @@ const ItemEditView = () => {
         <button type="submit">Update Item</button>
       </form>
       <button onClick={() => navigate(`/items/${id}`)}>Cancel</button>
+
     </div>
   );
 };

@@ -25,7 +25,25 @@ api.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
+// 에러 처리 함수
+const handleApiError = (error, operation) => {
+  if (error.response) {
+    // 서버가 응답을 반환한 경우
+    console.error(`Error ${operation}:`, error.response.data);
+    if (error.response.status === 403) {
+      throw new Error("권한이 없습니다. 관리자에게 문의하세요.");
+    }
+  } else if (error.request) {
+    // 요청이 전송되었지만 응답을 받지 못한 경우
+    console.error(`No response received for ${operation}:`, error.request);
+    throw new Error("서버로부터 응답을 받지 못했습니다.");
+  } else {
+    // 요청 설정 중 오류가 발생한 경우
+    console.error(`Error setting up request for ${operation}:`, error.message);
+    throw new Error("요청 설정 중 오류가 발생했습니다.");
+  }
+  throw error;
+};
 // 아이템 목록 조회
 export const itemList = async (page = 0, size = 20) => {
   try {
@@ -70,34 +88,3 @@ export const itemRead = async (id) => {
   }
 };
 
-// 아이템 생성
-export const itemCreate = async (itemData) => {
-  try {
-    const response = await axios.post(BASE_URL, itemData);
-    return response.data;
-  } catch (error) {
-    console.error('Error creating item:', error);
-    throw error;
-  }
-};
-
-// 아이템 수정
-export const itemUpdate = async (id, itemData) => {
-  try {
-    const response = await axios.put(`${BASE_URL}/${id}`, itemData);
-    return response.data;
-  } catch (error) {
-    console.error(`Error updating item with id ${id}:`, error);
-    throw error;
-  }
-};
-
-// 아이템 삭제
-export const itemDelete = async (id) => {
-  try {
-    await axios.delete(`${BASE_URL}/${id}`);
-  } catch (error) {
-    console.error(`Error deleting item with id ${id}:`, error);
-    throw error;
-  }
-};

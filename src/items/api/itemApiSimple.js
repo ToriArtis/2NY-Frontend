@@ -48,38 +48,31 @@ export function call(api, method, request) {
       }
       return Promise.reject(error);
     });
-}
+};
 
-// 회원가입 함수
-export function signup(userDTO) {
-  return call("/users", "POST", userDTO);
-}
 
-// 회원가입 함수
-export function info() {
-  return call("/users", "GET");
-}
-
-export function verifyPassword(passwordVaild){
-  return call("/users/password", "POST", passwordVaild);
-}
-
-export async function deleteUser() {
-  console.log("deleteUser");
-  try {
-    const response = await call("/users", "DELETE");
-    console.log(response);
-    return !!response; // response가 truthy면 true, falsy면 false 반환
-  } catch (error) {
-    console.error("Error deleting user:", error);
-    return false;
-  }
+// 아이템 생성
+export function itemCreate(itemData) {
+  return call("/items", "POST", itemData);
 }
 
 
-export function modify(userDTO){
-  console.log("modify" , userDTO);
-  return call("/users", "PUT", userDTO);
-}
+  // // 아이템 수정
+  export function itemUpdate (id, itemData)  {
 
-
+    console.log("itemUpdate", id, itemData);
+    return call(`/items/${id}`, "PUT", itemData);
+  };
+  
+  // // 아이템 삭제
+export const itemDelete = async (id) => {
+    console.log("itemDelete");
+    try {
+        const response = await call("/items", "DELETE");
+        console.log(response);
+        return !!response; // response가 truthy면 true, falsy면 false 반환
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        return false;
+    }
+};

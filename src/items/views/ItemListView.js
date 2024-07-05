@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useItemViewModel } from '../hooks/useItemViewModel';
 import "../components/css/MainPage.css";
 import Header from '../../component/Header';
 import Footer from '../../component/Footer';
+import { useItemViewModel } from '../hooks/useItemViewModel';
 
 const ItemSection = ({ title, items, currentPage, setCurrentPage }) => {
   const itemsPerPage = 3;

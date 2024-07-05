@@ -4,7 +4,7 @@ import "../css/UserReviewListPage.css";
 
 
 function UserReviewListPage() {
-    const { reviews, error } = UserListViewModel();
+    const { reviews, error, handleDeleteReview } = UserListViewModel();
     // console.log("Reviews:", reviews);
     // console.log("Error:", error);
 
@@ -34,7 +34,7 @@ function UserReviewListPage() {
                             <p className="review-text">{review.content}</p>
                         </div>
                         <div className="review-item-actions">
-                            <span>수정</span> | <span>삭제</span>
+                            <span>수정</span> | <span onClick={() => handleDeleteReview(review.reviewId)}>삭제</span>
                         </div>
                     </div>
                 ))}

@@ -51,7 +51,21 @@ export function call(api, method, request) {
 }
 
 
-// 리뷰 목록 조회
+// 로그인한 사용자의 리뷰 목록 조회
 export function userReviewList(userDTO) {
   return call("/review/user", "GET");
+}
+
+// 리뷰 삭제
+export function deleteReview(reviewId) {
+  console.log('Deleting review with ID:', reviewId); // 요청 전 로깅 추가
+  return call(`/review/${reviewId}`, "DELETE")
+    .then(response => {
+      console.log('Delete review response:', response); // 응답 로깅 추가
+      return response;
+    })
+    .catch(error => {
+      console.error('Error deleting review:', error); // 에러 로깅 추가
+      throw error;
+    });
 }

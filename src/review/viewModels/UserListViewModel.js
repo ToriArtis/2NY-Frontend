@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { userReviewList } from "../api/reviewApi";
+import { deleteReview, userReviewList } from "../api/reviewApi";
 
 export default function UserListViewModel() {
     const [error, setError] = useState(null);
@@ -28,8 +28,20 @@ useEffect(() => {
     fetchReviews();
 }, []); // 빈 배열을 넣어 컴포넌트가 마운트될 때만 실행되도록 함
 
+// 리뷰 삭제 함수
+const handleDeleteReview = async (reviewId) => {
+    try {
+        await deleteReview(reviewId);
+        // 삭제 후 리뷰 업데이트
+        setReviews(reviews.filter(review => review.reviewId !== reviewId));
+    } catch (error) {
+        setError(error.message || 'An error occurred while deleting the review');
+    }
+};
+
 return {
     reviews,
-    error
+    error,
+    handleDeleteReview
 };
 }

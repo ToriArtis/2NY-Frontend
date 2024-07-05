@@ -15,15 +15,17 @@ import CartsListPage from "./component/pages/CartsListPage";
 function AppRouter() {
     return (
         <Routes>
-            <Route path="/" element={<App />} />
+            <Route path="/" element={<ItemListView />} />
+            
             <Route path="/login" element={<LoginView />} />
             <Route path="/logout" element={<Logout />}/>
             <Route path="/signup" element={<SignUpView />}/>
             <Route path="/info" element={<InfoPage />}/>
-            <Route path="/items" element={<ItemListView />} />
+
             <Route path="/items/create" element={<ItemCreateView />} />
             <Route path="/items/:id" element={<ItemDetailView />} />
             <Route path="/items/:id/edit" element={<ItemEditView />} />
+            
             <Route path="/cart" element={<CartsListPage />} />
         </Routes>
     );

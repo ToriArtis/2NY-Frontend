@@ -10,7 +10,7 @@ import ModifyView from '../../views/ModifyView';
 
 export default function UserInfo() {
   const [isPasswordVerified, setIsPasswordVerified] = useState(false);
-  const [activeView, setActiveView] = useState('info');
+  const [activeView, setActiveView] = useState('edit');
   const { ...userInfo } = useInfoViewModel();
 
   const handlePasswordVerification = (isValid) => {

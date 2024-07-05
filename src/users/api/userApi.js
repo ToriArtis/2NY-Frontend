@@ -75,3 +75,7 @@ export async function deleteUser() {
     return false;
   }
 }
+
+export function modify(userDTO){
+  return call("/users", "PUT", userDTO);
+}

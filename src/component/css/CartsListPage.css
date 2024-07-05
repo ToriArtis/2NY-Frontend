@@ -67,3 +67,62 @@ header {
 .blue-button {
     margin: 0 0 1rem 0 !important;
 }
+
+.paymentBox {
+    display: flex;
+    justify-content: space-between;
+
+    width: 20%;
+    border: 1px solid #000;
+}
+
+.paymentBoxLeft {
+    text-align: left;
+}
+
+/* .paymentBoxRight {
+
+} */
+
+.cartListBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.cartList>div {
+    width: 80%;
+    border: 1px solid #000;
+}
+
+.listLeftTopT {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.listLeftTopT .removeBtn {
+    border: none;
+    background: none;
+}
+.listLeftTopB {
+    display: flex;
+    align-items: center;
+}
+.listLeftTopB p:first-of-type{
+    margin-right: 1rem;
+    color: red;
+}
+.listLeftTopB p:last-of-type{
+    color: #757575;
+    text-decoration: line-through;
+}
+
+.itemCart {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+
+.itemCart input{
+    width: 20%;
+}

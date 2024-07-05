@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { createUser, isValidEmail, isValidPassword } from '../models/User';
+import { useState, useEffect, useCallback } from 'react';
+import { createUser, isValidPassword } from '../models/User';
 import useForm from '../hooks/useForm';
-import { modify } from '../api/userApi';  // signup을 modify로 변경
+import { modify } from '../api/userApi';
 
-export function useModifyViewModel(initialValues) {
+export function useModifyViewModel(initialUserInfo) {
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { values, handleChange, setValues } = useForm({
@@ -17,10 +17,14 @@ export function useModifyViewModel(initialValues) {
   });
 
   useEffect(() => {
-    if (initialValues) {
-      setValues(initialValues);
+    if (initialUserInfo) {
+      setValues(prevValues => ({
+        ...prevValues,
+        ...initialUserInfo,
+        password: '' // 보안을 위해 비밀번호 필드는 비워둡니다
+      }));
     }
-  }, [initialValues, setValues]);
+  }, [initialUserInfo, setValues]);
 
   const validateForm = () => {
     if (!values.password || !isValidPassword(values.password)) {
@@ -48,7 +52,6 @@ export function useModifyViewModel(initialValues) {
         values.phone
       );
       await modify(user);
-      // 성공 처리 로직 (예: 홈페이지로 리디렉션)
       alert('수정되었습니다.');
       window.location.href = '/';
     } catch (error) {
@@ -59,7 +62,7 @@ export function useModifyViewModel(initialValues) {
   };
 
   return {
-    ...values,
+    values,
     handleChange,
     handleSubmit,
     error,

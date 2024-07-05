@@ -15,9 +15,7 @@ function InfoPage() {
     });
     
     useEffect(() => {
-        console.log("Current nickname:", nickName);
         if (!nickName) {
-            console.log("Redirecting to login page");
             navigate("/login");
         }
     }, [nickName, navigate]);

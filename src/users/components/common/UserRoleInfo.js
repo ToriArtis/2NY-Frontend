@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Grid, Button, Typography } from "@mui/material";
-import UserInfo from "./UserInfo";
 import OrdersListPage from '../../../component/pages/OrdersListPage';
 import UserReviewListPage from '../../../component/pages/UserReviewListPage';
+import useInfoViewModel from '../../viewModels/useInfoViewModel';
+import PasswordVaild from './PasswordVaild';
+import ModifyView from '../../views/ModifyView';
 
 export default function UserRoleInfo() {
     const [activeView, setActiveView] = useState(<UserInfo />);
@@ -52,3 +54,22 @@ export default function UserRoleInfo() {
         </Grid>
     );
 }
+
+function UserInfo() {
+    const [isPasswordVerified, setIsPasswordVerified] = useState(false);
+    const userInfo = useInfoViewModel();
+  
+    const handlePasswordVerification = (isValid) => {
+      setIsPasswordVerified(isValid);
+    };
+  
+    return (
+      <Container>
+        {!isPasswordVerified ? (
+          <PasswordVaild onVerify={handlePasswordVerification} />
+        ) : (
+          <ModifyView {...userInfo} />
+        )}
+      </Container>
+    );
+  }

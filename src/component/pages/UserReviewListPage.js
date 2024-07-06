@@ -1,6 +1,7 @@
 import React from "react";
 import UserListViewModel from "../../review/viewModels/UserListViewModel";
 import "../css/UserReviewListPage.css";
+import { Link } from "react-router-dom";
 
 
 function UserReviewListPage() {
@@ -34,7 +35,7 @@ function UserReviewListPage() {
                             <p className="review-text">{review.content}</p>
                         </div>
                         <div className="review-item-actions">
-                            <span>수정</span> | <span onClick={() => handleDeleteReview(review.reviewId)}>삭제</span>
+                        <Link to={`/review/modify/${review.reviewId}`}>수정</Link> | <span onClick={() => handleDeleteReview(review.reviewId)}>삭제</span>
                         </div>
                     </div>
                 ))}

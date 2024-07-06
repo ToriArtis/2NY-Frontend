@@ -3,6 +3,7 @@ import Footer from "../Footer";
 import Header from "../Header";
 import { OrdersListViewModel } from "../../orders/viewModels/OrdersListViewModel";
 import "../css/OrdersListPage.css";
+import { Link } from "react-router-dom";
 
 function OrdersListPage() {
 
@@ -26,6 +27,9 @@ function OrdersListPage() {
                             <div className="order-header">
                                 <span>{order.createdAt}</span>
                                 <span>상세보기 &gt;</span>
+                                <Link to={`/review/create?itemId=${order.itemOrders[0].itemId}&userId=${order.userId}`}>
+                                    후기작성 &gt;
+                                </Link>
                             </div>
                             {order.itemOrders.map((item, index) => (
                                 <div key={index} className="order-product">

@@ -50,22 +50,28 @@ export function call(api, method, request) {
     });
 }
 
+// 리뷰 등록 
+export function createReview(ReviewDTO) {
+  return call("/review", "POST", ReviewDTO)
+}
+
+// 특정 리뷰 조회
+export function getReview(reviewId) {
+  return call(`/review/${reviewId}`, "GET");
+}
+
+// 리뷰 수정
+export function modifyReview(reviewId, reviewDTO) {
+  return call(`/review/${reviewId}`, "PUT", reviewDTO)
+}
 
 // 로그인한 사용자의 리뷰 목록 조회
-export function userReviewList(userDTO) {
+export function userReviewList() {
   return call("/review/user", "GET");
 }
 
 // 리뷰 삭제
 export function deleteReview(reviewId) {
-  console.log('Deleting review with ID:', reviewId); // 요청 전 로깅 추가
-  return call(`/review/${reviewId}`, "DELETE")
-    .then(response => {
-      console.log('Delete review response:', response); // 응답 로깅 추가
-      return response;
-    })
-    .catch(error => {
-      console.error('Error deleting review:', error); // 에러 로깅 추가
-      throw error;
-    });
+  return call(`/review/${reviewId}`, "DELETE");
 }
+

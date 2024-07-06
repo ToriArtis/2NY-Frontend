@@ -1,13 +1,13 @@
 import { API_BASE_URL, ACCESS_TOKEN } from "../../config/app-config";
 
-// API 호출을 위한 범용 함수
+// API 호출을 위한 기본 함수
 export function call(api, method, request) {
-    // 기본 헤더 설정
+    // 헤더 설정
     let headers = new Headers({
       "Content-Type": "application/json",
     });
 
-    // 로컬 스토리지에서 액세스 토큰을 가져와 헤더에 추가
+    // 로컬 스토리지에서 액세스 토큰 가져오기
     const accessToken = localStorage.getItem("ACCESS_TOKEN");
     if (accessToken && accessToken !== null) {
       headers.append("Authorization", "Bearer " + accessToken);
@@ -20,12 +20,12 @@ export function call(api, method, request) {
       method: method,
     };
 
-    // 요청 본문이 있는 경우 JSON 문자열로 변환하여 추가
+    // GET 요청이 아닌 경우, 요청 본문 추가
     if (request) {
       options.body = JSON.stringify(request);
     }
 
-    // fetch를 사용하여 API 호출 및 응답 처리
+    // fetch를 사용하여 API 호출
     return fetch(options.url, options)
       .then((response) =>
         response.json().then((json) => {
@@ -45,23 +45,22 @@ export function call(api, method, request) {
       });
 }
 
-// 장바구니 목록 조회
+// 장바구니 목록 조회 API
 export function list(page = 0, size = 6) {
-    return call(`/carts/list?page=${page}&size=${size}`, "GET");
+  return call(`/carts/list?page=${page}&size=${size}`, "GET");
 }
 
-// 장바구니에 상품 추가
+// 장바구니에 상품 추가 API
 export function addToCart(itemId, quantity) {
-  const data = { quantity: quantity };
-  return call(`/carts/${itemId}`, 'POST', data);
+  return call(`/carts/${itemId}`, "POST", { quantity });
 }
 
-// 장바구니 상품 수량 업데이트
+// 장바구니 상품 수량 업데이트 API
 export function updateCartItemQuantity(itemCartId, upDown) {
-  return call(`/carts/itemcarts/${itemCartId}?upDown=${upDown}`, 'PUT');
+  return call(`/carts/itemcarts/${itemCartId}?upDown=${upDown}`, "PUT");
 }
 
-// 장바구니에서 상품 제거
+// 장바구니에서 상품 제거 API
 export function removeFromCart(itemCartId) {
-  return call(`/carts/itemcarts/${itemCartId}`, 'DELETE');
+  return call(`/carts/itemcarts/${itemCartId}`, "DELETE");
 }

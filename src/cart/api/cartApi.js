@@ -1,4 +1,4 @@
-import { API_BASE_URL, ACCESS_TOKEN } from "../../config/app-config";
+import { API_BASE_URL } from "../../config/app-config";
 
 // API 호출을 위한 기본 함수
 export function call(api, method, request) {
@@ -27,7 +27,7 @@ export function call(api, method, request) {
 
     // fetch를 사용하여 API 호출
     return fetch(options.url, options)
-      .then((response) =>
+      .then((response) => 
         response.json().then((json) => {
           if (!response.ok) {
             return Promise.reject(json);
@@ -36,7 +36,6 @@ export function call(api, method, request) {
         })
       )
       .catch((error) => {
-        console.log(error.status);
         // 403 에러 시 로그인 페이지로 리다이렉트
         if (error.status === 403) {
           window.location.href = "/login";
@@ -57,10 +56,29 @@ export function addToCart(itemId, quantity) {
 
 // 장바구니 상품 수량 업데이트 API
 export function updateCartItemQuantity(itemCartId, upDown) {
-  return call(`/carts/itemcarts/${itemCartId}?upDown=${upDown}`, "PUT");
+  return call(`/carts/itemcarts/${itemCartId}?upDown=${upDown}`, "PUT")
+    .then(response => {
+      if (!response) {
+        throw new Error('Failed to update cart item quantity');
+      }
+      return response;
+    });
 }
 
 // 장바구니에서 상품 제거 API
 export function removeFromCart(itemCartId) {
-  return call(`/carts/itemcarts/${itemCartId}`, "DELETE");
+  return call(`/carts/itemcarts/${itemCartId}`, "DELETE")
+    .then(response => {
+      if (response.status === 204) {
+        return true; // 성공적으로 삭제됨
+      }
+      throw new Error('Failed to remove item from cart');
+    })
+    .catch(error => {
+      if (error.name === 'SyntaxError') {
+        // JSON 파싱 오류가 발생했지만, 이는 예상된 동작일 수 있습니다 (빈 응답)
+        return true;
+      }
+      throw error;
+    });
 }

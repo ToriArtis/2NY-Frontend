@@ -2,8 +2,8 @@ import React from "react";
 import { CartsListViewModel } from "../viewModels/useCartListViewModel";
 import { CartItem } from "./CartItem";
 
+// 장바구니 목록 컴포넌트
 function CartsList() {
-    // CartsListViewModel에서 필요한 상태와 함수들을 가져옴
     const {
         carts,
         error,
@@ -13,39 +13,53 @@ function CartsList() {
         totalPrice,
         totalDiscountAmount,
         finalTotalPrice,
-        page,
-        totalPages,
-        nextPage,
-        prevPage
+        hasMore,
+        loadMoreCarts
     } = CartsListViewModel();
 
     // 로딩 중일 때 표시
-    if (loading) return <div>Loading...</div>;
+    if (loading && carts.length === 0) return <div>Loading...</div>;
     // 에러가 있을 때 표시
     if (error) return <div>Error: {error}</div>;
     // 장바구니가 비어있을 때 표시
     if (!carts || carts.length === 0) return <div>장바구니가 비어있습니다.</div>;
 
+    // 수량 업데이트 핸들러
+    const handleUpdateQuantity = async (itemCartId, upDown) => {
+        try {
+            await updateItemQuantity(itemCartId, upDown);
+        } catch (error) {
+            alert('수량 업데이트 중 오류가 발생했습니다.');
+        }
+    };
+
+    // 아이템 제거 핸들러
+    const handleRemoveItem = async (itemCartId) => {
+        try {
+            await removeItemFromCart(itemCartId);
+        } catch (error) {
+            alert('상품 제거 중 오류가 발생했습니다.');
+        }
+    };
+
     return (
         <div className="carts-list">
             <h1>장바구니</h1>
-            {/* 장바구니 아이템 목록 */}
             {carts.map((cart) => (
                 <CartItem 
                     key={cart.itemCartId}
                     cart={cart}
-                    onUpdateQuantity={updateItemQuantity}
-                    onRemoveItem={removeItemFromCart}
+                    onUpdateQuantity={handleUpdateQuantity}
+                    onRemoveItem={handleRemoveItem}
                 />
             ))}
-            {/* 페이지네이션 컨트롤 */}
-            <div>
-                <button onClick={prevPage} disabled={page === 0}>이전</button>
-                <span>Page {page + 1} of {totalPages}</span>
-                <button onClick={nextPage} disabled={page === totalPages - 1}>다음</button>
-            </div>
+
+            {hasMore && (
+                <button onClick={loadMoreCarts} className="loadMoreBtn" disabled={loading}>
+                    {loading ? '로딩중' : '더보기'}
+                </button>
+            )}
             
-            {/* 장바구니 요약 정보 */}
             <div className="cart-summary">
                 <p>총 상품금액: ₩{totalPrice.toLocaleString()}</p>
                 <p>총 할인금액: ₩{totalDiscountAmount.toLocaleString()}</p>

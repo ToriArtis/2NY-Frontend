@@ -7,13 +7,18 @@ import UserRoleInfo from "../../users/components/common/UserRoleInfo";
 
 import CartsListPage from "./CartsListPage";
 import { useNavigate } from "react-router-dom";
+import AdminRoleInfo from "../../users/components/common/AdminRoleInfo";
 
 function InfoPage() {
+
     const navigate = useNavigate();
     const [nickName, setNickName] = useState(() => {
         return localStorage.getItem("UESR_NICKNAME") || "";
     });
-    
+    const [role, setRole] = useState(() => {
+        return localStorage.getItem("USER_ROLESET") || "";
+    });
+
     useEffect(() => {
         if (!nickName) {
             navigate("/login");
@@ -32,9 +37,9 @@ function InfoPage() {
             </Grid>
         </Grid>
       
-        {/* 나중에 roleset을 넣는다면 아래 코드로 변환 /}
-        {/ Role === 'Admin' ? <AdminRoleInfo /> : <UserRoleInfo /> */}
-        <UserRoleInfo />
+        {/* 나중에 roleset을 넣는다면 아래 코드로 변환 /} */}
+        {role === 'ADMIN,USER' ? <AdminRoleInfo /> : <UserRoleInfo />}
+        
         
         <Footer />
         </>

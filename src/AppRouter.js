@@ -22,15 +22,17 @@ function AppRouter() {
             <Route path="/login" element={<LoginView />} />
             <Route path="/logout" element={<Logout />}/>
             <Route path="/signup" element={<SignUpView />}/>
+
+            <Route path="/mypage" element={<InfoPage />}/>
+            <Route path="/items" element={<ItemListView />} />
+
             <Route path="/info" element={<InfoPage />}/>
 
             <Route path="/items/create" element={<ItemCreateView />} />
             <Route path="/items/:id" element={<ItemDetailView />} />
             <Route path="/items/:id/edit" element={<ItemEditView />} />
 
-            
             <Route path="/cart" element={<CartsListPage />} />
-
             <Route path="/orders/:orderId" element={<OrderDetailPage />} />
 
             <Route path="/review/create" element={<CreateReviewView />} />

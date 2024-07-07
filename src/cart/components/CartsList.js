@@ -1,9 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { CartsListViewModel } from "../viewModels/useCartListViewModel";
 import { CartItem } from "./CartItem";
 
 // 장바구니 목록 컴포넌트
 function CartsList() {
+    const navigate = useNavigate();
     const {
         carts,
         error,
@@ -23,6 +25,11 @@ function CartsList() {
     if (error) return <div>Error: {error}</div>;
     // 장바구니가 비어있을 때 표시
     if (!carts || carts.length === 0) return <div>장바구니가 비어있습니다.</div>;
+
+    // 구매하기
+    const handlePurchase = () => {
+        navigate('/purchase', { state: { isFromCart: true } });
+    };
 
     // 수량 업데이트 핸들러
     const handleUpdateQuantity = async (itemCartId, upDown) => {
@@ -78,7 +85,7 @@ function CartsList() {
                             <p>₩{finalTotalPrice.toLocaleString()}</p>
                         </div>
                     </div>
-                    <button className="buy-btn">구매하기</button>
+                    <button className="buy-btn" onClick={handlePurchase}>구매하기</button>
                 </div>
             </div>
         </div>

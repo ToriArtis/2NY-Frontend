@@ -3,9 +3,8 @@ import { OrdersListViewModel } from "../viewModels/OrdersListViewModel";
 import { OrderItem } from "./OrderItem";
 import "./css/OrdersListPage.css";
 
-export function OrdersList({ onOrderSelect }) {
-    console.log("onOrderSelect in OrdersList", onOrderSelect);
-    const { orders, error, loading, page, totalPages, setPage } = OrdersListViewModel();
+export function OrdersList({ onOrderSelect, isAdmin }) {
+    const { orders, error, loading, page, totalPages, setPage, completeOrder } = OrdersListViewModel(isAdmin);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -15,9 +14,8 @@ export function OrdersList({ onOrderSelect }) {
         <div>
             <div className="orders-list">
                 {orders.map(order => (
-                    <OrderItem key={order.orderId} order={order} onSelect={() => {
-                        console.log("Selecting order:", order.orderId);
-                        onOrderSelect(order.orderId)}} />
+                    <OrderItem key={order.orderId} order={order} onSelect={() => {onOrderSelect(order.orderId)}}
+                    isAdmin={isAdmin} onCompleteOrder={completeOrder} />
                 ))}
             </div>
             <div className="pagination">

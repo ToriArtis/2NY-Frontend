@@ -52,25 +52,22 @@ const ItemDetailView = () => {
       await addItemToCart(id, quantity);
       alert('장바구니에 상품이 추가되었습니다.');
     } catch (err) {
-      console.error('Error adding item to cart:', err);
       setError('Failed to add item to cart');
     }
   };
 
   // 구매하기
-  const handleBuyNow = async () => {
-    try {
-      const itemOrder = {
-        itemId: id,
-        quantity: quantity
-      };
-      await createOrder([itemOrder]);
-      // navigate(`/orders/${order.orderId}`);
-      alert('상품 구매 요청 완료');
-    } catch (err) {
-      console.error('Error creating order:', err);
-      setError('Failed to create order');
-    }
+  const handleBuyNow = () => {
+    const itemOrder = {
+      itemId: id,
+      quantity: quantity,
+      itemTitle: item.title,
+      price: item.price,
+      thumbnail: item.thumbnail,
+      color: item.color,
+      size: item.size
+    };
+    navigate('/purchase', { state: { items: [itemOrder], isFromCart: false } });
   };
 
 

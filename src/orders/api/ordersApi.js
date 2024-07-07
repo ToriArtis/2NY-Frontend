@@ -76,3 +76,13 @@ export function createOrderFromCart() {
 export function cancelOrder(orderId) {
   return call(`/orders/${orderId}`, "DELETE");
 }
+
+// 전체 주문 목록 조회 (관리자 기능)
+export function getAllOrders(page = 0, size = 6) {
+  return call(`/orders/all?page=${page}&size=${size}`, "GET");
+}
+
+// 주문 현황 수정 (관리자 기능)
+export function completeOrder(orderId) {
+  return call(`/orders/${orderId}/complete`, "PUT");
+}

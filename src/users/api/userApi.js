@@ -82,4 +82,7 @@ export function modify(userDTO){
   return call("/users", "PUT", userDTO);
 }
 
-
+// 사용자 정보 가져오기
+export function getUserInfo() {
+  return call("/users", "GET");
+}

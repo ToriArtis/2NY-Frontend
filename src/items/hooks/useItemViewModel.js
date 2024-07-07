@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
-import { itemCreate, itemRead, itemUpdate, itemDelete, itemList } from '../api/itemApi';
+import { itemRead,  itemList } from '../api/itemApi';
+
 
 export const useItemViewModel = () => {
     const [items, setItems] = useState([]);
@@ -49,46 +50,33 @@ export const useItemViewModel = () => {
     }
   }, []);
 
-  const createItem = useCallback(async (itemData) => {
-    setLoading(true);
-    try {
-      const newItem = await itemCreate(itemData);
-      setItems(prev => [...prev, newItem]);
-      setError(null);
-      return newItem;
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+ 
+//   const updateItem = useCallback(async (id, itemData) => {
+//     setLoading(true);
+//     try {
+//       const updatedItem = await itemUpdate(id, itemData);
+//       setItems(prev => prev.map(item => item.id === id ? updatedItem : item));
+//       setError(null);
+//       return updatedItem;
+//     } catch (err) {
+//       setError(err.message);
+//     } finally {
+//       setLoading(false);
+//     }
+//   }, []);
 
-  const updateItem = useCallback(async (id, itemData) => {
-    setLoading(true);
-    try {
-      const updatedItem = await itemUpdate(id, itemData);
-      setItems(prev => prev.map(item => item.id === id ? updatedItem : item));
-      setError(null);
-      return updatedItem;
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const deleteItem = useCallback(async (id) => {
-    setLoading(true);
-    try {
-      await itemDelete(id);
-      setItems(prev => prev.filter(item => item.id !== id));
-      setError(null);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+//   const deleteItem = useCallback(async (id) => {
+//     setLoading(true);
+//     try {
+//       await itemDelete(id);
+//       setItems(prev => prev.filter(item => item.id !== id));
+//       setError(null);
+//     } catch (err) {
+//       setError(err.message);
+//     } finally {
+//       setLoading(false);
+//     }
+//   }, []);
 
 
 
@@ -98,9 +86,6 @@ export const useItemViewModel = () => {
     error,
     pagination,
     fetchItems,
-    fetchItem,
-    createItem,
-    updateItem,
-    deleteItem
+    fetchItem
   };
 };

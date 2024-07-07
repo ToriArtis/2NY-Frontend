@@ -9,10 +9,12 @@ import CartsListPage from "./CartsListPage";
 import { useNavigate } from "react-router-dom";
 
 function InfoPage() {
+
     const navigate = useNavigate();
     const [nickName, setNickName] = useState(() => {
         return localStorage.getItem("UESR_NICKNAME") || "";
     });
+    
     
     useEffect(() => {
         if (!nickName) {
@@ -32,9 +34,9 @@ function InfoPage() {
             </Grid>
         </Grid>
       
-        {/* 나중에 roleset을 넣는다면 아래 코드로 변환 /}
-        {/ Role === 'Admin' ? <AdminRoleInfo /> : <UserRoleInfo /> */}
-        <UserRoleInfo />
+        {/* 나중에 roleset을 넣는다면 아래 코드로 변환 /} */}
+        {Role === 'Admin' ? <AdminRoleInfo /> : <UserRoleInfo />}
+        {/* <UserRoleInfo /> */}
         
         <Footer />
         </>

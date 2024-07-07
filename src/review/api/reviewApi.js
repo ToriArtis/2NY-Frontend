@@ -50,8 +50,28 @@ export function call(api, method, request) {
     });
 }
 
+// 리뷰 등록 
+export function createReview(ReviewDTO) {
+  return call("/review", "POST", ReviewDTO)
+}
 
-// 리뷰 목록 조회
-export function userReviewList(userDTO) {
+// 특정 리뷰 조회
+export function getReview(reviewId) {
+  return call(`/review/${reviewId}`, "GET");
+}
+
+// 리뷰 수정
+export function modifyReview(reviewId, reviewDTO) {
+  return call(`/review/${reviewId}`, "PUT", reviewDTO)
+}
+
+// 로그인한 사용자의 리뷰 목록 조회
+export function userReviewList() {
   return call("/review/user", "GET");
 }
+
+// 리뷰 삭제
+export function deleteReview(reviewId) {
+  return call(`/review/${reviewId}`, "DELETE");
+}
+

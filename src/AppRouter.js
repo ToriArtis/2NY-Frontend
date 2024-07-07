@@ -14,6 +14,7 @@ import CreateReviewView from "./review/views/CreateReviewView";
 import ModifyReviewView from "./review/views/ModifyReviewView";
 import OrderDetailPage from "./orders/views/OrderDetailPage";
 import PurchasePage from "./cart/views/PurchasePage";
+import ItemAllListView from "./items/views/ItemAllListView";
 
 function AppRouter() {
     return (
@@ -25,10 +26,10 @@ function AppRouter() {
             <Route path="/signup" element={<SignUpView />}/>
 
             <Route path="/mypage" element={<InfoPage />}/>
-            <Route path="/items" element={<ItemListView />} />
 
             <Route path="/info" element={<InfoPage />}/>
 
+            <Route path="/items" element={<ItemAllListView />} />
             <Route path="/items/create" element={<ItemCreateView />} />
             <Route path="/items/:id" element={<ItemDetailView />} />
             <Route path="/items/:id/edit" element={<ItemEditView />} />

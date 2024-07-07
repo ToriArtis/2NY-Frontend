@@ -35,7 +35,7 @@ const ItemEditView = () => {
   if (error) return <div className="error-message">{error}</div>;
 
   // 아이템이 없을 경우
-  if (!values) return <div>상품을 찾을 수 없습니다.</div>;
+  if (!values || !colorOptions || !sizeOptions) return <div>상품 정보를 불러오는 중 오류가 발생했습니다.</div>;
 
   return (
     <div className="edit-item-container">
@@ -76,12 +76,12 @@ const ItemEditView = () => {
                   multiple
                 />
                 <div className="image-preview-container">
-                  {descriptionImagePreviews.map((preview, index) => (
-                    <div key={index} className="image-preview">
-                      <img src={preview} alt={`상세 이미지 ${index + 1}`} />
-                    </div>
-                  ))}
-                </div>
+                  {(descriptionImagePreviews || []).map((preview, index) => (
+                  <div key={index} className="image-preview">
+                    <img src={preview} alt={`상세 이미지 ${index + 1}`} />
+                  </div>
+                ))}
+              </div>
               </div>
             </div>
             <div className="item-details-section">
@@ -143,7 +143,7 @@ const ItemEditView = () => {
                 <select
                   id="color"
                   name="color"
-                  value={values.color}
+                  value={values?.color || ''}
                   onChange={handleChange}
                 >
                   <option value="">선택하세요</option>
@@ -159,7 +159,7 @@ const ItemEditView = () => {
                 <select
                   id="size"
                   name="size"
-                  value={values.size}
+                  value={values?.size || ''}
                   onChange={handleChange}
                 >
                   <option value="">선택하세요</option>
@@ -170,6 +170,7 @@ const ItemEditView = () => {
                   ))}
                 </select>
               </div>
+
             </div>
           </div>
           <div className="button-group">

@@ -28,7 +28,7 @@ export default function useItemCreateViewModel() {
     const [descriptionImagePreviews, setDescriptionImagePreviews] = useState([]);
 
     // 색상 옵션
-    const colorOptions = ["RED", "BLUE", "GREEN", "BLACK", "WHITE", "YELLOW"];
+    const colorOptions = ["BLACK", "WHITE", "GRAY"];
 
     // 사이즈 옵션
     const sizeOptions = ["XS", "S", "M", "L", "XL", "XXL"];

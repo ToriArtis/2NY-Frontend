@@ -7,7 +7,7 @@ import { createOrder } from '../../orders/api/ordersApi';  // 주문 생성 API 
 
 const ItemDetailView = () => {
   // 상태 관리
-  const [item, setItem] = useState(null);
+  const [itemData, setItem] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { addItemToCart } = useCart(); // 장바구니 추가 함수
@@ -23,8 +23,10 @@ const ItemDetailView = () => {
       setIsLoading(true);
       try {
         const data = await getItemDetail(id);
+        console.log("Fetched item data:", data); // 디버깅을 위한 로그
         setItem(data);
       } catch (err) {
+        console.error("Error fetching item:", err); // 디버깅을 위한 로그
         setError(err.message);
       } finally {
         setIsLoading(false);
@@ -39,7 +41,7 @@ const ItemDetailView = () => {
       try {
         await itemDelete(id);
         alert('상품이 성공적으로 삭제되었습니다.');
-        navigate('/items'); // 목록 페이지로 리다이렉트
+        navigate('/items');
       } catch (err) {
         setError(err.message);
       }
@@ -58,18 +60,19 @@ const ItemDetailView = () => {
 
   // 구매하기
   const handleBuyNow = () => {
-    const itemOrder = {
-      itemId: id,
-      quantity: quantity,
-      itemTitle: item.title,
-      price: item.price,
-      thumbnail: item.thumbnail,
-      color: item.color,
-      size: item.size
-    };
-    navigate('/purchase', { state: { items: [itemOrder], isFromCart: false } });
+    if (itemData?.item) {
+      const itemOrder = {
+        itemId: id,
+        quantity: quantity,
+        itemTitle: itemData.item.title,
+        price: itemData.item.price,
+        thumbnail: itemData.item.thumbnail,
+        color: itemData.item.color,
+        size: itemData.item.size
+      };
+      navigate('/purchase', { state: { items: [itemOrder], isFromCart: false } });
+    }
   };
-
 
   // 로딩 중 표시
   if (isLoading) return <div>Loading...</div>;
@@ -78,7 +81,8 @@ const ItemDetailView = () => {
   if (error) return <div className="error-message">{error}</div>;
 
   // 아이템이 없을 경우
-  if (!item) return <div>상품을 찾을 수 없습니다.</div>;
+  if (!itemData) return <div>상품을 찾을 수 없습니다.</div>;
+  const { item, reviews } = itemData;
 
   return (
     <div className="item-detail-container">
@@ -91,12 +95,12 @@ const ItemDetailView = () => {
         </ul>
       </div>
       <div className="main-content">
-        <h1>{item.title}</h1>
+        <h1>{item?.title}</h1>
         <div className="item-images">
-          {item.thumbnail && (
+          {item?.thumbnail && (
             <img src={item.thumbnail} alt="썸네일" className="thumbnail" />
           )}
-          {item.descriptionImage && item.descriptionImage.map((img, index) => (
+          {item?.descriptionImage && item.descriptionImage.map((img, index) => (
             <img 
               key={index} 
               src={img} 
@@ -106,23 +110,23 @@ const ItemDetailView = () => {
           ))}
         </div>
         <div className="item-details">
-          <p><strong>가격:</strong> {item.price}원</p>
-          <p><strong>할인율:</strong> {item.discountRate}%</p>
-          <p><strong>카테고리:</strong> {item.category}</p>
-          <p><strong>색상:</strong> {item.color}</p>
-          <p><strong>사이즈:</strong> {item.size}</p>
-          <p><strong>상품 정보:</strong> {item.content}</p>
+          <p><strong>가격:</strong> {item?.price}원</p>
+          <p><strong>할인율:</strong> {item?.discountRate}%</p>
+          <p><strong>카테고리:</strong> {item?.category}</p>
+          <p><strong>색상:</strong> {item?.color}</p>
+          <p><strong>사이즈:</strong> {item?.size}</p>
+          <p><strong>상품 정보:</strong> {item?.content}</p>
         </div>
 
         <div>
-        <label htmlFor='quantity'>Quantity:</label>
-        <input
-          type='number'
-          id='quantity'
-          value={quantity}
-          onChange={(e) => setQuantity(parseInt(e.target.value))}
-          min='1'
-        />
+          <label htmlFor='quantity'>Quantity:</label>
+          <input
+            type='number'
+            id='quantity'
+            value={quantity}
+            onChange={(e) => setQuantity(parseInt(e.target.value))}
+            min='1'
+          />
         </div>
 
         <div className="button-group">
@@ -131,6 +135,16 @@ const ItemDetailView = () => {
           <Link to={`/items/${id}/edit`} className="button edit-button">수정</Link>
           <button onClick={handleDelete} className="button delete-button">삭제</button>
         </div>
+
+
+        {/* 리뷰 섹션 */}
+        {reviews && (
+          <div className="reviews-section">
+            <h2>Reviews</h2>
+            {/* 리뷰 렌더링 로직 */}
+          </div>
+        )}
+
       </div>
     </div>
   );

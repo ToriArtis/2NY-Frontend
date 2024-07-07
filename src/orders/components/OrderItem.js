@@ -1,14 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export function OrderItem({ order, onSelect }) {
+export function OrderItem({ order, onSelect, isAdmin, onCompleteOrder }) {
   return (
     <div className="order-item">
       <div className="order-header">
         <span>{order.orderStatus}</span>
-        <button onClick={() => {
-          console.log("Selected orderId:", order.orderId);
-          onSelect(order.orderId)}}>주문상세</button>
+        <button onClick={() => {onSelect(order.orderId)}}>주문상세</button>
+        {isAdmin && order.orderStatus !== 'ORDER_COMPLETE' && (<button onClick={() => {onCompleteOrder(order.orderId)}}>현황변경</button>)}
       </div>
       {order.itemOrders.map((item, index) => (
         <div key={index} className="order-product">
@@ -19,9 +18,9 @@ export function OrderItem({ order, onSelect }) {
             <p>{item.color}/{item.size}</p>
             <p className="product-price">₩{item.price.toLocaleString()}</p>
           </div>
-          <Link to={`/review/create?itemId=${item.itemId}&orderId=${order.orderId}`} className='review'>
+          {!isAdmin && (<Link to={`/review/create?itemId=${item.itemId}&orderId=${order.orderId}`} className='review'>
             후기작성 &gt;
-          </Link>
+          </Link>)}
         </div>
       ))}
       <div className="order-footer">

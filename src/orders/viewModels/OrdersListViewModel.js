@@ -1,7 +1,7 @@
 import { useOrders } from '../hooks/useOrders';
 
-export function OrdersListViewModel() {
-  const { orders, error, loading, page, totalPages, setPage } = useOrders();
+export function OrdersListViewModel(isAdmin = false) {
+  const { orders, error, loading, page, totalPages, setPage, completeOrder } = useOrders();
 
   return {
     orders,
@@ -9,6 +9,7 @@ export function OrdersListViewModel() {
     loading,
     page,
     totalPages,
-    setPage
+    setPage,
+    completeOrder
   };
 }

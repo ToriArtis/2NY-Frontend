@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { list } from '../api/ordersApi';
+import { list, getAllOrders, completeOrder as completeOrderApi } from '../api/ordersApi';
 
-export function useOrders() {
+export function useOrders(isAdmin = false) {
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -11,12 +11,12 @@ export function useOrders() {
 
   useEffect(() => {
     fetchOrders();
-  }, [page]);
+  }, [page, isAdmin]);
 
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const response = await list(page, size);
+      const response = isAdmin ? await getAllOrders(page, size) : await list(page, size);
       setOrders(response.content);
       setTotalPages(response.totalPages);
     } catch (err) {
@@ -26,12 +26,22 @@ export function useOrders() {
     }
   };
 
+  const completeOrder = async (orderId) => {
+    try {
+        await completeOrderApi(orderId);
+        fetchOrders();
+    } catch (err) {
+        setError(err.message);
+    }
+  };  
+
   return {
     orders,
     error,
     loading,
     page,
     totalPages,
-    setPage
+    setPage,
+    completeOrder
   };
 }

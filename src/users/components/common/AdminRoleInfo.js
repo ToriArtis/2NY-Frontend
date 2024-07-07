@@ -21,7 +21,7 @@ export default function AdminRoleInfo() {
                 setActiveView(<UserInfo />);
                 break;
             case "주문 현황":
-                setActiveView(<OrdersListPage />);
+                setActiveView(<OrdersListPage isAdmin={true} />);
                 break;
             case "상품 등록":
                 setActiveView(<UserReviewListPage />);

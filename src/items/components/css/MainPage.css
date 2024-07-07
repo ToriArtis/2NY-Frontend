@@ -177,6 +177,14 @@
   .lookbook-overlay p {
     font-size: 18px;
   }
+  .item-card {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .item-card:hover {
+    transform: scale(1.05);
+  }
   
   @media (max-width: 1100px) {
     .item-carousel {

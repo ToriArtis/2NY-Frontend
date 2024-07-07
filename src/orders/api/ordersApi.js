@@ -28,11 +28,18 @@ export function call(api, method, request) {
     // fetch를 사용하여 API 호출
     return fetch(options.url, options)
       .then((response) => 
-        response.json().then((json) => {
+        response.text().then((text) => {
           if (!response.ok) {
-            return Promise.reject(json);
+            // 응답이 JSON 형식이면 JSON으로 파싱하여 반환, 그렇지 않으면 일반 텍스트 반환
+            try{
+              const json = JSON.parse(text);
+              return Promise.reject(json);
+            } catch (error) {
+              return Promise.reject({ message: text });
+            }
           }
-          return json;
+          // 응답이 빈 경우를 고려하여 처리
+          return text ? JSON.parse(text) : {};
         })
       )
       .catch((error) => {

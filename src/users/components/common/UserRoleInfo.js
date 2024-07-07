@@ -1,26 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Grid, Button, Typography } from "@mui/material";
-import OrdersListPage from '../../../component/pages/OrdersListPage';
+import OrdersListPage from '../../../orders/views/OrdersListPage';
 import UserReviewListPage from '../../../component/pages/UserReviewListPage';
 import useInfoViewModel from '../../viewModels/useInfoViewModel';
 import PasswordVaild from './PasswordVaild';
 import ModifyView from '../../views/ModifyView';
+import OrderDetailPage from '../../../orders/views/OrderDetailPage';
 
 export default function UserRoleInfo() {
     const [activeView, setActiveView] = useState(<UserInfo />);
+    const [selectedOrderId, setSelectedOrderId] = useState(null);    
 
     useEffect(() => {
         // 컴포넌트 마운트 시 회원정보 뷰를 기본으로 설정
         handleClick("회원정보");
     }, []);
 
-    const handleClick = (viewName) => {
+    const handleClick = (viewName, orderId) => {
         switch(viewName) {
             case "회원정보":
                 setActiveView(<UserInfo />);
                 break;
             case "주문내역":
-                setActiveView(<OrdersListPage />);
+                setActiveView(<OrdersListPage onOrderSelect={handleOrderSelect}/>);
+                break;
+            case "주문상세":
+                console.log("Setting active view to OrderDetailPage for orderId:", orderId);
+                setActiveView(<OrderDetailPage orderId={orderId} />);
                 break;
             case "작성글":
                 setActiveView(<UserReviewListPage />);
@@ -28,6 +34,12 @@ export default function UserRoleInfo() {
             default:
                 setActiveView(<UserInfo />);
         }
+    };
+
+    const handleOrderSelect = (orderId) => {
+        console.log("Selected orderId:", orderId);
+        setSelectedOrderId(orderId);
+        handleClick("주문상세", orderId);
     };
 
     return (

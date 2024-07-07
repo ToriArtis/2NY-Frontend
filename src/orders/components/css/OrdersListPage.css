@@ -47,6 +47,15 @@
     font-size: 14px;
 }
 
+.review {
+    text-decoration: none;
+    color: #000;
+}
+
+.review:hover {
+    text-decoration: underline;
+}
+
 .product-price {
     font-weight: bold;
     color: #333;
@@ -66,6 +75,11 @@ button {
     border: none;
     background: none;
     /* color: #333; */
+    cursor: pointer;
+}
+
+button:hover {
+    text-decoration: underline;
 }
 
 button.active {

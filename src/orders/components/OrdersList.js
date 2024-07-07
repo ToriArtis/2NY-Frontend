@@ -1,9 +1,10 @@
 import React from "react";
 import { OrdersListViewModel } from "../viewModels/OrdersListViewModel";
 import { OrderItem } from "./OrderItem";
-import "../../component/css/OrdersListPage.css";
+import "./css/OrdersListPage.css";
 
-export function OrdersList() {
+export function OrdersList({ onOrderSelect }) {
+    console.log("onOrderSelect in OrdersList", onOrderSelect);
     const { orders, error, loading, page, totalPages, setPage } = OrdersListViewModel();
 
     if (loading) return <div>Loading...</div>;
@@ -14,7 +15,9 @@ export function OrdersList() {
         <div>
             <div className="orders-list">
                 {orders.map(order => (
-                    <OrderItem key={order.orderId} order={order} />
+                    <OrderItem key={order.orderId} order={order} onSelect={() => {
+                        console.log("Selecting order:", order.orderId);
+                        onOrderSelect(order.orderId)}} />
                 ))}
             </div>
             <div className="pagination">

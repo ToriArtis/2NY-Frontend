@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { getItemDetail, itemDelete } from '../api/itemApiSimple';
 import '../components/css/ItemDetail.css';
+import { useCart } from '../../cart/hooks/useCart';  // 장바구니 훅 추가
+import { createOrder } from '../../orders/api/ordersApi';  // 주문 생성 API 함수 추가
 
 const ItemDetailView = () => {
   // 상태 관리
   const [item, setItem] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { addItemToCart } = useCart(); // 장바구니 추가 함수
+  const [quantity, setQuantity] = useState(1); // 수량 상태 추가
 
   // URL 파라미터와 네비게이션 훅
   const { id } = useParams();
@@ -41,6 +45,34 @@ const ItemDetailView = () => {
       }
     }
   };
+
+  // 장바구니 추가
+  const handleAddToCart = async () => {
+    try {
+      await addItemToCart(id, quantity);
+      alert('장바구니에 상품이 추가되었습니다.');
+    } catch (err) {
+      console.error('Error adding item to cart:', err);
+      setError('Failed to add item to cart');
+    }
+  };
+
+  // 구매하기
+  const handleBuyNow = async () => {
+    try {
+      const itemOrder = {
+        itemId: id,
+        quantity: quantity
+      };
+      await createOrder([itemOrder]);
+      // navigate(`/orders/${order.orderId}`);
+      alert('상품 구매 요청 완료');
+    } catch (err) {
+      console.error('Error creating order:', err);
+      setError('Failed to create order');
+    }
+  };
+
 
   // 로딩 중 표시
   if (isLoading) return <div>Loading...</div>;
@@ -84,7 +116,21 @@ const ItemDetailView = () => {
           <p><strong>사이즈:</strong> {item.size}</p>
           <p><strong>상품 정보:</strong> {item.content}</p>
         </div>
+
+        <div>
+        <label htmlFor='quantity'>Quantity:</label>
+        <input
+          type='number'
+          id='quantity'
+          value={quantity}
+          onChange={(e) => setQuantity(parseInt(e.target.value))}
+          min='1'
+        />
+        </div>
+
         <div className="button-group">
+          <button onClick={handleAddToCart}>장바구니</button>
+          <button onClick={handleBuyNow}>구매하기</button>
           <Link to={`/items/${id}/edit`} className="button edit-button">수정</Link>
           <button onClick={handleDelete} className="button delete-button">삭제</button>
         </div>

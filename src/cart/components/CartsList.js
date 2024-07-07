@@ -45,25 +45,41 @@ function CartsList() {
     return (
         <div className="carts-list">
             <h1>장바구니</h1>
-            {carts.map((cart) => (
-                <CartItem 
-                    key={cart.itemCartId}
-                    cart={cart}
-                    onUpdateQuantity={handleUpdateQuantity}
-                    onRemoveItem={handleRemoveItem}
-                />
-            ))}
+            <div className="carts-list-wrapper">
+                {carts.map((cart) => (
+                    <CartItem 
+                        key={cart.itemCartId}
+                        cart={cart}
+                        onUpdateQuantity={handleUpdateQuantity}
+                        onRemoveItem={handleRemoveItem}
+                    />
+                ))}
 
-            {hasMore && (
-                <button onClick={loadMoreCarts} className="loadMoreBtn" disabled={loading}>
-                    {loading ? '로딩중' : '더보기'}
-                </button>
-            )}
-            
-            <div className="cart-summary">
-                <p>총 상품금액: ₩{totalPrice.toLocaleString()}</p>
-                <p>총 할인금액: ₩{totalDiscountAmount.toLocaleString()}</p>
-                <p>결제예정금액: ₩{finalTotalPrice.toLocaleString()}</p>
+                {hasMore && (
+                    <button onClick={loadMoreCarts} className="loadMoreBtn" disabled={loading}>
+                        {loading ? '로딩중' : '더보기'}
+                    </button>
+                )}
+                
+                <div className="cart-summary">
+                    <div className="cart-summary-top">
+                        <div>
+                            <p>상품 합계 금액: </p>
+                            <p>₩{totalPrice.toLocaleString()}</p>
+                        </div>
+                        
+                        <div>
+                            <p>할인: </p>
+                            <p>₩{totalDiscountAmount.toLocaleString()}</p>
+                        </div>
+
+                        <div>
+                            <p>결제금액: </p>
+                            <p>₩{finalTotalPrice.toLocaleString()}</p>
+                        </div>
+                    </div>
+                    <button className="buy-btn">구매하기</button>
+                </div>
             </div>
         </div>
     );

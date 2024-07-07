@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Grid, Button, Typography } from "@mui/material";
-import OrdersListPage from '../../../component/pages/OrdersListPage';
 import UserReviewListPage from '../../../component/pages/UserReviewListPage';
 import useInfoViewModel from '../../viewModels/useInfoViewModel';
 import PasswordVaild from './PasswordVaild';
 import ModifyView from '../../views/ModifyView';
+import OrdersListPage from '../../../orders/views/OrdersListPage';
 
 
 export default function AdminRoleInfo() {

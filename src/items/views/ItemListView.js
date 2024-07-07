@@ -5,7 +5,7 @@ import Header from '../../component/Header';
 import Footer from '../../component/Footer';
 import { useItemViewModel } from '../hooks/useItemViewModel';
 
-const ItemSection = ({ title, items, currentPage, setCurrentPage }) => {
+const ItemSection = ({ title, items, currentPage, setCurrentPage, onItemClick }) => {
   const itemsPerPage = 3;
   const pageCount = Math.ceil(items.length / itemsPerPage);
 
@@ -26,7 +26,7 @@ const ItemSection = ({ title, items, currentPage, setCurrentPage }) => {
         </button>
         <div className="item-grid">
           {items.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage).map(item => (
-            <div key={item.id} className="item-card">
+            <div key={item.id} className="item-card" onClick={() => onItemClick(item.id)}>
               <img src={item.thumbnail} alt={item.title} className="item-thumbnail" />
               <h3 className="item-title" style={{fontWeight: 'bold'}}>{item.title}</h3>
               <p className="item-price">
@@ -49,6 +49,7 @@ const ItemSection = ({ title, items, currentPage, setCurrentPage }) => {
     </div>
   );
 };
+
 const ItemListView = () => {
   const { items, loading, error, fetchItems } = useItemViewModel();
   const [brandItems, setBrandItems] = useState([]);
@@ -69,36 +70,53 @@ const ItemListView = () => {
     }
   }, [items]);
 
+  const handleItemClick = (itemId) => {
+    navigate(`/items/${itemId}`);
+  };
+
   if (loading) return <div className="loading">Loading...</div>;
   if (error) return <div className="error">Error: {error}</div>;
+
   return (
     <>
-    <Header />
-    <div className="item-list-container">
-      <div className='arrivals-banner'>
-        <img src='/assets/bannder.png' alt="New Arrivals Banner" className="arrivals-image" />
-        <div className="banner-text">NEW ARRIVALS</div>
-        <div className='banner-text2'>지금 주목해야 할 여름 신상</div>
-      </div>
-      
-      <div className="main-content">
-        <ItemSection title="BREND'S BEST" items={brandItems} currentPage={brandPage} setCurrentPage={setBrandPage} />
-        <ItemSection title="MD'S PICK" items={mdItems} currentPage={mdPage} setCurrentPage={setMdPage} />
-      </div>
-      <div className="lookbook-section">
-        <div className="lookbook-image-container">
-          <img src="/assets/blur.png" alt="Lookbook 1" className="lookbook-image" />
-          <div className="lookbook-overlay">
-            <h2>LOOKBOOK</h2>
-            <p>24 F/W COLLECTION</p>
+      <Header />
+      <div className="item-list-container">
+        <div className='arrivals-banner'>
+          <img src='/assets/bannder.png' alt="New Arrivals Banner" className="arrivals-image" />
+          <div className="banner-text">NEW ARRIVALS</div>
+          <div className='banner-text2'>지금 주목해야 할 여름 신상</div>
+        </div>
+        
+        <div className="main-content">
+          <ItemSection 
+            title="BREND'S BEST" 
+            items={brandItems} 
+            currentPage={brandPage} 
+            setCurrentPage={setBrandPage} 
+            onItemClick={handleItemClick}
+          />
+          <ItemSection 
+            title="MD'S PICK" 
+            items={mdItems} 
+            currentPage={mdPage} 
+            setCurrentPage={setMdPage} 
+            onItemClick={handleItemClick}
+          />
+        </div>
+        <div className="lookbook-section">
+          <div className="lookbook-image-container">
+            <img src="/assets/blur.png" alt="Lookbook 1" className="lookbook-image" />
+            <div className="lookbook-overlay">
+              <h2>LOOKBOOK</h2>
+              <p>24 F/W COLLECTION</p>
+            </div>
+          </div>
+          <div className="lookbook-image-container">
+            <img src="/assets/1.png" alt="Lookbook 2" className="lookbook-image" />
           </div>
         </div>
-        <div className="lookbook-image-container">
-          <img src="/assets/1.png" alt="Lookbook 2" className="lookbook-image" />
-        </div>
       </div>
-    </div>
-    <Footer />
+      <Footer />
     </>
   );
 };

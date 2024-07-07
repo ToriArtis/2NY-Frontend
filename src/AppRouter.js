@@ -26,7 +26,8 @@ function AppRouter() {
 
             <Route path="/items/create" element={<ItemCreateView />} />
             <Route path="/items/:id" element={<ItemDetailView />} />
-            {/* <Route path="/items/:itemId/edit" element={<ItemForm />} /> */}
+            <Route path="/items/:id/edit" element={<ItemEditView />} />
+
             
             <Route path="/cart" element={<CartsListPage />} />
 

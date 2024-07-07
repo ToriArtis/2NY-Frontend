@@ -9,7 +9,8 @@ import ModifyView from '../../views/ModifyView';
 
 export default function AdminRoleInfo() {
     const [isPasswordVerified, setIsPasswordVerified] = useState(<UserInfo />);
-    
+    const [activeView, setActiveView] = useState(<UserInfo />);
+
     useEffect(() => {
         handleClick("회원정보");
     }, []);

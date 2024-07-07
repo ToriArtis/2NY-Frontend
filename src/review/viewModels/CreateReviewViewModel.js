@@ -42,7 +42,9 @@ export function CreateReviewViewModel(itemId, userId) {
         content: values.content,
       };
       await createReview(reviewDTO);
-      // 성공 처리 로직 (예: 리뷰 목록 페이지로 리디렉션)
+      alert('리뷰가 등록되었습니다.');
+      window.location.href = '/review/user';
+
     } catch (error) {
       setError(error.message);
     }

@@ -56,13 +56,7 @@ export function addToCart(itemId, quantity) {
 
 // 장바구니 상품 수량 업데이트 API
 export function updateCartItemQuantity(itemCartId, upDown) {
-  return call(`/carts/itemcarts/${itemCartId}?upDown=${upDown}`, "PUT")
-    .then(response => {
-      if (!response) {
-        throw new Error('Failed to update cart item quantity');
-      }
-      return response;
-    });
+  return call(`/carts/itemcarts/${itemCartId}?upDown=${upDown}`, "PUT");
 }
 
 // 장바구니에서 상품 제거 API
@@ -82,3 +76,4 @@ export function removeFromCart(itemCartId) {
       throw error;
     });
 }
+

@@ -71,7 +71,7 @@ export function useCart() {
           : cart
       ));
     } catch (err) {
-      setError(err.message);
+      console.error('수량 업데이트 중 오류가 발생했습니다:', error);
     } finally {
       setLoading(false);
     }

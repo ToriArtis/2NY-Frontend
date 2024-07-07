@@ -8,6 +8,7 @@ class Review {
       this.content = content;
       this.createdAt = new Date(createdAt);
       this.updatedAt = new Date(updatedAt);
+      this.thumbnail = thumbnail;
     }
   }
   

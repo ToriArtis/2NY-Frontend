@@ -4,19 +4,20 @@ import { ImStarFull } from "react-icons/im";
 
 const RatingBox = styled.div`
   margin: 0 auto;
+  text-align: center;
 
   & svg {
     color: #c4c4c4;
     cursor: pointer;
   }
   :hover svg {
-    color: black;
+    color: #ffd700;
   }
   & svg:hover ~ svg {
     color: #c4c4c4;
   }
   .black {
-    color: black;
+    color: #ffd700;
   }
 `;
 

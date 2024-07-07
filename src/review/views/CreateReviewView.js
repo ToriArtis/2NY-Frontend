@@ -18,27 +18,32 @@ function CreateReviewView() {
         <Container component="main" maxWidth="xs" sx={{ marginTop: "8%" }}>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <Typography component="h1" variant="h5" style={{ textAlign: "center" }}>
-                        <b>리뷰 작성</b>
+                    <Typography component="h1" variant="h5" 
+                    style={{ textAlign: "left", borderBottom: "1px solid #ddd", paddingBottom: "10px", margiBnottom: "20px"}}>
+                        <b>Review</b>
                     </Typography>
                 </Grid>
             </Grid>
             <br />
             <Grid>
-                {error && <Typography color="error">{error}</Typography>}
+                <h3 style={{ textAlign: "center" }}>상품은 만족하셨나요?</h3>
+                
                 <form onSubmit={handleSubmit}>
                     <StarRating onChange={handleStarChange} />
-                    <TextField
-                        label="리뷰 내용"
-                        multiline
-                        rows={4}
-                        name="content"
-                        value={content}
-                        onChange={(e) => handleChange('content', e.target.value)}
-                        fullWidth
-                        margin="normal"
-                        required
-                    />
+                    <Typography variant="subtitle1" sx={{ mt: 3, mb: 1 }}>내용</Typography>
+                        <TextField
+                            multiline
+                            rows={4}
+                            name="content"
+                            value={content}
+                            onChange={(e) => handleChange('content', e.target.value)}
+                            fullWidth
+                            placeholder="10자 이상 작성해주세요"
+                            variant="outlined"
+                            sx={{ mb: 2 }}
+                        />
+                        
+                        {error && <Typography color="error">{error}</Typography>}
                     <Button variant="contained" color="primary" type="submit" fullWidth>
                         리뷰 등록
                     </Button>

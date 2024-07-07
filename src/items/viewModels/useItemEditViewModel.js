@@ -10,9 +10,8 @@ export default function useItemEditViewModel(id) {
   const [descriptionImagePreviews, setDescriptionImagePreviews] = useState([]);
 
   // 옵션 값들
-  const colorOptions = ["RED", "BLUE", "GREEN", "BLACK", "WHITE", "YELLOW"];
-  const sizeOptions = ["XS", "S", "M", "L", "XL", "XXL"];
-
+  const [colorOptions, setColorOptions] = useState([]);
+  const [sizeOptions, setSizeOptions] = useState([]);
   // 아이템 정보 불러오기
   const fetchItem = useCallback(async () => {
     setIsLoading(true);
@@ -21,6 +20,10 @@ export default function useItemEditViewModel(id) {
       setValues(data);
       setThumbnailPreview(data.thumbnail);
       setDescriptionImagePreviews(data.descriptionImage);
+      
+      // 서버에서 색상과 사이즈 옵션을 제공하지 않는 경우를 대비해 기본값 설정
+      setColorOptions(data.colorOptions || [ "BLACK", "WHITE", "GRAY"]);
+      setSizeOptions(data.sizeOptions || ["XS", "S", "M", "L", "XL", "XXL"]);
     } catch (err) {
       setError(err.message);
     } finally {

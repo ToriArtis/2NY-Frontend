@@ -122,7 +122,6 @@ export function getItemDetail(id) {
     return response.json();
   });
 }
-
 // 아이템 삭제
 export const itemDelete = async (id) => {
   console.log("itemDelete");

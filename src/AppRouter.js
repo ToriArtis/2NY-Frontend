@@ -12,6 +12,7 @@ import ItemEditView from "./items/views/ItemEditView";
 import CartsListPage from "./component/pages/CartsListPage";
 import CreateReviewView from "./review/views/CreateReviewView";
 import ModifyReviewView from "./review/views/ModifyReviewView";
+import OrderDetailPage from "./orders/views/OrderDetailPage";
 
 function AppRouter() {
     return (
@@ -28,6 +29,8 @@ function AppRouter() {
             {/* <Route path="/items/:itemId/edit" element={<ItemForm />} /> */}
             
             <Route path="/cart" element={<CartsListPage />} />
+
+            <Route path="/orders/:orderId" element={<OrderDetailPage />} />
 
             <Route path="/review/create" element={<CreateReviewView />} />
             <Route path="/review/modify/:reviewId" element={<ModifyReviewView />} />

@@ -26,7 +26,7 @@ export default function AdminRoleInfo() {
                 </>);
                 break;
             case "상품 등록":
-                setActiveView(<><div>상품 등록</div></>);
+                setActiveView(<div>상품 등록</div>);
                 break;
             case "상품 조회":
                 setActiveView(<div>상품 조회</div>);

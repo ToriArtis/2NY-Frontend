@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { getItemDetail, itemDelete } from '../api/itemApiSimple';
+import { getItemDetail, itemDelete } from '../api/itemApi';
 import '../components/css/ItemDetail.css';
 import { useCart } from '../../cart/hooks/useCart';  // 장바구니 훅 추가
 import { createOrder } from '../../orders/api/ordersApi';  // 주문 생성 API 함수 추가

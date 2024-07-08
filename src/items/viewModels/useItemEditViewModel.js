@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { getItemDetail, itemUpdate } from '../api/itemApiSimple';
+import { getItemDetail, itemUpdate } from '../api/itemApi';
 
 export default function useItemEditViewModel(id) {
   // 상태 관리

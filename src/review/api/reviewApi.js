@@ -75,3 +75,7 @@ export function deleteReview(reviewId) {
   return call(`/review/${reviewId}`, "DELETE");
 }
 
+// 특정 상품의 리뷰 목록 조회
+export function getReviewsByItemId(itemId) {
+  return call(`/review/item/${itemId}`, "GET");
+}

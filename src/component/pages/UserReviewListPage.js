@@ -2,6 +2,7 @@ import React from "react";
 import UserListViewModel from "../../review/viewModels/UserListViewModel";
 import "../css/UserReviewListPage.css";
 import { Link } from "react-router-dom";
+import { getImageUrl } from "../../config/app-config";
 
 
 function UserReviewListPage() {
@@ -31,7 +32,7 @@ function UserReviewListPage() {
             <div className="review-list">
                 {reviews.map((review) => (
                     <div key={review.reviewId} className="review-item">
-                        <img src={review.thumbnail[0]} alt={`Item ${review.itemId}`} className="review-item-image" />
+                         <img src={getImageUrl(review.thumbnail)} alt={`Item ${review.itemId}`} className="review-item-image" />
                         <div className="review-item-content">
                             <h3>{review.itemName}</h3>
                             <div className="review-rating">

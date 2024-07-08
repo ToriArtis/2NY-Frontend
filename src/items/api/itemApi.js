@@ -154,3 +154,47 @@ export const itemDelete = async (id) => {
     return false;
   }
 };
+
+// 카테고리별 아이템 목록 조회
+export const getItemsByCategory = async (category, page = 0, size = 20) => {
+  try {
+    console.log(`Calling getItemsByCategory API with category: ${category}, page: ${page}, size: ${size}`);
+    const response = await fetch(`${API_BASE_URL}/items/category/${category}?page=${page}&size=${size}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`
+      }
+    });
+
+    if (!response.ok) {
+      if (response.status === 403) {
+        throw new Error("권한이 없습니다. 로그인이 필요할 수 있습니다.");
+      }
+      const errorText = await response.text();
+      throw new Error(`Server responded with ${response.status}: ${errorText}`);
+    }
+
+    const data = await response.json();
+    console.log('API response:', data);
+
+    if (data && Array.isArray(data.content)) {
+      return {
+        content: data.content.map(item => ({
+          ...item,
+          id: item.id || item.itemId
+        })),
+        totalPages: data.totalPages,
+        totalElements: data.totalElements,
+        size: data.size,
+        number: data.number
+      };
+    } else {
+      console.error('Invalid API response structure:', data);
+      return { content: [], totalPages: 0, totalElements: 0, size: 0, number: 0 };
+    }
+  } catch (error) {
+    console.error('Error fetching items by category:', error);
+    throw error;
+  }
+};

@@ -24,14 +24,7 @@ const ItemCreateView = () => {
   } = useItemCreateViewModel();
   return (
     <div className="create-item-container">
-      <div className="sidebar">
-        <h1 className="sidebar-title">주문 현황</h1>
-        <ul>
-          <li><Link to="/orders">주문 현황</Link></li>
-          <li><Link to="/items/create">상품 등록</Link></li>
-          <li><Link to="/items">상품 조회</Link></li>
-        </ul>
-      </div>
+      
       <div className="main-content">
         <h1>상품 등록</h1>
         {error && <p className="error-message">{error}</p>}
@@ -119,9 +112,12 @@ const ItemCreateView = () => {
                   onChange={handleChange}
                 >
                   <option value="">선택하세요</option>
-                  <option value="SKIRT">SKIRT</option>
                   <option value="TOP">TOP</option>
+                  <option value="OUTER">OUTER</option>.
+                  <option value="SKIRT">SKIRT</option>
                   <option value="BOTTOM">BOTTOM</option>
+                  <option value="DRESS">DRESS</option>
+
                 </select>
               </div>
               <div className="form-group">

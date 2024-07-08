@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { getItemDetail, itemList } from '../api/itemApi';
+import { getItemDetail, itemList, getItemsByCategory } from '../api/itemApi';
 
 export const useItemViewModel = () => {
     const [items, setItems] = useState([]);
@@ -8,11 +8,16 @@ export const useItemViewModel = () => {
     const [error, setError] = useState(null);
     const [pagination, setPagination] = useState({});
 
-    const fetchItems = useCallback(async (page = 0, size = 20) => {
+    const fetchItems = useCallback(async (page = 0, size = 20, category = null) => {
         console.log('fetchItems called');
         setLoading(true);
         try {
-            const data = await itemList(page, size);
+            let data;
+            if (category) {
+                data = await getItemsByCategory(category, page, size);
+            } else {
+                data = await itemList(page, size);
+            }
             console.log('Fetched data:', data);
             if (data && data.content) {
                 setItems(data.content);
@@ -36,6 +41,7 @@ export const useItemViewModel = () => {
             setLoading(false);
         }
     }, []);
+
 
     const fetchItem = useCallback(async (itemId) => {
         setLoading(true);

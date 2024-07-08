@@ -1,7 +1,7 @@
 
 // View.js (React Component)
 import React, { useState, useEffect, useRef } from 'react';
-import { ChatViewModel } from '../viewModels/ChatViewModel';
+import { ChatViewModel } from './ChatViewModel';
 import './ChatbotView.css';
 
 const ChatbotView = () => {

@@ -5,6 +5,8 @@ import Header from '../../component/Header';
 import Footer from '../../component/Footer';
 import { useItemViewModel } from '../hooks/useItemViewModel';
 import { IconButton } from '@mui/material';
+import { AddBox } from '@mui/icons-material';
+import ChatbotView from '../../chat/ChatbotView';
 
 const ItemSection = ({ title, items, currentPage, setCurrentPage, onItemClick }) => {
   const itemsPerPage = 3;
@@ -52,13 +54,13 @@ const ItemSection = ({ title, items, currentPage, setCurrentPage, onItemClick })
 };
 
 const ItemListView = () => {
+  const [showChat, setShowChat] = useState(false);
   const { items, loading, error, fetchItems } = useItemViewModel();
   const [brandItems, setBrandItems] = useState([]);
   const [mdItems, setMdItems] = useState([]);
   const [brandPage, setBrandPage] = useState(0);
   const [mdPage, setMdPage] = useState(0);
   const navigate = useNavigate();
-
   useEffect(() => {
     fetchItems();
   }, [fetchItems]);
@@ -75,18 +77,27 @@ const ItemListView = () => {
     navigate(`/items/${itemId}`);
   };
 
+  const toggleChat = () => {
+    setShowChat(!showChat);
+  };
+
   if (loading) return <div className="loading">Loading...</div>;
   if (error) return <div className="error">Error: {error}</div>;
 
   return (
     <>
       <Header />
-      <IconButton aria-label="figma" color="primary">
-              <img src="/assets/figma.png" 
-              onClick={() => window.open('https://jira.toriarthub.com')} 
-              style={{ maxWidth: '25px', height: 'auto' }}
-              />
+      <IconButton 
+        aria-label="open chat" 
+        style={floatingButtonStyle}
+        onClick={toggleChat}
+      ><AddBox />
       </IconButton>
+      {showChat && (
+        <div style={chatWindowStyle}>
+          <ChatbotView />
+        </div>
+      )}
 
       <div className="item-list-container">
         <div className='arrivals-banner'>
@@ -130,3 +141,31 @@ const ItemListView = () => {
 };
 
 export default ItemListView;
+
+
+const floatingButtonStyle = {
+  position: 'fixed',
+  bottom: '5%',
+  right: '10%',
+  backgroundColor: 'white', 
+  color: 'black',
+  borderRadius: '50%',
+  padding: '12px',
+  boxShadow: '0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12)',
+  zIndex: '1000',
+};
+
+const chatWindowStyle = {
+  position: 'fixed',
+  bottom: '15%',
+  right: '10%',
+  width: 'auto',
+  height: 'auto',
+  backgroundColor: 'white',
+  borderRadius: '8px',
+  boxShadow: '0 3px 10px rgba(0,0,0,0.2)',
+  zIndex: 1001,
+  display: 'flex',
+  flexDirection: 'column',
+  overflow: 'hidden', // 추가: 내부 스크롤을 위해
+};

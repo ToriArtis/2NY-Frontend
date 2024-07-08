@@ -1,7 +1,7 @@
 // ViewModel.js
-import { ChatModel, Message } from '../models/chatModel'; 
+import { ChatModel, Message } from './chatModel'; 
 import axios from 'axios';
-import { API_BASE_URL } from '../../config/app-config';
+import { API_BASE_URL } from '../config/app-config';
 
 export class ChatViewModel {
   constructor() {

@@ -15,7 +15,6 @@ import ModifyReviewView from "./review/views/ModifyReviewView";
 import OrderDetailPage from "./orders/views/OrderDetailPage";
 import PurchasePage from "./cart/views/PurchasePage";
 import ItemAllListView from "./items/views/ItemAllListView";
-import ChatbotView from "./chat/views/ChatbotView";
 
 function AppRouter() {
     return (
@@ -27,7 +26,6 @@ function AppRouter() {
             <Route path="/signup" element={<SignUpView />}/>
             <Route path="/mypage" element={<InfoPage />}/>
 
-            <Route path="/testapi" element={<ChatbotView />} />
             
             <Route path="/items" element={<ItemAllListView />} />
             <Route path="/items/create" element={<ItemCreateView />} />

@@ -1,71 +1,126 @@
-import axios from 'axios';
+import { API_BASE_URL } from "../../config/app-config";
 
-const BASE_URL = 'http://localhost:8080/items'; // 백엔드 서버 URL
+// API 호출을 위한 기본 함수
+const call = async (api, method, request) => {
+  const headers = new Headers({
+    "Content-Type": "application/json",
+  });
 
-// 인증 토큰을 가져오는 함수 (로컬 스토리지나 상태 관리 라이브러리에서 가져오도록 수정 필요)
-const getAuthToken = () => {
-  return localStorage.getItem('authToken');
-};
+  const accessToken = localStorage.getItem("ACCESS_TOKEN");
+  if (accessToken) {
+    headers.append("Authorization", "Bearer " + accessToken);
+  }
 
-// Axios 인스턴스 생성
-const api = axios.create({
-  baseURL: BASE_URL,
-});
+  const options = {
+    headers: headers,
+    method: method,
+  };
 
-// 요청 인터셉터 추가
-api.interceptors.request.use(
-  (config) => {
-    const token = getAuthToken();
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+  if (request && method !== "GET") {
+    options.body = JSON.stringify(request);
+  }
+
+  try {
+    const response = await fetch(API_BASE_URL + api, options);
+    const json = await response.json();
+
+    if (response.status === 401) {
+      // 401 에러 처리 (예: 토큰 만료)
+      // 여기에 적절한 처리 로직 추가
+    } else if (!response.ok) {
+      return Promise.reject(json);
     }
-    return config;
-  },
-  (error) => {
+
+    return json;
+  } catch (error) {
+    if (error.status === 403) {
+      window.location.href = "/login";
+    }
     return Promise.reject(error);
   }
-);
-// 에러 처리 함수
-const handleApiError = (error, operation) => {
-  if (error.response) {
-    // 서버가 응답을 반환한 경우
-    console.error(`Error ${operation}:`, error.response.data);
-    if (error.response.status === 403) {
-      throw new Error("권한이 없습니다. 관리자에게 문의하세요.");
-    }
-  } else if (error.request) {
-    // 요청이 전송되었지만 응답을 받지 못한 경우
-    console.error(`No response received for ${operation}:`, error.request);
-    throw new Error("서버로부터 응답을 받지 못했습니다.");
-  } else {
-    // 요청 설정 중 오류가 발생한 경우
-    console.error(`Error setting up request for ${operation}:`, error.message);
-    throw new Error("요청 설정 중 오류가 발생했습니다.");
-  }
-  throw error;
 };
+
+// 아이템 생성
+export const itemCreate = async (itemData) => {
+  console.log("Attempting to create item:", itemData);
+  const formData = new FormData();
+
+  // ItemDTO 데이터를 JSON 문자열로 변환하여 추가
+  formData.append('itemDTO', new Blob([JSON.stringify({
+    title: itemData.title,
+    content: itemData.content,
+    price: itemData.price,
+    discountPrice: itemData.discountPrice,
+    discountRate: itemData.discountRate,
+    sales: itemData.sales,
+    color: itemData.color,
+    size: itemData.size,
+    category: itemData.category,
+    avgStar: itemData.avgStar
+  })], { type: 'application/json' }));
+
+  // 썸네일 이미지 파일 추가
+  if (itemData.thumbnail && itemData.thumbnail.length > 0) {
+    itemData.thumbnail.forEach((file, index) => {
+      formData.append(`thumbnailFiles`, file);
+    });
+  }
+
+  // 상세 이미지 파일 추가
+  if (itemData.descriptionImage && itemData.descriptionImage.length > 0) {
+    itemData.descriptionImage.forEach((file, index) => {
+      formData.append(`descriptionImageFiles`, file);
+    });
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/items`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`
+      },
+      body: formData
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to create item');
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error creating item:", error);
+    throw error;
+  }
+};
+
+
+// 아이템 수정
+export const itemUpdate = async (id, itemData) => {
+  console.log("itemUpdate", id, itemData);
+  return call(`/items/${id}`, "PUT", itemData);
+};
+
 // 아이템 목록 조회
 export const itemList = async (page = 0, size = 20) => {
   try {
     console.log(`Calling itemList API with page: ${page}, size: ${size}`);
-    const response = await axios.get(BASE_URL, { params: { page, size } });
+    const response = await call(`/items?page=${page}&size=${size}`, "GET");
     console.log('API response:', response);
-    console.log('API response data:', response.data);
-    
-    // 데이터 구조 확인 및 필요한 경우 변환
-    if (response.data && Array.isArray(response.data.content)) {
+
+    if (response && Array.isArray(response.content)) {
       return {
-        content: response.data.content.map(item => ({
+        content: response.content.map(item => ({
           ...item,
-          id: item.id || item.itemId // itemId를 사용하거나 id가 없는 경우 대비
+          id: item.id || item.itemId
         })),
-        totalPages: response.data.totalPages,
-        totalElements: response.data.totalElements,
-        size: response.data.size,
-        number: response.data.number
+        totalPages: response.totalPages,
+        totalElements: response.totalElements,
+        size: response.size,
+        number: response.number
       };
     } else {
-      console.error('Invalid API response structure:', response.data);
+      console.error('Invalid API response structure:', response);
       return { content: [], totalPages: 0, totalElements: 0, size: 0, number: 0 };
     }
   } catch (error) {
@@ -74,17 +129,28 @@ export const itemList = async (page = 0, size = 20) => {
   }
 };
 
-// 특정 아이템 조회
-export const itemRead = async (id) => {
+// 아이템 상세 조회 (이름을 getItemDetail로 변경)
+export const getItemDetail = async (id) => {
   try {
     console.log(`Fetching item with id: ${id}`);
-    const response = await api.get(`/${id}`);
+    const response = await call(`/items/${id}`, "GET");
     console.log('API response:', response);
-    console.log('API response data:', response.data);
-    return response.data;
+    return response;
   } catch (error) {
     console.error(`Error fetching item with id ${id}:`, error);
     throw error;
   }
 };
 
+// 아이템 삭제 (함수 추가)
+export const itemDelete = async (id) => {
+  console.log("itemDelete");
+  try {
+    const response = await call(`/items/${id}`, "DELETE");
+    console.log(response);
+    return !!response;
+  } catch (error) {
+    console.error("Error deleting item:", error);
+    return false;
+  }
+};

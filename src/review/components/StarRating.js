@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { ImStarFull } from "react-icons/im";
+import styled from 'styled-components';
+import { ImStarFull } from 'react-icons/im';
 
 const RatingBox = styled.div`
   margin: 0 auto;

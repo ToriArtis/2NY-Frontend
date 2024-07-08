@@ -28,6 +28,7 @@ function AppRouter() {
 
             
             <Route path="/items" element={<ItemAllListView />} />
+            <Route path="/items/category/:category" element={<ItemAllListView />} />
             <Route path="/items/create" element={<ItemCreateView />} />
             <Route path="/items/:id" element={<ItemDetailView />} />
             <Route path="/items/:id/edit" element={<ItemEditView />} />

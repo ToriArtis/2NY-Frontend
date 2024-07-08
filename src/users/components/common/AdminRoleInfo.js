@@ -4,7 +4,12 @@ import UserReviewListPage from '../../../component/pages/UserReviewListPage';
 import useInfoViewModel from '../../viewModels/useInfoViewModel';
 import PasswordVaild from './PasswordVaild';
 import ModifyView from '../../views/ModifyView';
+
+import ItemAllListView from '../../../items/views/ItemAllListView';
+import ItemCreateView from '../../../items/views/ItemCreateView';
+
 import OrderListPage from '../../../orders/views/OrderListPage';
+
 
 
 
@@ -27,10 +32,12 @@ export default function AdminRoleInfo() {
                 </>);
                 break;
             case "상품 등록":
-                setActiveView(<><div>상품 등록</div></>);
+
+                setActiveView(<ItemCreateView isAdmin/>);
+
                 break;
             case "상품 조회":
-                setActiveView(<div>상품 조회</div>);
+                setActiveView(<ItemAllListView isAdmin/>);
                 break;
             default:
                 setActiveView(<UserInfo isAdmin />);

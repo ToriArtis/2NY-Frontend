@@ -8,6 +8,44 @@ import { IconButton } from '@mui/material';
 import { AddBox } from '@mui/icons-material';
 import ChatbotView from '../../chat/ChatbotView';
 
+const ItemCard = ({ item, onClick }) => {
+  const [imageLoaded, setImageLoaded] = useState(true);
+
+  const handleImageError = () => {
+    setImageLoaded(false);
+  };
+
+  return (
+    <div className="item-card" onClick={() => onClick(item.id)}>
+      <div className="item-thumbnail-container">
+        {imageLoaded ? (
+          <img
+            src={item.thumbnail}
+            alt={item.title}
+            className="item-thumbnail"
+            onError={handleImageError}
+          />
+        ) : (
+          <div className="item-thumbnail-placeholder">
+            이미지를 불러올 수 없습니다
+          </div>
+        )}
+      </div>
+      <h3 className="item-title" style={{fontWeight: 'bold'}}>{item.title}</h3>
+      <p className="item-price">
+        {item.discountPrice !== item.price ? (
+          <>
+            <span className="original-price">₩{item.price.toLocaleString()}</span> &nbsp;
+            <span className="discount-price">₩{item.discountPrice.toLocaleString()}</span>
+          </>
+        ) : (
+          <span>₩{item.price.toLocaleString()}</span>
+        )}
+      </p>
+    </div>
+  );
+};
+
 const ItemSection = ({ title, items, currentPage, setCurrentPage, onItemClick }) => {
   const itemsPerPage = 3;
   const pageCount = Math.ceil(items.length / itemsPerPage);
@@ -29,20 +67,7 @@ const ItemSection = ({ title, items, currentPage, setCurrentPage, onItemClick })
         </button>
         <div className="item-grid">
           {items.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage).map(item => (
-            <div key={item.id} className="item-card" onClick={() => onItemClick(item.id)}>
-              <img src={item.thumbnail} alt={item.title} className="item-thumbnail" />
-              <h3 className="item-title" style={{fontWeight: 'bold'}}>{item.title}</h3>
-              <p className="item-price">
-                {item.discountPrice !== item.price ? (
-                  <>
-                    <span className="original-price">₩{item.price.toLocaleString()}</span> &nbsp;
-                    <span className="discount-price">₩{item.discountPrice.toLocaleString()}</span>
-                  </>
-                ) : (
-                  <span>₩{item.price.toLocaleString()}</span>
-                )}
-              </p>
-            </div>
+            <ItemCard key={item.id} item={item} onClick={onItemClick} />
           ))}
         </div>
         <button onClick={handleNextPage} className="nav-btn next-btn" disabled={currentPage === pageCount - 1}>
@@ -61,6 +86,7 @@ const ItemListView = () => {
   const [brandPage, setBrandPage] = useState(0);
   const [mdPage, setMdPage] = useState(0);
   const navigate = useNavigate();
+
   useEffect(() => {
     fetchItems();
   }, [fetchItems]);
@@ -142,7 +168,6 @@ const ItemListView = () => {
 
 export default ItemListView;
 
-
 const floatingButtonStyle = {
   position: 'fixed',
   bottom: '5%',
@@ -167,5 +192,5 @@ const chatWindowStyle = {
   zIndex: 1001,
   display: 'flex',
   flexDirection: 'column',
-  overflow: 'hidden', // 추가: 내부 스크롤을 위해
+  overflow: 'hidden',
 };

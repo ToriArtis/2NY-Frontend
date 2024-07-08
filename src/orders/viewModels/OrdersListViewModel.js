@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { list, getAllOrders, completeOrder as completeOrderApi } from '../api/ordersApi';
+import { list, getAllOrders, updateOrderStatus as updateOrderStatusApi } from '../api/ordersApi';
 
 export function OrdersListViewModel(isAdmin = false) {
   const [orders, setOrders] = useState([]);
@@ -17,27 +17,27 @@ export function OrdersListViewModel(isAdmin = false) {
     setLoading(true);
     try {
       const response = isAdmin ? await getAllOrders(page, size) : await list(page, size);
+      // 주문 취소 상태가 아닌 주문만 필터링 
+      // const filteredOrders = response.content.filter(order => order.status !== 'ORDER_CANCEL');
+      // setOrders(filteredOrders);
       setOrders(response.content);
       setTotalPages(response.totalPages);
     } catch (err) {
       setError(err.message);
-      if (err.message === "관리자 권한이 필요합니다.") {
-        alert(err.message);
-      }
     } finally {
       setLoading(false);
     }
   };
 
-  const completeOrder = async (orderId) => {
+  const updateOrderStatus = async (orderId, status) => {
     try {
-        await completeOrderApi(orderId);
-        await fetchOrders();
+      await updateOrderStatusApi(orderId, status);
+      await fetchOrders();
     } catch (err) {
-        setError(err.message);
-        alert(err.message);
+      setError(err.message);
+      alert(err.message);
     }
-  };  
+  };
 
   return {
     orders,
@@ -46,6 +46,6 @@ export function OrdersListViewModel(isAdmin = false) {
     page,
     totalPages,
     setPage,
-    completeOrder
+    updateOrderStatus
   };
 }

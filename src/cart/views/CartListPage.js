@@ -28,9 +28,9 @@ function CartsListPage() {
                     onRemoveItem={removeItemFromCart} 
                 />
                 <div className="cart-summary">
-                    <p>총 상품금액: ₩{totalPrice.toLocaleString()}</p>
-                    <p>총 할인금액: ₩{totalDiscountAmount.toLocaleString()}</p>
-                    <p>결제예정금액: ₩{finalTotalPrice.toLocaleString()}</p>
+                    <p>총 상품금액: ₩{parseInt(totalPrice).toLocaleString()}</p>
+                    <p>총 할인금액: ₩{parseInt(totalDiscountAmount).toLocaleString()}</p>
+                    <p>결제예정금액: ₩{parseInt(finalTotalPrice).toLocaleString()}</p>
                 </div>
             </main>
         </div>

@@ -87,18 +87,10 @@ export function cancelOrder(orderId) {
 
 // 전체 주문 목록 조회 (관리자 기능)
 export function getAllOrders(page = 0, size = 6) {
-  const userRoles = localStorage.getItem("USER_ROLESET");
-  if (!(userRoles && userRoles.includes("ADMIN"))) {
-    throw new Error("관리자 권한이 필요합니다.");
-  }
   return call(`/orders/all?page=${page}&size=${size}`, "GET");
 }
 
 // 주문 현황 수정 (관리자 기능)
-export function completeOrder(orderId) {
-  const userRoles = localStorage.getItem("USER_ROLESET");
-  if (!(userRoles === userRoles.includes("ADMIN"))) {
-    throw new Error("관리자 권한이 필요합니다.");
-  }
-  return call(`/orders/${orderId}/complete`, "PUT");
+export function updateOrderStatus(orderId, status) {
+  return call(`/orders/${orderId}/status?status=${status}`, "PUT");
 }

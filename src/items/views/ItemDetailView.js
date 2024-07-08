@@ -3,7 +3,6 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { getItemDetail, itemDelete } from '../api/itemApi';
 import '../components/css/ItemDetail.css';
 import { useCart } from '../../cart/hooks/useCart';
-import { createOrder } from '../../orders/api/ordersApi';
 import Header from '../../component/Header';
 import Footer from '../../component/Footer';
 import { getImageUrl } from '../../config/app-config';
@@ -19,6 +18,7 @@ const ItemDetailView = () => {
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
   const [reviews, setReviews] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
 
 
   const { id } = useParams();
@@ -56,6 +56,9 @@ const ItemDetailView = () => {
       }
     };
     fetchItem();
+
+    const userRoles = localStorage.getItem("USER_ROLESET");
+    setIsAdmin(userRoles && userRoles.includes("ADMIN"));
   }, [id]);
 
   const handleUpdate = async () => {
@@ -81,21 +84,21 @@ const ItemDetailView = () => {
     }
   };
 
-  const handleAddToCart = async () => {
-    const userRoles = localStorage.getItem("USER_ROLESET");
-    if (userRoles && userRoles.includes("ADMIN")) {
+  const handleAddToCart = () => {
+    if (isAdmin) {
       alert("관리자는 장바구니에 상품을 추가할 수 없습니다.");
       return;
     }
-    try {
-      await addItemToCart(id, quantity, selectedColor, selectedSize);
-      alert('장바구니에 상품이 추가되었습니다.');
-    } catch (err) {
-      setError('Failed to add item to cart');
-    }
+    addItemToCart(id, quantity, selectedColor, selectedSize)
+    .then(() =>alert('장바구니에 상품이 추가되었습니다.'))
+    .catch(err => setError(err.message));
   };
 
   const handleBuyNow = () => {
+    if (isAdmin) {
+      alert("관리자는 구매할 수 없습니다.");
+      return;
+    }
     if (itemData?.item) {
       const itemOrder = {
         itemId: id,

@@ -1,13 +1,16 @@
 export class ItemOrder {
-  constructor(itemOrderId, itemId, itemTitle, quantity, price, totalPrice, color, size) {
+  constructor(itemOrderId, itemId, itemTitle, quantity, price, totalPrice, discountRate, discountPrice, color, size, thumbnail) {
     this.itemOrderId = itemOrderId;
     this.itemId = itemId;
     this.itemTitle = itemTitle;
     this.quantity = quantity;
     this.price = price;
     this.totalPrice = totalPrice;
+    this.discountRate = discountRate;
+    this.discountPrice = discountPrice;
     this.color = color;
     this.size = size;
+    this.thumbnail = thumbnail;
   }
 }
 
@@ -31,8 +34,11 @@ export class Order {
       item.quantity,
       item.price,
       item.totalPrice,
+      item.discountRate,
+      item.discountPrice,
       item.color,
-      item.size
+      item.size,
+      item.thumbnail
     ));
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;

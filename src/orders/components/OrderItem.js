@@ -1,44 +1,49 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getImageUrl } from '../../config/app-config';
 
-export function OrderItem({ order, onSelect, isAdmin, onCompleteOrder }) {
+export function OrderItem({ order, onSelect, isAdmin, onUpdateOrderStatus }) {
 
-  const handleCompleteOrder = async () => {
-    try {
-      await onCompleteOrder(order.orderId);
-    } catch (error) {
-      console.error("주문 상태 변경 중 오류 발생:", error);
-    }
+  const handleStatusChange = (e) => {
+    onUpdateOrderStatus(order.orderId, e.target.value);
+  }
+
+   // 날짜
+   const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return dateString; // 유효하지 않은 날짜면 원본 문자열 반환
+    return date.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\. /g, '.').slice(0, -1);
   };
 
   return (
     <div className="order-item">
       <div className="order-header">
-        <span className="order-status">{order.orderStatus}</span>
+        <span className="order-status">
+          {order.orderStatus === 'ORDER_REQUEST' ? '주문 요청' : order.orderStatus === 'ORDER_COMPLETE' ? '주문 완료' : order.orderStatus === 'ORDER_CANCEL' ? '주문 취소' : order.orderStatus}
+        </span>
         <button className="order-detail-btn" onClick={() => {onSelect(order.orderId)}}>주문상세 &gt;</button>
       </div>
       <div className="order-products">
         {order.itemOrders.map((item, index) => (
           <div key={index} className="order-product">
-            <img src={item.itemImage} alt={item.itemTitle} className="product-image" />
+            <img src={getImageUrl(item.thumbnail)} alt={item.itemTitle} className="product-image" />
             <div className="product-info">
-              <p className="order-date">{new Date(order.createdAt).toLocaleDateString()}</p>
+              <p className="order-date">{formatDate(order.createdAt)}</p>
               <h3 className="product-title">{item.itemTitle}</h3>
               <p className="product-details">{item.color}/{item.size}</p>
-              <p className="product-price">₩{item.price.toLocaleString()}</p>
+              <p className="product-price">₩{parseInt(item.price).toLocaleString()}</p>
             </div>
-            {!isAdmin && (
-              <Link to={`/review/create?itemId=${item.itemId}&orderId=${order.orderId}`} className='review-link'>
-                후기작성 &gt;
-              </Link>
-            )}
           </div>
         ))}
       </div>
       <div className="order-footer">
-        <span className="total-price">총 주문금액 ₩{order.expectPrice.toLocaleString()}</span>
-        {isAdmin && order.orderStatus !== 'ORDER_COMPLETE' && (
-          <button className="change-status-btn" onClick={handleCompleteOrder}>현황변경</button>
+        <span className="total-price">총 주문금액 ₩{parseInt(order.expectPrice).toLocaleString()}</span>
+        {isAdmin && (
+          <select value={order.orderStatus} onChange={handleStatusChange}>
+            <option value="ORDER_REQUEST">주문 요청</option>
+            <option value="ORDER_COMPLETE">주문 완료</option>
+          </select>
         )}
       </div>
     </div>

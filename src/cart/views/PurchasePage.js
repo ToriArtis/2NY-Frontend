@@ -7,6 +7,8 @@ import { useCart } from '../hooks/useCart';
 import Header from "../../component/Header";
 import Footer from "../../component/Footer";
 import '../components/css/PurchasePage.css';
+import { getImageUrl } from '../../config/app-config';
+import { getItemDetail } from '../../items/api/itemApi';
 
 function PurchasePage() {
   const [orderItems, setOrderItems] = useState([]);
@@ -49,13 +51,46 @@ function PurchasePage() {
 
     fetchUserInfo();
 
-    if (isFromCart && carts && carts.length > 0) {
-        setOrderItems(carts);
-    } else if (items && items.length > 0) {
-        setOrderItems(items);
-    } else {
+    const fetchItemDetails = async (items) => {
+      const updatedItems = await Promise.all(items.map(async (item) => {
+        try {
+          const detailedItem = await getItemDetail(item.itemId);
+          return {
+            ...item,
+            discountRate: detailedItem.item.discountRate || 0,
+            discountPrice: detailedItem.item.discountPrice || item.price
+          };
+        } catch (error) {
+          console.error(`Error fetching details for item ${item.itemId}:`, error);
+          return item;
+        }
+      }));
+      return updatedItems;
+    };
+
+    const updateOrderItems = async () => {
+      if (isFromCart && carts && carts.length > 0) {
+        const updatedCarts = await fetchItemDetails(carts);
+        setOrderItems(updatedCarts);
+      } else if (items && items.length > 0) {
+        const updatedItems = await fetchItemDetails(items);
+        setOrderItems(updatedItems);
+      }
+      if (!isFromCart && !items) {
         console.log("아이템이 없어요 !")
-    }
+      }
+    };
+
+    updateOrderItems();
+
+    // if (isFromCart && carts && carts.length > 0) {
+    //     setOrderItems(carts);
+    // } else if (items && items.length > 0) {
+    //     setOrderItems(items);
+    // } 
+    // if (!isFromCart && !items) {
+    //     console.log("아이템이 없어요 !")
+    // }
 
     }, [isFromCart, items, carts]);
 
@@ -64,8 +99,19 @@ function PurchasePage() {
   }, [orderItems]);
 
   const calculatePrices = () => {
-    const total = orderItems.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
-    const discount = orderItems.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1) * (item.discountRate || 0) / 100), 0);
+    const total = orderItems.reduce((sum, item) => {
+      const itemPrice = item.price * item.quantity;
+      console.log(`아이템 ${item.itemTitle}: 가격 ${item.price}, 수량 ${item.quantity}, 총 가격 ${itemPrice}, 할인율 ${item.discountRate}%`);
+      return sum + itemPrice;
+    }, 0);
+
+    const discount = orderItems.reduce((sum, item) => {
+      const itemDiscount = Math.round((item.price - item.discountPrice) * item.quantity);
+      console.log(`아이템 ${item.itemTitle}: 할인율 ${item.discountRate}%, 할인 금액 ${itemDiscount}`);
+      return sum + itemDiscount;
+    }, 0);
+
+    console.log(`총 가격: ${total}, 총 할인: ${discount}`);
     setTotalPrice(total);
     setDiscountPrice(discount);
     setFinalPrice(total - discount);
@@ -110,12 +156,14 @@ function PurchasePage() {
             </Typography>
             {orderItems.map((item, index) => (
               <div key={index} className="purchase-order-item">
-                <img src={item.thumbnail && item.thumbnail[0]} alt={item.itemTitle} />
+                <img src={getImageUrl(item.thumbnail[0])} alt={item.itemTitle} />
                 <div className="purchase-item-info">
                   <Typography variant="h6">{item.itemTitle}</Typography>
                   <Typography variant="body1">₩{item.price.toLocaleString()}</Typography>
                   <Typography variant="body2">색상: {item.color} / 사이즈: {item.size}</Typography>
                   <Typography variant="body2">수량: {item.quantity}</Typography>
+
+                  <Typography variant="body1">-₩{item.discountRate}</Typography>
                 </div>
               </div>
             ))}
@@ -135,10 +183,10 @@ function PurchasePage() {
             <Typography variant="h5" gutterBottom>
               최종 결제 정보
             </Typography>
-            <Typography variant="body1">상품금액: ₩{totalPrice.toLocaleString()}</Typography>
-            <Typography variant="body1">할인: -₩{discountPrice.toLocaleString()}</Typography>
+            <Typography variant="body1">상품금액: ₩{parseInt(totalPrice).toLocaleString()}</Typography>
+            <Typography variant="body1">할인: -₩{parseInt(discountPrice).toLocaleString()}</Typography>
             <Typography variant="h6" style={{marginTop: '10px'}}>
-              총 결제금액: ₩{finalPrice.toLocaleString()}
+              총 결제금액: ₩{parseInt(finalPrice).toLocaleString()}
             </Typography>
             
             <Button 

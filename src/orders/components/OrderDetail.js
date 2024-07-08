@@ -3,6 +3,7 @@ import { OrderDetailViewModel } from '../viewModels/OrderDetailViewModel';
 import { Link } from 'react-router-dom';
 import '../components/css/OrderDetailPage.css';
 import { cancelOrder } from '../api/ordersApi';
+import { getImageUrl } from '../../config/app-config';
 
 export function OrderDetail({ orderId}) {
   const { order, error, loading, refreshOrder } = OrderDetailViewModel(orderId);
@@ -21,28 +22,32 @@ export function OrderDetail({ orderId}) {
     }
   };
 
+  // console.log(order.userId);
+
   return (
     <div className="orderDetail-container">
       <h2 className="orderDetail-title">주문내역 조회</h2>
       <div className="orderDetail-items">
         <div className="orderDetail-top">
           <p>{order.orderStatus}</p>
-          {order.orderStatus !== 'ORDER_CANCEL' && (
+          {order.orderStatus !== 'ORDER_CANCEL' && order.orderStatus !== 'ORDER_COMPLETE' && (
             <button onClick={handleCancelOrder} className="orderDetail-cancelButton">주문취소</button>
           )}
         </div>
         {order.itemOrders.map((item, index) => (
           <div key={index} className="orderDetail-item">
-            <img className="orderDetail-itemImage" src={item.itemImage} alt={item.itemTitle} />
+            <img className="orderDetail-itemImage" src={getImageUrl(item.thumbnail)} alt={item.itemTitle} />
             <div className="orderDetail-itemInfo">
-              <p className="orderDetail-date">{new Date(order.createdAt).toLocaleDateString()}</p>
+              <p className="orderDetail-date">{order.createdAt}</p>
               <h3 className="orderDetail-itemTitle">{item.itemTitle}</h3>
               <p>{item.color}/{item.size}</p>
-              <p className="orderDetail-itemPrice">₩{item.price.toLocaleString()}</p>
+              <p className="orderDetail-itemPrice">₩{parseInt(item.price).toLocaleString()}</p>
             </div>
-            <Link to={`/review/create?itemId=${item.itemId}&orderId=${order.orderId}`} className="orderDetail-reviewButton">
-            후기작성 &gt;
-            </Link>
+            {order.orderStatus !== 'ORDER_CANCEL' && order.orderStatus !== 'ORDER_REQUEST' && (
+              <Link to={`/review/create?itemId=${item.itemId}&orderId=${order.orderId}`} className="orderDetail-reviewButton">
+              후기작성 &gt;
+              </Link>
+            )}
           </div>
         ))}
       </div>
@@ -54,9 +59,12 @@ export function OrderDetail({ orderId}) {
       </div>
       <div className="orderDetail-paymentInfo">
         <h3 className="orderDetail-sectionTitle">최종 결제 정보</h3>
-        <p><span className="orderDetail-label">상품금액</span>₩{order.totalPrice.toLocaleString()}</p>
-        <p><span className="orderDetail-label">할인</span>-₩{order.totalDiscountPrice.toLocaleString()}</p>
-        <p className="orderDetail-total"><span className="orderDetail-label">최종결제금액</span>₩{order.expectPrice.toLocaleString()}</p>
+        {/* <p><span className="orderDetail-label">상품금액</span>₩{order.totalPrice.toLocaleString()}</p> */}
+        <p><span className="orderDetail-label">상품금액</span>₩{parseInt(order.totalPrice).toLocaleString()}</p>
+        {/* <p><span className="orderDetail-label">할인</span>-₩{order.totalDiscountPrice.toLocaleString()}</p> */}
+        <p><span className="orderDetail-label">할인</span>-₩{parseInt(order.totalDiscountPrice).toLocaleString()}</p>
+        {/* <p className="orderDetail-total"><span className="orderDetail-label">최종결제금액</span>₩{order.expectPrice.toLocaleString()}</p> */}
+        <p className="orderDetail-total"><span className="orderDetail-label">최종결제금액</span>₩{parseInt(order.expectPrice).toLocaleString()}</p>
         <p><span className="orderDetail-label">결제 수단</span>{order.paymentMethod || '정보 없음'}</p>
       </div>
     </div>

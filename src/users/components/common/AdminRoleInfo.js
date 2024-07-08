@@ -9,6 +9,7 @@ import ItemAllListView from '../../../items/views/ItemAllListView';
 import ItemCreateView from '../../../items/views/ItemCreateView';
 
 import OrderListPage from '../../../orders/views/OrderListPage';
+import AdminOrdersListPage from '../../../orders/views/AdminOrdersListPage';
 
 
 
@@ -28,7 +29,7 @@ export default function AdminRoleInfo() {
                 break;
             case "주문 현황":
                 setActiveView(<><div>주문 현황</div>
-                <OrderListPage isAdmin={true} />
+                <AdminOrdersListPage isAdmin={true} />
                 </>);
                 break;
             case "상품 등록":

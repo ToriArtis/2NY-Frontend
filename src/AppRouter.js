@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import LoginView from "./users/views/LoginView";
 import Logout from "./users/api/userLoginApi";
 import SignUpView from "./users/views/SignUpView";
@@ -17,6 +17,8 @@ import PurchasePage from "./cart/views/PurchasePage";
 import ItemAllListView from "./items/views/ItemAllListView";
 
 function AppRouter() {
+    const isAdmin = localStorage.getItem("USER_ROLESET")?.includes("ADMIN");
+
     return (
         <Routes>
             <Route path="/" element={<ItemListView />} />
@@ -33,7 +35,7 @@ function AppRouter() {
             <Route path="/items/:id" element={<ItemDetailView />} />
             <Route path="/items/:id/edit" element={<ItemEditView />} />
 
-            <Route path="/cart" element={<CartsListPage />} />
+            <Route path="/cart" element={isAdmin ? (<Navigate to="/" replace />) : (<CartsListPage />)} />
             <Route path="/orders/:orderId" element={<OrderDetailPage />} />
             <Route path="/purchase" element={<PurchasePage />} />
 

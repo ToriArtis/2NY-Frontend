@@ -15,12 +15,15 @@ h1 {
     margin-bottom: 20px;
 }
 
+.cart-item-wrapper {
+    width: 70%;
+}
+
 .cart-item {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #e0e0e0;
     padding: 20px 0;
-    width: 70%;
 }
 
 .cart-product {
@@ -125,6 +128,7 @@ h1 {
     font-weight: bold;
     margin-top: 1rem;
     cursor: pointer;
+    border: none;
 }
 
 .buy-btn:hover {

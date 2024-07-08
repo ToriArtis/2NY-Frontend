@@ -77,3 +77,20 @@ export function removeFromCart(itemCartId) {
     });
 }
 
+// 장바구니 비우기
+export function clearCart() {
+  return call("/carts/clear", "POST")
+    .then(response => {
+      if (response.status === 204) {
+        return true; // 성공적으로 삭제됨
+      }
+      throw new Error('Failed to remove item from cart');
+    })
+    .catch(error => {
+      if (error.name === 'SyntaxError') {
+        // JSON 파싱 오류가 발생했지만, 이는 예상된 동작일 수 있습니다 (빈 응답)
+        return true;
+      }
+      throw error;
+    });
+}

@@ -23,9 +23,16 @@ function PurchasePage() {
   const location = useLocation();
   const navigate = useNavigate();
   const { isFromCart, items } = location.state || {};
-  const { carts } = useCart();
+  const { carts, clearAllItems } = useCart();
 
   useEffect(() => {
+
+    const userRoles = localStorage.getItem("USER_ROLESET");
+    if (userRoles === 'ADMIN,USER' || userRoles === 'USER,ADMIN') {
+      navigate("/");
+      alert("관리자는 구매할 수 없습니다.");
+    }
+
     const fetchUserInfo = async () => {
       try {
             const user = await getUserInfo();
@@ -48,10 +55,9 @@ function PurchasePage() {
         setOrderItems(items);
     } else {
         console.log("아이템이 없어요 !")
-        navigate('/');
     }
 
-    }, [isFromCart, items, carts, navigate]);
+    }, [isFromCart, items, carts]);
 
   useEffect(() => {
     calculatePrices();
@@ -70,16 +76,22 @@ function PurchasePage() {
       let order;
       if (isFromCart) {
         order = await createOrderFromCart();
+        await clearAllItems();
       } else {
         order = await createOrder(orderItems);
       }
       alert('주문이 완료되었습니다.');
-      navigate(`/orders/${order.orderId}`);
+      navigate(`/`);
     } catch (error) {
       console.error('주문 생성 중 오류:', error);
       alert('주문 생성 중 오류가 발생했습니다.');
     }
   };
+
+  if (orderItems.length === 0) {
+    return <div>주문할 상품이 없습니다.</div>;
+  }
+
 
   return (
     <div className="purchase-page">
@@ -97,9 +109,9 @@ function PurchasePage() {
               상품 정보
             </Typography>
             {orderItems.map((item, index) => (
-              <div key={index} className="order-item">
+              <div key={index} className="purchase-order-item">
                 <img src={item.thumbnail && item.thumbnail[0]} alt={item.itemTitle} />
-                <div className="item-info">
+                <div className="purchase-item-info">
                   <Typography variant="h6">{item.itemTitle}</Typography>
                   <Typography variant="body1">₩{item.price.toLocaleString()}</Typography>
                   <Typography variant="body2">색상: {item.color} / 사이즈: {item.size}</Typography>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Grid, Button } from "@mui/material";
-// import OrdersListPage from '../../../orders/views/OrdersListPage';
+import { Container, Grid, Button, Typography } from "@mui/material";
+import OrderListPage from '../../../orders/views/OrderListPage';
 import UserReviewListPage from '../../../component/pages/UserReviewListPage';
 import useInfoViewModel from '../../viewModels/useInfoViewModel';
 import PasswordVaild from './PasswordVaild';
@@ -22,14 +22,9 @@ export default function UserRoleInfo() {
                 setActiveView(<UserInfo />);
                 break;
             case "주문내역":
-                setActiveView(
-                    <div>주문내역</div>
-                // <OrdersListPage onOrderSelect={handleOrderSelect}/>
-            
-            );
+                setActiveView(<OrderListPage onOrderSelect={handleOrderSelect}/>);
                 break;
             case "주문상세":
-                console.log("Setting active view to OrderDetailPage for orderId:", orderId);
                 setActiveView(<OrderDetailPage orderId={orderId} />);
                 break;
             case "작성글":
@@ -41,7 +36,6 @@ export default function UserRoleInfo() {
     };
 
     const handleOrderSelect = (orderId) => {
-        console.log("Selected orderId:", orderId);
         setSelectedOrderId(orderId);
         handleClick("주문상세", orderId);
     };

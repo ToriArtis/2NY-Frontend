@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartsListViewModel } from "../viewModels/useCartListViewModel";
 import { CartItem } from "./CartItem";
@@ -18,6 +18,14 @@ function CartsList() {
         hasMore,
         loadMoreCarts
     } = CartsListViewModel();
+
+    useEffect(() => {
+        const userRoles = localStorage.getItem("USER_ROLESET");
+        if (userRoles && (userRoles.includes("ADMIN"))) {
+            navigate("/");
+            alert("관리자는 장바구니에 접근할 수 없습니다.");
+        }
+    }, []);
 
     // 로딩 중일 때 표시
     if (loading && carts.length === 0) return <div>Loading...</div>;
@@ -53,20 +61,22 @@ function CartsList() {
         <div className="carts-list">
             <h1>장바구니</h1>
             <div className="carts-list-wrapper">
-                {carts.map((cart) => (
-                    <CartItem 
-                        key={cart.itemCartId}
-                        cart={cart}
-                        onUpdateQuantity={handleUpdateQuantity}
-                        onRemoveItem={handleRemoveItem}
-                    />
-                ))}
+                <div className="cart-item-wrapper">
+                    {carts.map((cart) => (
+                        <CartItem 
+                            key={cart.itemCartId}
+                            cart={cart}
+                            onUpdateQuantity={handleUpdateQuantity}
+                            onRemoveItem={handleRemoveItem}
+                        />
+                    ))}
 
-                {hasMore && (
-                    <button onClick={loadMoreCarts} className="loadMoreBtn" disabled={loading}>
-                        {loading ? '로딩중' : '더보기'}
-                    </button>
-                )}
+                    {hasMore && (
+                        <button onClick={loadMoreCarts} className="loadMoreBtn" disabled={loading}>
+                            {loading ? '로딩중' : '더보기'}
+                        </button>
+                    )}
+                </div>
                 
                 <div className="cart-summary">
                     <div className="cart-summary-top">

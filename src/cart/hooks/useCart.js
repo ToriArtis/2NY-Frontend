@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { list, addToCart, updateCartItemQuantity, removeFromCart } from '../api/cartApi';
+import { list, addToCart, updateCartItemQuantity, removeFromCart, clearCart } from '../api/cartApi';
 import { Cart } from '../models/Carts';
 
 // 장바구니 관련 커스텀 훅
@@ -101,6 +101,19 @@ export function useCart() {
     }
   };
 
+  // 장바구니 비우기
+  const clearAllItems = useCallback(async () => {
+    try {
+      await clearCart();
+      setCarts([]);
+      setPage(0);
+      setHasMore(true);
+    } catch (err) {
+      console.error('빠른 장바구니 비우기 중 오류가 발생했습니다:', error);
+      setError(err.message || 'Failed to clear cart');
+    }
+  }, []);
+
   return {
     carts,
     error,
@@ -109,6 +122,7 @@ export function useCart() {
     loadMoreCarts,
     addItemToCart,
     updateItemQuantity,
-    removeItemFromCart
+    removeItemFromCart,
+    clearAllItems
   };
 }

@@ -49,6 +49,11 @@ const ItemDetailView = () => {
   };
 
   const handleAddToCart = async () => {
+    const userRoles = localStorage.getItem("USER_ROLESET");
+    if (userRoles && userRoles.includes("ADMIN")) {
+        alert("관리자는 장바구니에 상품을 추가할 수 없습니다.");
+        return;
+    }
     try {
       await addItemToCart(id, quantity, selectedColor, selectedSize);
       alert('장바구니에 상품이 추가되었습니다.');

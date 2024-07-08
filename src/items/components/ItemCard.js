@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getImageUrl } from '../../config/app-config';
 
 const ItemCard = ({ item, onClick }) => {
   const [imageLoaded, setImageLoaded] = useState(true);
@@ -7,12 +8,15 @@ const ItemCard = ({ item, onClick }) => {
     setImageLoaded(false);
   };
 
+  const thumbnailUrl = getImageUrl(item.thumbnail);
+
+
   return (
     <div className="item-card" onClick={() => onClick(item.id)}>
       <div className="item-thumbnail-container">
         {imageLoaded ? (
           <img
-            src={item.thumbnail}
+            src={thumbnailUrl}
             alt={item.title}
             className="item-thumbnail"
             onError={handleImageError}

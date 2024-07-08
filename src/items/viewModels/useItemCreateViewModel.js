@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { itemCreate } from "../api/itemApiSimple";
+import { itemCreate } from "../api/itemApi";
 
 export default function useItemCreateViewModel() {
     // 상품 정보를 담을 상태

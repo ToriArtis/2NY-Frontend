@@ -8,6 +8,9 @@ if (hostname === "localhost") {
 
 export const API_BASE_URL = `${backendHost}`;
 
+// 이미지 URL 생성
+export const getImageUrl = (filename) => `${API_BASE_URL}/items/images/${filename}`;
+
   // 기본 헤더 설정
 let headers = new Headers({
   "Content-Type": "application/json",

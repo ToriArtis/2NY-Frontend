@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartsListViewModel } from "../viewModels/useCartListViewModel";
 import { CartItem } from "./CartItem";
@@ -18,14 +18,6 @@ function CartsList() {
         hasMore,
         loadMoreCarts
     } = CartsListViewModel();
-
-    useEffect(() => {
-        const userRoles = localStorage.getItem("USER_ROLESET");
-        if (userRoles && (userRoles.includes("ADMIN"))) {
-            navigate("/");
-            alert("관리자는 장바구니에 접근할 수 없습니다.");
-        }
-    }, []);
 
     // 로딩 중일 때 표시
     if (loading && carts.length === 0) return <div>Loading...</div>;
@@ -82,17 +74,17 @@ function CartsList() {
                     <div className="cart-summary-top">
                         <div>
                             <p>상품 합계 금액: </p>
-                            <p>₩{totalPrice.toLocaleString()}</p>
+                            <p>₩{parseInt(totalPrice).toLocaleString()}</p>
                         </div>
                         
                         <div>
                             <p>할인: </p>
-                            <p>₩{totalDiscountAmount.toLocaleString()}</p>
+                            <p>₩{parseInt(totalDiscountAmount).toLocaleString()}</p>
                         </div>
 
                         <div>
                             <p>결제금액: </p>
-                            <p>₩{finalTotalPrice.toLocaleString()}</p>
+                            <p>₩{parseInt(finalTotalPrice).toLocaleString()}</p>
                         </div>
                     </div>
                     <button className="buy-btn" onClick={handlePurchase}>구매하기</button>

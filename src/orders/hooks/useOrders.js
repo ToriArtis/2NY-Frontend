@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { list, getAllOrders, completeOrder as completeOrderApi } from '../api/ordersApi';
+import { list, getAllOrders, updateOrderStatus as updateOrderStatusApi } from '../api/ordersApi';
 
 export function useOrders(isAdmin = false) {
   const [orders, setOrders] = useState([]);
@@ -26,14 +26,14 @@ export function useOrders(isAdmin = false) {
     }
   };
 
-  const completeOrder = async (orderId) => {
+  const updateOrderStatus = async (orderId, status) => {
     try {
-        await completeOrderApi(orderId);
-        fetchOrders();
+      await updateOrderStatusApi(orderId, status);
+      await fetchOrders();
     } catch (err) {
-        setError(err.message);
+      setError(err.message);
     }
-  };  
+  };
 
   return {
     orders,
@@ -42,6 +42,6 @@ export function useOrders(isAdmin = false) {
     page,
     totalPages,
     setPage,
-    completeOrder
+    updateOrderStatus
   };
 }

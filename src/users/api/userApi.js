@@ -31,9 +31,7 @@ export function call(api, method, request) {
   return fetch(options.url, options)
     .then((response) =>
       response.json().then((json) => {
-        if(response.status === 401) {
-          
-        }else if (!response.ok) {
+        if (!response.ok) {
           // response.ok가 true이면 정상적인 응답, 아니면 에러 응답
           return Promise.reject(json);
         }

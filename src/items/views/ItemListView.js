@@ -4,6 +4,7 @@ import "../components/css/MainPage.css";
 import Header from '../../component/Header';
 import Footer from '../../component/Footer';
 import { useItemViewModel } from '../hooks/useItemViewModel';
+import { IconButton } from '@mui/material';
 
 const ItemSection = ({ title, items, currentPage, setCurrentPage, onItemClick }) => {
   const itemsPerPage = 3;
@@ -80,6 +81,13 @@ const ItemListView = () => {
   return (
     <>
       <Header />
+      <IconButton aria-label="figma" color="primary">
+              <img src="/assets/figma.png" 
+              onClick={() => window.open('https://jira.toriarthub.com')} 
+              style={{ maxWidth: '25px', height: 'auto' }}
+              />
+      </IconButton>
+
       <div className="item-list-container">
         <div className='arrivals-banner'>
           <img src='/assets/bannder.png' alt="New Arrivals Banner" className="arrivals-image" />

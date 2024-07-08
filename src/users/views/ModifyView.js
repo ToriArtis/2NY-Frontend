@@ -6,7 +6,7 @@ import BlueButton from '../../component/BlueButton';
 import WhiteButton from '../../component/WhiteButton';
 import DeleteView from './DeleteView';
 
-export default function ModifyView(userInfo) {
+export default function ModifyView(userInfo, isAdmin) {
   const {
     values,
     handleChange,
@@ -24,6 +24,7 @@ export default function ModifyView(userInfo) {
       <Typography variant="h4">
       로그인 정보
       </Typography>
+      <div></div>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
         <Grid container spacing={2}>
@@ -58,43 +59,45 @@ export default function ModifyView(userInfo) {
         
         </Grid>
         
-
+        <Grid container spacing={2} className='배송지 정보' {...(isAdmin && { style: { display: 'none' } })}>
         <Typography variant="h4">
           배송지 정보
       </Typography>
-          <Grid item xs={12}>
-            <Typography>전화번호</Typography>
-            <Input
-              name="phone"
-              value={values.phone}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography>이름</Typography>
-            <Input
-              name="realName"
-              value={values.realName}
-              onChange={handleChange}
-              readOnly
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography>주소</Typography>
-            <Input
-              name="address"
-              value={values.address}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography>상세주소</Typography>
-            <Input
-              name="detailAddress"
-              value={values.detailAddress}
-              onChange={handleChange}
-            />
-          </Grid>
+          <Grid item xs={12} >
+              <Typography>전화번호</Typography>
+              <Input
+                name="phone"
+                value={values.phone}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography>이름</Typography>
+              <Input
+                name="realName"
+                value={values.realName}
+                onChange={handleChange}
+                readOnly
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography>주소</Typography>
+              <Input
+                name="address"
+                value={values.address}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography>상세주소</Typography>
+              <Input
+                name="detailAddress"
+                value={values.detailAddress}
+                onChange={handleChange}
+              />
+            </Grid>
+          </Grid> {/* 배송지정보 finish */}
+          
           {error && (
             <Grid item xs={12}>
               <Typography color="error">{error}</Typography>
@@ -113,7 +116,8 @@ export default function ModifyView(userInfo) {
               onClick={() => <DeleteView />}
             />
           </Grid>
-        </Grid>
+        </Grid> 
+
       </form>
     </Container>
   );

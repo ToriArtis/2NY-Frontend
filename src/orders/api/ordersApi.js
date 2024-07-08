@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "../../config/app-config";
+import { clearCart } from "../../cart/api/cartApi";
 
 // API 호출을 위한 기본 함수
 export function call(api, method, request) {
@@ -69,7 +70,14 @@ export function createOrder(itemOrders) {
 
 // 장바구니에서 주문 생성 API
 export function createOrderFromCart() {
-  return call("/orders/from-cart", "POST");
+  return call("/orders/from-cart", "POST")
+    .then(response => {
+      return clearCart().then(() => response);
+    })
+    .catch(error => {
+      console.error("Error creating order from cart:", error);
+      throw error;
+    });
 }
 
 // 주문 취소 API
@@ -79,10 +87,18 @@ export function cancelOrder(orderId) {
 
 // 전체 주문 목록 조회 (관리자 기능)
 export function getAllOrders(page = 0, size = 6) {
+  const userRoles = localStorage.getItem("USER_ROLESET");
+  if (!(userRoles && userRoles.includes("ADMIN"))) {
+    throw new Error("관리자 권한이 필요합니다.");
+  }
   return call(`/orders/all?page=${page}&size=${size}`, "GET");
 }
 
 // 주문 현황 수정 (관리자 기능)
 export function completeOrder(orderId) {
+  const userRoles = localStorage.getItem("USER_ROLESET");
+  if (!(userRoles === userRoles.includes("ADMIN"))) {
+    throw new Error("관리자 권한이 필요합니다.");
+  }
   return call(`/orders/${orderId}/complete`, "PUT");
 }

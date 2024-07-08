@@ -1,69 +1,16 @@
 .order-item {
     border: 1px solid #e0e0e0;
     margin-bottom: 20px;
-    padding: 15px;
+    padding: 20px;
 }
 
 .order-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
-}
-
-.detail-link {
-    color: #888;
-    text-decoration: none;
-}
-
-.order-product {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
     padding-bottom: 15px;
     border-bottom: 1px solid #e0e0e0;
-}
-
-.product-image {
-    width: 80px;
-    height: 120px;
-    object-fit: cover;
-    margin-right: 15px;
-}
-
-.product-info {
-    flex-grow: 1;
-    margin-left: 1.2rem;
-}
-
-.product-info h3 {
-    margin: 0 0 5px 0;
-    font-size: 16px;
-}
-
-.product-info p {
-    margin: 0;
-    color: #888;
-    font-size: 14px;
-}
-
-.review {
-    text-decoration: none;
-    color: #000;
-}
-
-.review:hover {
-    text-decoration: underline;
-}
-
-.product-price {
-    font-weight: bold;
-    color: #333;
-}
-
-.order-footer {
-    display: flex;
-    justify-content: flex-end;
+    margin-bottom: 15px;
 }
 
 .order-status {
@@ -71,19 +18,86 @@
     color: #4a90e2;
 }
 
-button {
+.order-detail-btn {
     border: none;
     background: none;
-    /* color: #333; */
+    color: #888;
     cursor: pointer;
 }
 
-button:hover {
-    text-decoration: underline;
+.order-products {
+    display: flex;
+    flex-direction: column;
 }
 
-button.active {
+.order-product {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.order-product:last-child {
+    border-bottom: none;
+}
+
+.product-image {
+    width: 80px;
+    height: 120px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.product-info {
+    flex-grow: 1;
+}
+
+.order-date {
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.product-title {
+    margin: 0 0 5px 0;
+    font-size: 16px;
     font-weight: bold;
-    color: #000;
-    text-decoration: underline;
+}
+
+.product-details {
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.product-price {
+    font-weight: bold;
+    color: #333;
+}
+
+.review-link {
+    text-decoration: none;
+    color: #888;
+    margin-left: auto;
+}
+
+.order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.total-price {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.change-status-btn {
+    border: none;
+    background: #4a90e2;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
 }

@@ -17,7 +17,6 @@ export function OrderDetail({ orderId}) {
       alert('주문이 취소되었습니다.');
       refreshOrder();
     } catch (error) {
-      console.error('Error cancelling order:', error);
       alert('주문 취소 중 오류가 발생했습니다.');
     }
   };

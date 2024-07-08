@@ -9,7 +9,6 @@ export function useOrder(orderId) {
 
   const fetchOrder = useCallback(async () => {
     if (!orderId) {
-      console.error("No orderId provided to useOrder");
       setError("No order ID provided");
       setLoading(false);
       return;
@@ -35,7 +34,6 @@ export function useOrder(orderId) {
       ));
       setError(null);
     } catch (err) {
-      console.error("Error fetching order:", err);
       setError(err.message);
     } finally {
       setLoading(false);

@@ -37,6 +37,17 @@ const ItemDetailView = () => {
     fetchItem();
   }, [id]);
 
+  const handleUpdate = async () => {
+    const path = `/items/${id}/edit`;
+    const isAdmin = localStorage.getItem("USER_ROLESET")?.includes("ADMIN");
+    if (isAdmin) {
+      navigate(path);
+    } else {
+      alert("관리자 권한이 없습니다. ");
+    }
+    
+  };
+
   const handleDelete = async () => {
     if (window.confirm('정말로 이 상품을 삭제하시겠습니까?')) {
       try {
@@ -148,6 +159,7 @@ const ItemDetailView = () => {
             />
           </div>
           <div className="button-group">
+          <button onClick={handleUpdate} className="cart-button" isAdmin>수정하기</button>
             <button onClick={handleAddToCart} className="cart-button">장바구니</button>
             <button onClick={handleBuyNow} className="buy-button">구매하기</button>
           </div>
@@ -157,5 +169,4 @@ const ItemDetailView = () => {
     </>
   );
 };
-
 export default ItemDetailView;

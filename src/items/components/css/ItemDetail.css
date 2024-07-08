@@ -64,6 +64,7 @@
   .size-selection,
   .quantity-selection {
     margin-bottom: 15px;
+    max-width: 20%;
   }
   
   select, input[type="number"] {

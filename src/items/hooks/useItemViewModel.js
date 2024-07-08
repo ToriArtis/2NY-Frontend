@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { getItemDetail, itemList, getItemsByCategory } from '../api/itemApi';
 
 export const useItemViewModel = () => {
@@ -7,6 +7,7 @@ export const useItemViewModel = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [pagination, setPagination] = useState({});
+    const [sortOption, setSortOption] = useState('latest');
 
     const fetchItems = useCallback(async (page = 0, size = 20, category = null) => {
         console.log('fetchItems called');
@@ -42,7 +43,6 @@ export const useItemViewModel = () => {
         }
     }, []);
 
-
     const fetchItem = useCallback(async (itemId) => {
         setLoading(true);
         try {
@@ -58,13 +58,40 @@ export const useItemViewModel = () => {
         }
     }, []);
 
+    const sortedItems = useMemo(() => {
+        let sorted = [...items];
+        switch (sortOption) {
+            case 'latest':
+                sorted.sort((a, b) => (b.id || 0) - (a.id || 0));
+                break;
+            case 'oldest':
+                sorted.sort((a, b) => (a.id || 0) - (b.id || 0));
+                break;
+            case 'priceHigh':
+                sorted.sort((a, b) => (b.price || 0) - (a.price || 0));
+                break;
+            case 'priceLow':
+                sorted.sort((a, b) => (a.price || 0) - (b.price || 0));
+                break;
+            default:
+                break;
+        }
+        return sorted;
+    }, [items, sortOption]);
+
+    const changeSort = (newSortOption) => {
+        setSortOption(newSortOption);
+    };
+
     return {
-        items,
+        items: sortedItems,
         item,
         loading,
         error,
         pagination,
         fetchItems,
-        fetchItem
+        fetchItem,
+        changeSort,
+        sortOption
     };
 };

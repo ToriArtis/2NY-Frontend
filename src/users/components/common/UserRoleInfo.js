@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Grid, Button, Typography } from "@mui/material";
-import OrdersListPage from '../../../orders/views/OrdersListPage';
+import OrderListPage from '../../../orders/views/OrderListPage';
 import UserReviewListPage from '../../../component/pages/UserReviewListPage';
 import useInfoViewModel from '../../viewModels/useInfoViewModel';
 import PasswordVaild from './PasswordVaild';
@@ -22,7 +22,7 @@ export default function UserRoleInfo() {
                 setActiveView(<UserInfo />);
                 break;
             case "주문내역":
-                setActiveView(<OrdersListPage onOrderSelect={handleOrderSelect}/>);
+                setActiveView(<OrderListPage onOrderSelect={handleOrderSelect}/>);
                 break;
             case "주문상세":
                 setActiveView(<OrderDetailPage orderId={orderId} />);

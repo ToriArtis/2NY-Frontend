@@ -3,8 +3,6 @@ import { Grid, Typography } from "@mui/material";
 import Footer from "../Footer";
 import Header from "../Header";
 import UserRoleInfo from "../../users/components/common/UserRoleInfo";
-
-
 import CartsListPage from "./CartsListPage";
 import { useNavigate } from "react-router-dom";
 import AdminRoleInfo from "../../users/components/common/AdminRoleInfo";
@@ -36,9 +34,8 @@ function InfoPage() {
                 </Typography>
             </Grid>
         </Grid>
-      
-        {/* 나중에 roleset을 넣는다면 아래 코드로 변환 /} */}
-        {role === 'ADMIN,USER' ? <AdminRoleInfo /> : <UserRoleInfo />}
+
+        {role === 'ADMIN,USER' || role === 'USER,ADMIN' ? <AdminRoleInfo /> : <UserRoleInfo />}
         
         
         <Footer />

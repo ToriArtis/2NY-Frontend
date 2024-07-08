@@ -4,7 +4,7 @@ import UserReviewListPage from '../../../component/pages/UserReviewListPage';
 import useInfoViewModel from '../../viewModels/useInfoViewModel';
 import PasswordVaild from './PasswordVaild';
 import ModifyView from '../../views/ModifyView';
-import OrdersListPage from '../../../orders/views/OrdersListPage';
+// import OrdersListPage from '../../../orders/views/OrdersListPage';
 
 
 export default function AdminRoleInfo() {
@@ -18,19 +18,21 @@ export default function AdminRoleInfo() {
     const handleClick = (viewName) => {
         switch(viewName) {
             case "회원정보":
-                setActiveView(<UserInfo />);
+                setActiveView(<UserInfo isAdmin />);
                 break;
             case "주문 현황":
-                setActiveView(<OrdersListPage isAdmin={true} />);
+                setActiveView(<><div>주문 현황</div>
+                {/* <OrdersListPage isAdmin={true} /> => 에러 떠러 일단 주석 처리 해놨으요*/}
+                </>);
                 break;
             case "상품 등록":
-                setActiveView(<UserReviewListPage />);
+                setActiveView(<><div>상품 등록</div></>);
                 break;
             case "상품 조회":
-                setActiveView(<UserReviewListPage />);
+                setActiveView(<div>상품 조회</div>);
                 break;
             default:
-                setActiveView(<UserInfo />);
+                setActiveView(<UserInfo isAdmin />);
         }
     };
 
@@ -63,7 +65,7 @@ export default function AdminRoleInfo() {
 }
 
 
-function UserInfo() {
+function UserInfo({ isAdmin }) {
     const [isPasswordVerified, setIsPasswordVerified] = useState(false);
     const userInfo = useInfoViewModel();
   
@@ -76,7 +78,7 @@ function UserInfo() {
         {!isPasswordVerified ? (
           <PasswordVaild onVerify={handlePasswordVerification} />
         ) : (
-          <ModifyView {...userInfo} />
+          <ModifyView {...userInfo} isAdmin = {isAdmin} />
         )}
       </Container>
     );

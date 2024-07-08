@@ -129,6 +129,7 @@ export const itemList = async (page = 0, size = 20) => {
   }
 };
 
+
 // 아이템 상세 조회 (이름을 getItemDetail로 변경)
 export const getItemDetail = async (id) => {
   try {

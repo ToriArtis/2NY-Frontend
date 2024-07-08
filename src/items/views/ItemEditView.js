@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { getItemDetail, itemDelete } from '../api/itemApi';
 import useItemEditViewModel from '../viewModels/useItemEditViewModel';
 import '../components/css/EditItem.css';
 
@@ -7,7 +8,6 @@ const ItemEditView = () => {
   // URL 파라미터와 네비게이션 훅
   const { id } = useParams();
   const navigate = useNavigate();
-
   // 커스텀 훅 사용
   const {
     values,
@@ -28,6 +28,17 @@ const ItemEditView = () => {
     fetchItem();
   }, [fetchItem]);
 
+  const handleDelete = async () => {
+    if (window.confirm('정말로 이 상품을 삭제하시겠습니까?')) {
+      try {
+        await itemDelete(id);
+        alert('상품이 성공적으로 삭제되었습니다.');
+        navigate('/items');
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+  };
   // 로딩 중 표시
   if (isLoading) return <div>Loading...</div>;
 
@@ -39,14 +50,7 @@ const ItemEditView = () => {
 
   return (
     <div className="edit-item-container">
-      <div className="sidebar">
-        <h1 className="sidebar-title">주문 현황</h1>
-        <ul>
-          <li><Link to="/orders">주문 현황</Link></li>
-          <li><Link to="/items/create">상품 등록</Link></li>
-          <li><Link to="/items">상품 조회</Link></li>
-        </ul>
-      </div>
+      
       <div className="main-content">
         <h1>상품 수정</h1>
         <form onSubmit={(e) => handleSubmit(e, navigate)}>
@@ -176,6 +180,7 @@ const ItemEditView = () => {
           <div className="button-group">
             <Link to={`/items/${id}`} className="button button-cancel">취소</Link>
             <button type="submit" className="button button-submit">수정</button>
+            <button type="button" className="button button-delete" onClick={handleDelete}>삭제</button>
           </div>
         </form>
       </div>

@@ -5,9 +5,10 @@ import '../components/css/AllList.css';
 import Header from '../../component/Header';
 import Footer from '../../component/Footer';
 import ItemCard from '../components/ItemCard';
+
 const ItemAllListView = () => {
   const { category } = useParams();
-  const { items, loading, error, pagination, fetchItems } = useItemViewModel();
+  const { items, loading, error, pagination, fetchItems, changeSort, sortOption } = useItemViewModel();
   const navigate = useNavigate();
   const itemsPerPage = 12;
 
@@ -21,6 +22,10 @@ const ItemAllListView = () => {
 
   const handlePageChange = (newPage) => {
     fetchItems(newPage, itemsPerPage, category);
+  };
+
+  const handleSortChange = (event) => {
+    changeSort(event.target.value);
   };
 
   const categoryTitles = {
@@ -39,7 +44,15 @@ const ItemAllListView = () => {
     <>
       <Header />
       <div className="all-items-container">
-        <h1 className="all-items-title">{title}</h1>
+        <div className="items-header">
+          <h1 className="all-items-title">{title}</h1>
+          <select className="sort-select" value={sortOption} onChange={handleSortChange}>
+            <option value="latest">최신순</option>
+            <option value="oldest">오래된순</option>
+            <option value="priceHigh">높은가격순</option>
+            <option value="priceLow">낮은가격순</option>
+          </select>
+        </div>
         {loading && items.length === 0 ? (
           <div className="loading">상품을 불러오는 중입니다...</div>
         ) : error ? (

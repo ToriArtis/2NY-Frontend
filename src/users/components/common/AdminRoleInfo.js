@@ -4,7 +4,7 @@ import UserReviewListPage from '../../../component/pages/UserReviewListPage';
 import useInfoViewModel from '../../viewModels/useInfoViewModel';
 import PasswordVaild from './PasswordVaild';
 import ModifyView from '../../views/ModifyView';
-import OrdersListPage from '../../../orders/views/OrdersListPage';
+import OrderListPage from '../../../orders/views/OrderListPage';
 
 
 
@@ -23,7 +23,7 @@ export default function AdminRoleInfo() {
                 break;
             case "주문 현황":
                 setActiveView(<><div>주문 현황</div>
-                <OrdersListPage isAdmin={true} />
+                <OrderListPage isAdmin={true} />
                 </>);
                 break;
             case "상품 등록":

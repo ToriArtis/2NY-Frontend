@@ -98,7 +98,45 @@ export const itemCreate = async (itemData) => {
 // 아이템 수정
 export const itemUpdate = async (id, itemData) => {
   console.log("itemUpdate", id, itemData);
-  return call(`/items/${id}`, "PUT", itemData);
+
+  const formData = new FormData();
+
+  // ItemDTO 데이터를 JSON 문자열로 변환하여 추가
+  formData.append('itemDTO', new Blob([JSON.stringify(itemData.item)], { type: 'application/json' }));
+
+  // 썸네일 이미지 파일 추가
+  if (itemData.thumbnail && itemData.thumbnail.length > 0) {
+    itemData.thumbnail.forEach((file, index) => {
+      formData.append(`thumbnailFiles`, file);
+    });
+  }
+
+  // 상세 이미지 파일 추가
+  if (itemData.descriptionImage && itemData.descriptionImage.length > 0) {
+    itemData.descriptionImage.forEach((file, index) => {
+      formData.append(`descriptionImageFiles`, file);
+    });
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/items/${id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`
+      },
+      body: formData
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to update item');
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error updating item:", error);
+    throw error;
+  }
 };
 
 // 아이템 목록 조회

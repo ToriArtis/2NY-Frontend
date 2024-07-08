@@ -6,6 +6,7 @@ import { useCart } from '../../cart/hooks/useCart';
 import { createOrder } from '../../orders/api/ordersApi';
 import Header from '../../component/Header';
 import Footer from '../../component/Footer';
+import { getImageUrl } from '../../config/app-config';
 
 const ItemDetailView = () => {
   const [itemData, setItem] = useState(null);
@@ -89,7 +90,7 @@ const ItemDetailView = () => {
       <div className="item-detail-container">
         <div className="item-images">
           {item?.thumbnail && (
-            <img src={item.thumbnail} alt="썸네일" className="main-image" onError={(e) => e.target.style.display = 'none'} />
+            <img src={getImageUrl(item.descriptionImage)} alt="썸네일" className="main-image" onError={(e) => e.target.style.display = 'none'} />
           )}
           <div className="sub-images">
             {item?.descriptionImage && item.descriptionImage.map((img, index) => (

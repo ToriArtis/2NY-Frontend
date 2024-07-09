@@ -13,6 +13,8 @@ export class UserItem {
       this.color = itemData.color;
       this.category = itemData.category;
       this.avgStar = itemData.avgStar;
+      this.createdAt = itemData.createdAt;
+      this.updatedAt = itemData.updatedAt;
     }
   
     get formattedPrice() {

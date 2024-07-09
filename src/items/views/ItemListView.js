@@ -7,6 +7,7 @@ import { useItemViewModel } from '../hooks/useItemViewModel';
 import { IconButton } from '@mui/material';
 import { AddBox } from '@mui/icons-material';
 import ChatbotView from '../../chat/ChatbotView';
+import { getImageUrl } from '../../config/app-config';
 
 const ItemCard = ({ item, onClick }) => {
   const [imageLoaded, setImageLoaded] = useState(true);
@@ -20,7 +21,7 @@ const ItemCard = ({ item, onClick }) => {
       <div className="item-thumbnail-container">
         {imageLoaded ? (
           <img
-            src={item.thumbnail}
+            src={getImageUrl(item.thumbnail)}
             alt={item.title}
             className="item-thumbnail"
             onError={handleImageError}

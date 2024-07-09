@@ -93,7 +93,6 @@ export async function deleteUser() {
   }
 }
 
-
 export function modify(userDTO){
   console.log("modify" , userDTO);
   return call("/users", "PUT", userDTO);
@@ -107,7 +106,7 @@ export function getUserInfo() {
 export async function passwordFind(userDTO) {
   console.log("passwordFind", userDTO);
   try {
-    const response = await call("/users/passwordFind", "POST", userDTO);
+    const response = await call("/users/find", "POST", userDTO);
     
     if (response === true) {
       alert("비밀번호 재설정 이메일이 성공적으로 발송되었습니다.");
@@ -123,5 +122,23 @@ export async function passwordFind(userDTO) {
     console.error('비밀번호 찾기 오류:', error);
     alert("비밀번호 찾기 중 오류가 발생했습니다. 나중에 다시 시도해 주세요.");
     return false;
+  }
+}
+
+export async function emailFind(phone) {
+  console.log("emailFind", phone);
+  try {
+    const response = await call("/users/findemail", "POST", { phone });
+    
+    console.log('이메일 찾기 응답:', response);
+    
+    if (response && response.email) {
+      return { success: true, email: response.email };
+    } else {
+      return { success: false, message: '이메일을 찾지 못했습니다.' };
+    }
+  } catch (error) {
+    console.error('이메일 찾기 오류:', error);
+    throw error;
   }
 }

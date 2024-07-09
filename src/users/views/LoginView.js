@@ -61,7 +61,7 @@ function LoginView() {
           </Link>
           
           &nbsp;
-          <Link href="/find" variant="body2" style={{ color: "#8A8A8A" }}>
+          <Link href="/emailFind" variant="body2" style={{ color: "#8A8A8A" }}>
             아이디/</Link>
           <Link href="/passwordFind" variant="body2" style={{ color: "#8A8A8A" }}>
           비밀번호 찾기</Link>

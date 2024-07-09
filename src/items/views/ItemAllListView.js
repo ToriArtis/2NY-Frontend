@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useItemViewModel } from '../hooks/useItemViewModel';
 import '../components/css/AllList.css';
@@ -8,24 +8,53 @@ import ItemCard from '../components/ItemCard';
 
 const ItemAllListView = () => {
   const { category } = useParams();
-  const { items, loading, error, pagination, fetchItems, changeSort, sortOption } = useItemViewModel();
+  const { items, loading, error, fetchItems, changeSort, sortOption } = useItemViewModel();
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 12;
 
   useEffect(() => {
-    fetchItems(0, itemsPerPage, category);
-  }, [fetchItems, category, itemsPerPage]);
+    fetchItems(0, 1000, category); // Fetch a large number of items
+  }, [fetchItems, category]);
 
   const handleItemClick = (itemId) => {
     navigate(`/items/${itemId}`);
   };
 
-  const handlePageChange = (newPage) => {
-    fetchItems(newPage, itemsPerPage, category);
-  };
-
   const handleSortChange = (event) => {
     changeSort(event.target.value);
+  };
+
+  const sortedItems = useMemo(() => {
+    let sorted = [...items];
+    switch (sortOption) {
+      case 'latest':
+        sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        break;
+      case 'oldest':
+        sorted.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        break;
+      case 'priceHigh':
+        sorted.sort((a, b) => b.price - a.price);
+        break;
+      case 'priceLow':
+        sorted.sort((a, b) => a.price - b.price);
+        break;
+      default:
+        break;
+    }
+    return sorted;
+  }, [items, sortOption]);
+
+  const paginatedItems = useMemo(() => {
+    const startIndex = currentPage * itemsPerPage;
+    return sortedItems.slice(startIndex, startIndex + itemsPerPage);
+  }, [sortedItems, currentPage]);
+
+  const totalPages = Math.ceil(sortedItems.length / itemsPerPage);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
   };
 
   const categoryTitles = {
@@ -60,23 +89,23 @@ const ItemAllListView = () => {
         ) : (
           <>
             <div className="all-items-grid">
-              {items.map(item => (
+              {paginatedItems.map(item => (
                 <ItemCard key={item.id} item={item} onClick={handleItemClick} />
               ))}
             </div>
             {loading && <div className="loading">추가 상품을 불러오는 중...</div>}
-            {pagination && pagination.totalPages > 1 && (
+            {totalPages > 1 && (
               <div className="pagination">
                 <button 
-                  onClick={() => handlePageChange(pagination.number - 1)}
-                  disabled={pagination.number === 0}
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 0}
                 >
                   이전
                 </button>
-                <span>{pagination.number + 1} / {pagination.totalPages}</span>
+                <span>{currentPage + 1} / {totalPages}</span>
                 <button 
-                  onClick={() => handlePageChange(pagination.number + 1)}
-                  disabled={pagination.number >= pagination.totalPages - 1}
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage >= totalPages - 1}
                 >
                   다음
                 </button>

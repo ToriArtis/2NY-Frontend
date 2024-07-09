@@ -43,12 +43,12 @@ function Header(){
                 <Grid item container direction="column" alignItems="center" className="header-bottom">
                     <hr className="header-divider" />
                     <div className="category-nav">
-                        <button onClick={()=> nav('/items')}><p>ALL</p></button>
-                        <button onClick={()=> nav('/')}><p>상의</p></button>
-                        <button onClick={()=> nav('/')}><p>아우터</p></button>
-                        <button onClick={()=> nav('/')}><p>스커트</p></button>
-                        <button onClick={()=> nav('/')}><p>팬츠</p></button>
-                        <button onClick={()=> nav('/')}><p>원피스</p></button>
+                    <button onClick={()=> nav('/items')}><p>ALL</p></button>
+                    <button onClick={()=> nav('/items/category/TOP')}><p>상의</p></button>
+                    <button onClick={()=> nav('/items/category/OUTER')}><p>아우터</p></button>
+                    <button onClick={()=> nav('/items/category/DRESS')}><p>원피스</p></button>
+                    <button onClick={()=> nav('/items/category/SKIRT')}><p>스커트</p></button>
+                    <button onClick={()=> nav('/items/category/PANTS')}><p>팬츠</p></button>
                     </div>
                 </Grid>
             </Grid>

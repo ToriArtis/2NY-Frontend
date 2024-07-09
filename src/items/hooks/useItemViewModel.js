@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
-import { getItemDetail, itemList, getItemsByCategory } from '../api/itemApi';
+import { getItemDetail, itemList, getItemsByCategory, searchByTitleOrContent } from '../api/itemApi';
 
 export const useItemViewModel = () => {
     const [items, setItems] = useState([]);
@@ -8,6 +8,24 @@ export const useItemViewModel = () => {
     const [error, setError] = useState(null);
     const [pagination, setPagination] = useState({});
     const [sortOption, setSortOption] = useState('latest');
+
+    const [searchKeyword, setSearchKeyword] = useState('');
+
+    //검색 함수
+    const searchItems = useCallback(async (keyword) => {
+        setLoading(true);
+        try {
+          const response = await searchByTitleOrContent(keyword);
+          setItems(response);
+          setError(null);
+        } catch (error) {
+          console.error('Error searching items:', error);
+          setError(error.message);
+        } finally {
+          setLoading(false);
+        }
+      }, []);
+
 
     const fetchItems = useCallback(async (page = 0, size = 20, category = null) => {
         console.log('fetchItems called');
@@ -92,6 +110,9 @@ export const useItemViewModel = () => {
         fetchItems,
         fetchItem,
         changeSort,
-        sortOption
+        sortOption,
+        searchKeyword,
+        setSearchKeyword,
+        searchItems
     };
 };

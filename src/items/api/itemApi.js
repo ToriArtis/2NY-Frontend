@@ -237,3 +237,41 @@ export const getItemsByCategory = async (category, page = 0, size = 20) => {
     throw error;
   }
 };
+
+// 제목으로 검색
+export const searchByTitle = async (title) => {
+  try {
+    // 검색어를 URL 인코딩하여 API 요청
+    const response = await call(`/items/search/title?title=${encodeURIComponent(title)}`, "GET");
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+// 내용으로 검색
+export const searchByContent = async (content) => {
+  try {
+    const response = await call(`/items/search/content?content=${encodeURIComponent(content)}`, "GET");
+    return response.content.map(item => ({
+      ...item,
+      id: item.id || item.itemId
+    }));
+  } catch (error) {
+    throw error;
+  }
+};
+
+// 내용&제목으로 검색
+export const searchByTitleOrContent = async (keyword) => {
+  try {
+    const response = await call(`/items/search?keyword=${encodeURIComponent(keyword)}`, "GET");
+    return response.content.map(item => ({
+      ...item,
+      id: item.id || item.itemId
+    }));
+  } catch (error) {
+    throw error;
+  }
+};

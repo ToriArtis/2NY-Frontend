@@ -153,7 +153,7 @@ const ItemCreateView = () => {
                 </select>
 
                 <div className="button-group">
-                  <button type="button" className="button button-cancel">취소</button>
+                  <button type="button" className="button button-cancel" onClick={() => window.history.back()} >취소</button>
                   <button type="submit" className="button button-submit">등록</button>
                 </div>
 

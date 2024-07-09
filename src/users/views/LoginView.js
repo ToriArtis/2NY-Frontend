@@ -57,12 +57,14 @@ function LoginView() {
       <Grid container justifyContent="flex-start" style={{ marginTop: '10px' }}>
         <Grid item>
           <Link href="/signup" variant="body2" style={{ color: "#8A8A8A" }}>
-            회원가입
+            회원가입 |
           </Link>
+          
           &nbsp;
           <Link href="/find" variant="body2" style={{ color: "#8A8A8A" }}>
-            아이디/비밀번호 찾기
-          </Link>
+            아이디/</Link>
+          <Link href="/passwordFind" variant="body2" style={{ color: "#8A8A8A" }}>
+          비밀번호 찾기</Link>
         </Grid>
       </Grid>
 
@@ -81,6 +83,7 @@ function LoginView() {
         ))}
       </div>
     </Container>
+    <Container sx={{ marginTop: "8%" }}></Container>
     <Footer />
     </>
   );

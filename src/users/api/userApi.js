@@ -99,3 +99,7 @@ export function modify(userDTO){
 export function getUserInfo() {
   return call("/users", "GET");
 }
+
+export function passwordFind(userDTO) {
+  return call("/users/password", "POST", userDTO);
+}

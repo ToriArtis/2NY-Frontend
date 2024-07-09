@@ -41,6 +41,18 @@ class User {
     
     return new User(email, username, password, nickName, address, detailAddress, phone);
   }
+
+  function loginUser(email, password) {
+    if (!isValidEmail(email)) {
+      throw new Error('Invalid email address');
+    }
+    if (!isValidPassword(password)) {
+      throw new Error('Invalid password. It must be at least 8 characters long and include uppercase, lowercase, number, and special character.');
+    }
+    
+    return new User(email, password);
+  }
+
   
   // 사용자 객체를 평문 객체로 변환 (API 요청 등에 사용)
   function userToPlainObject(user) {
@@ -57,5 +69,6 @@ class User {
     isValidEmail,
     isValidPassword,
     createUser,
+    loginUser,
     userToPlainObject
   };

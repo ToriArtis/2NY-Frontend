@@ -15,6 +15,7 @@ import ModifyReviewView from "./review/views/ModifyReviewView";
 import OrderDetailPage from "./orders/views/OrderDetailPage";
 import PurchasePage from "./cart/views/PurchasePage";
 import ItemAllListView from "./items/views/ItemAllListView";
+import PassWordFind from "./users/views/PasswordFindView";
 
 function AppRouter() {
     const isAdmin = localStorage.getItem("USER_ROLESET")?.includes("ADMIN");
@@ -27,6 +28,7 @@ function AppRouter() {
             <Route path="/logout" element={<Logout />}/>
             <Route path="/signup" element={<SignUpView />}/>
             <Route path="/mypage" element={<InfoPage />}/>
+            <Route path="/passwordFind" element={<PassWordFind />}/>
 
             
             <Route path="/items" element={<ItemAllListView />} />

@@ -24,27 +24,32 @@ export default function PasswordVaild({ onVerify }) {
     return (
       <form onSubmit={handleSubmit}>
         <h2>비밀번호 재확인</h2>
-        <div>
-          <p>이메일</p>
-          <Input
-            // label="Email"
-            type="email"
-            id="email"
-            value={email}
-            readOnly
-          />
+        <div className="input-box">
+          <div>
+            <p>이메일</p>
+            <Input
+              // label="Email"
+              type="email"
+              id="email"
+              value={email}
+              readOnly
+            />
+          </div>
+          <div>
+            <p>비밀번호</p>
+            <Input
+              // label="Password"
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <div className="password-button">
+              <WhiteButton className="button" type="submit" btnName="확인" />
+            </div>
+          </div>
+          {/* <WhiteButton className="button" type="submit" btnName="확인" /> */}
         </div>
-        <div>
-          <p>비밀번호</p>
-          <Input
-            // label="Password"
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <WhiteButton className="button" type="submit" btnName="확인" />
       </form>
     );
   }

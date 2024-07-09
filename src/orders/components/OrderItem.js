@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { getImageUrl } from '../../config/app-config';
 
 export function OrderItem({ order, onSelect, isAdmin, onUpdateOrderStatus }) {
@@ -28,7 +27,7 @@ export function OrderItem({ order, onSelect, isAdmin, onUpdateOrderStatus }) {
         {order.itemOrders.map((item, index) => (
           <div key={index} className="order-product">
             <img src={getImageUrl(item.thumbnail)} alt={item.itemTitle} className="product-image" />
-            <div className="product-info">
+            <div className="order-product-info">
               <p className="order-date">{formatDate(order.createdAt)}</p>
               <h3 className="product-title">{item.itemTitle}</h3>
               <p className="product-details">{item.color}/{item.size}</p>
@@ -38,7 +37,6 @@ export function OrderItem({ order, onSelect, isAdmin, onUpdateOrderStatus }) {
         ))}
       </div>
       <div className="order-footer">
-        <span className="total-price">총 주문금액 ₩{parseInt(order.expectPrice).toLocaleString()}</span>
         {isAdmin && (
           <select value={order.orderStatus} onChange={handleStatusChange}>
             <option value="ORDER_REQUEST">주문 요청</option>

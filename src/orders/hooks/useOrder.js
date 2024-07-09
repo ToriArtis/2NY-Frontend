@@ -15,10 +15,23 @@ export function useOrder(orderId) {
     }
     try {
       setLoading(true);
+      console.log(`Fetching order with ID: ${orderId}`);
       const data = await getOrder(orderId);
+      console.log("API response:", JSON.stringify(data, null, 2));
+
+      if (!data) {
+        throw new Error("No data received from API");
+      }
+
+      if (!data.itemOrders || !Array.isArray(data.itemOrders)) {
+        console.error("Invalid itemOrders data:", data.itemOrders);
+        throw new Error("Invalid order data structure");
+      }
+
       setOrder(new Order(
         data.orderId,
         data.userId,
+        data.email,
         data.name,
         data.address,
         data.detailAddress,
@@ -32,9 +45,13 @@ export function useOrder(orderId) {
         data.createdAt,
         data.updatedAt
       ));
+
+      console.log("Processed order:", order);
       setError(null);
     } catch (err) {
-      setError(err.message);
+      console.error("Error fetching order:", err);
+      setError(err.message || "An error occurred while fetching the order");
+      setOrder(null);
     } finally {
       setLoading(false);
     }

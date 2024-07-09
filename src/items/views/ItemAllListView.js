@@ -1,17 +1,32 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useItemViewModel } from '../hooks/useItemViewModel';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+
 import '../components/css/AllList.css';
 import Header from '../../component/Header';
 import Footer from '../../component/Footer';
 import ItemCard from '../components/ItemCard';
+import { useItemViewModel } from '../hooks/useItemViewModel';
 
 const ItemAllListView = () => {
   const { category } = useParams();
-  const { items, loading, error, fetchItems, changeSort, sortOption } = useItemViewModel();
+  const location = useLocation(); 
+  const searchParams = new URLSearchParams(location.search);
+  const keyword = searchParams.get('keyword'); // 파라미터 값 가져옴
+
+  const { items, loading, error, fetchItems, changeSort, sortOption, searchKeyword, setSearchKeyword, searchItems } = useItemViewModel();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 12;
+  
+  useEffect(() => {
+    if (keyword) {
+      // 검색 키워드가 있는 경우 searchItems 함수 호출
+      searchItems(keyword);
+    } else {
+      // 검색 키워드가 없는 경우 fetchItems 함수 호출
+      fetchItems(0, 1000, category);
+    }
+  }, [fetchItems, category, keyword, searchItems]);
 
   useEffect(() => {
     fetchItems(0, 1000, category); // Fetch a large number of items

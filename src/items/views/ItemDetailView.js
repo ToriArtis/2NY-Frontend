@@ -1,21 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getItemDetail, itemDelete } from '../api/itemApi';
-import '../components/css/ItemDetail.css';
 import { useCart } from '../../cart/hooks/useCart';
+import { getReviewsByItemId } from '../../review/api/reviewApi';
+import { getImageUrl } from '../../config/app-config';
 import Header from '../../component/Header';
 import Footer from '../../component/Footer';
-import { getImageUrl } from '../../config/app-config';
-import { getReviewsByItemId } from '../../review/api/reviewApi';
-import UserListViewModel from '../../review/viewModels/UserListViewModel';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import '../components/css/ItemDetail.css';
 
-const StarRating = ({ rating }) => {
+const StarRating = ({ rating }) => (
+  <div className="star-rating">
+    {[1, 2, 3, 4, 5].map((star) => (
+      <span key={star} className={star <= rating ? "star filled" : "star"}>★</span>
+    ))}
+  </div>
+);
+
+const ImageCarousel = ({ images }) => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    adaptiveHeight: true
+  };
+
   return (
-    <div className="star-rating">
-      {[1, 2, 3, 4, 5].map((star) => (
-        <span key={star} className={star <= rating ? "star filled" : "star"}>★</span>
+    <Slider {...settings}>
+      {images.map((img, index) => (
+        <div key={index}>
+          <img src={img} alt={`상세 이미지 ${index + 1}`} className="carousel-image" />
+        </div>
       ))}
-    </div>
+    </Slider>
   );
 };
 
@@ -23,26 +44,18 @@ const ItemDetailView = () => {
   const [itemData, setItem] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { addItemToCart } = useCart();
-  const [quantity, setQuantity] = useState(1);
-  const [selectedColor, setSelectedColor] = useState('');
-  const [selectedSize, setSelectedSize] = useState('');
   const [reviews, setReviews] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedSize, setSelectedSize] = useState('');
+  const [quantity, setQuantity] = useState(1);
 
   const { id } = useParams();
   const navigate = useNavigate();
-
-  // 날짜 포맷팅 함수
-  const formatDate = (dateString) => {
-    if (!dateString) return '';
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return dateString;
-    return date.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\. /g, '.').slice(0, -1);
-  };
+  const { addItemToCart } = useCart();
 
   useEffect(() => {
-    const fetchItem = async () => {
+    const fetchItemAndReviews = async () => {
       setIsLoading(true);
       try {
         const data = await getItemDetail(id);
@@ -63,13 +76,14 @@ const ItemDetailView = () => {
         setIsLoading(false);
       }
     };
-    fetchItem();
+
+    fetchItemAndReviews();
 
     const userRoles = localStorage.getItem("USER_ROLESET");
     setIsAdmin(userRoles && userRoles.includes("ADMIN"));
   }, [id]);
 
-  const handleUpdate = async () => {
+  const handleUpdate = () => {
     if (isAdmin) {
       navigate(`/items/${id}/edit`);
     } else {
@@ -95,8 +109,8 @@ const ItemDetailView = () => {
       return;
     }
     addItemToCart(id, quantity, selectedColor, selectedSize)
-    .then(() => alert('장바구니에 상품이 추가되었습니다.'))
-    .catch(err => setError(err.message));
+      .then(() => alert('장바구니에 상품이 추가되었습니다.'))
+      .catch(err => setError(err.message));
   };
 
   const handleBuyNow = () => {
@@ -118,6 +132,14 @@ const ItemDetailView = () => {
     }
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return isNaN(date.getTime()) 
+      ? dateString 
+      : date.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\. /g, '.').slice(0, -1);
+  };
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div className="error-message">{error}</div>;
   if (!itemData) return <div>상품을 찾을 수 없습니다.</div>;
@@ -129,20 +151,11 @@ const ItemDetailView = () => {
       <Header />
       <div className="item-detail-container">
         <div className="item-images">
-          {item?.thumbnail && (
-            <img src={getImageUrl(item.descriptionImage)} alt="썸네일" className="main-image" onError={(e) => e.target.style.display = 'none'} />
+          {item?.thumbnail && item.descriptionImage && (
+            <ImageCarousel 
+              images={[getImageUrl(item.thumbnail), ...item.descriptionImage.map(img => getImageUrl(img))]} 
+            />
           )}
-          <div className="sub-images">
-            {item?.descriptionImage && item.descriptionImage.map((img, index) => (
-              <img
-                key={index}
-                src={img}
-                alt={`상세 이미지 ${index + 1}`}
-                className="sub-image"
-                onError={(e) => e.target.style.display = 'none'}
-              />
-            ))}
-          </div>
         </div>
         <div className="item-info">
           <h1>{item?.title}</h1>
@@ -150,7 +163,7 @@ const ItemDetailView = () => {
             평균 별점: <StarRating rating={item?.avgStar || 0} />
           </div>
           <div className="price-info">
-            <span className="original-price">{item?.price}원</span><br />
+            <span className="original-price">₩{item?.price}</span>
             <span className="discount-rate">{item?.discountRate}%</span>
             <span className="discounted-price">₩{item?.discountPrice}</span>
           </div>

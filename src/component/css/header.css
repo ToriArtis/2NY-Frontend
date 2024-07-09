@@ -43,11 +43,21 @@
     max-width: 50%;
     max-height: 50%;
 }
+
+.category-nav {
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    margin-bottom: 3rem;
+}
+
 .category-nav> button{
     background-color: white;
     border: none;   
+    margin-right: 1rem;
 }
-.category-nav> button>*{
-    font-size: 200%;
-    font-weight: bold;
+
+.category-nav> button>p{
+    font-size: 170%;
+    display: inline-block;
+    margin: 0 auto 1rem;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AdminOrdersList } from "../components/AdminOrdersList";
 import "../components/css/AdminOrdersListPage.css";
@@ -12,6 +12,7 @@ function AdminOrdersListPage({ onOrderSelect }) {
             alert("관리자 권한이 필요합니다.");
             navigate("/");
         }
+
     }, [navigate]);
 
     return (

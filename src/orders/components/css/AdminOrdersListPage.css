@@ -70,6 +70,10 @@
     -webkit-appearance: none;
     border: none;
     cursor: pointer;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .admin-status-select:hover {
@@ -86,9 +90,11 @@
 }
 
 .css-bn9g8l-MuiGrid-root {
-    margin-bottom: 8rem;
+    margin-top: 2% !important;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    width: calc(80% + 16px) !important;
+    margin: 2% auto 12rem !important;
 }
 
 .admin-pagination {
@@ -121,8 +127,41 @@
     max-width: none !important;
 }
 
+.css-zoyb8x-MuiButtonBase-root-MuiButton-root {
+    font-size: 1.5rem !important;
+    color: #8a8a8a !important;
+    font-weight: bold !important;
+    transition: 0.3s all !important;
+    justify-content: center !important;
+}
+.css-zoyb8x-MuiButtonBase-root-MuiButton-root.active {
+    color: #000 !important;
+}
+.css-zoyb8x-MuiButtonBase-root-MuiButton-root:hover {
+    color: #000 !important;
+}
+
+.css-1qs1oxw-MuiGrid-root {
+    padding: 1rem 0 0 0 !important;
+    width: 80%;
+    -webkit-box-flex: none !important;
+    flex-basis: auto !important;
+    flex-grow: initial !important;
+    max-width: none !important;
+}
+
+/* .MuiButton-root {
+    margin-top: 1rem !important;
+} */
+
 @media (min-width: 1536px) {
     .css-zwha4c-MuiGrid-root {
+        -webkit-box-flex: none !important;
+        flex-basis: auto !important;
+        flex-grow: initial !important;
+        max-width: none !important;
+    }
+    .css-bn9g8l-MuiGrid-root>.MuiGrid-item {
         -webkit-box-flex: none !important;
         flex-basis: auto !important;
         flex-grow: initial !important;
@@ -137,6 +176,17 @@
         flex-grow: initial !important;
         max-width: none !important;
     }
+
+    .css-1oqqzyl-MuiContainer-root {
+        max-width: 1400px !important;
+    }
+
+    .css-bn9g8l-MuiGrid-root>.MuiGrid-item {
+        -webkit-box-flex: none !important;
+        flex-basis: auto !important;
+        flex-grow: initial !important;
+        max-width: none !important;
+    }
 }
 
 @media (min-width: 900px) {
@@ -146,10 +196,24 @@
         flex-grow: initial !important;
         max-width: none !important;
     }
+
+    .css-bn9g8l-MuiGrid-root>.MuiGrid-item {
+        -webkit-box-flex: none !important;
+        flex-basis: auto !important;
+        flex-grow: initial !important;
+        max-width: none !important;
+    }
 }
 
 @media (min-width: 600px) {
     .css-zwha4c-MuiGrid-root {
+        -webkit-box-flex: none !important;
+        flex-basis: auto !important;
+        flex-grow: initial !important;
+        max-width: none !important;
+    }
+
+    .css-bn9g8l-MuiGrid-root>.MuiGrid-item {
         -webkit-box-flex: none !important;
         flex-basis: auto !important;
         flex-grow: initial !important;

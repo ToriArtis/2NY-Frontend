@@ -17,29 +17,31 @@ import AdminOrdersListPage from '../../../orders/views/AdminOrdersListPage';
 export default function AdminRoleInfo() {
     const [isPasswordVerified, setIsPasswordVerified] = useState(<UserInfo />);
     const [activeView, setActiveView] = useState(<UserInfo />);
+    const [activeButton, setActiveButton] = useState("정보 수정");
 
     useEffect(() => {
-        handleClick("회원정보");
+        handleClick("정보 수정");
     }, []);
 
     const handleClick = (viewName) => {
+        setActiveButton(viewName);
         switch(viewName) {
-            case "회원정보":
-                setActiveView(<UserInfo isAdmin />);
+            case "정보 수정":
+                setActiveView(<UserInfo isAdmin activeButton={activeButton} />);
                 break;
             case "주문 현황":
-                setActiveView(<AdminOrdersListPage isAdmin={true} />);
+                setActiveView(<AdminOrdersListPage isAdmin={true} activeButton={activeButton} />);
                 break;
             case "상품 등록":
 
-                setActiveView(<ItemCreateView isAdmin/>);
+                setActiveView(<ItemCreateView isAdmin activeButton={activeButton} />);
 
                 break;
             case "상품 조회":
-                setActiveView(<ItemAllListView isAdmin/>);
+                setActiveView(<ItemAllListView isAdmin activeButton={activeButton} />);
                 break;
             default:
-                setActiveView(<UserInfo isAdmin />);
+                setActiveView(<UserInfo isAdmin activeButton={activeButton} />);
         }
     };
 
@@ -48,16 +50,16 @@ export default function AdminRoleInfo() {
             {/* Left side - 30% */}
             <Grid item xs={12} md={3.6}>
                 <Container component="nav">
-                    <Button fullWidth onClick={() => handleClick("회원정보")} sx={{ justifyContent: "flex-start", mb: 1 }}>
-                        회원정보
+                    <Button fullWidth onClick={() => handleClick("정보 수정")} sx={{ justifyContent: "flex-start", mb: 1 }} className={activeButton === "정보 수정" ? "active" : ""}>
+                        정보 수정
                     </Button>
-                    <Button fullWidth onClick={() => handleClick("주문 현황")} sx={{ justifyContent: "flex-start", mb: 1 }}>
+                    <Button fullWidth onClick={() => handleClick("주문 현황")} sx={{ justifyContent: "flex-start", mb: 1 }} className={activeButton === "주문 현황" ? "active" : ""}>
                         주문 현황
                     </Button>
-                    <Button fullWidth onClick={() => handleClick("상품 등록")} sx={{ justifyContent: "flex-start", mb: 1 }}>
+                    <Button fullWidth onClick={() => handleClick("상품 등록")} sx={{ justifyContent: "flex-start", mb: 1 }} className={activeButton === "상품 등록" ? "active" : ""}>
                         상품 등록
                     </Button>
-                    <Button fullWidth onClick={() => handleClick("상품 조회")} sx={{ justifyContent: "flex-start", mb: 1 }}>
+                    <Button fullWidth onClick={() => handleClick("상품 조회")} sx={{ justifyContent: "flex-start", mb: 1 }} className={activeButton === "상품 조회" ? "active" : ""}>
                         상품 조회
                     </Button>
                 </Container>

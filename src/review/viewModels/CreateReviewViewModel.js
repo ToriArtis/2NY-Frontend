@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useForm from '../hooks/useForm';
-import { createReview } from '../api/reviewApi';
+import { createReview, getReviewsByItemId } from '../api/reviewApi';
 
 export function CreateReviewViewModel(itemId, userId) {
   const [error, setError] = useState(null);
@@ -8,6 +8,23 @@ export function CreateReviewViewModel(itemId, userId) {
     content: '',
     star: 0,
   });
+
+  useEffect(() => {
+    async function checkReviewExists() {
+      try {
+        const response = await getReviewsByItemId(itemId);
+        const userReview = response.content.find(review => review.userId === userId);
+        if (userReview) {
+          alert('이미 리뷰를 작성하셨습니다.');
+          window.history.back();
+        }
+      } catch (error) {
+        setError(error.message);
+      }
+    }
+    checkReviewExists();
+  }, [itemId, userId]);
+
 
   const validateForm = () => {
     if (values.content.length < 10) {

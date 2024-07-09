@@ -44,9 +44,9 @@ export function OrderDetail({ orderId}) {
               <p className="orderDetail-itemPrice">₩{parseInt(item.price).toLocaleString()}</p>
             </div>
             {order.orderStatus !== 'ORDER_CANCEL' && order.orderStatus !== 'ORDER_REQUEST' && (
-              <Link to={`/review/create?itemId=${item.itemId}&orderId=${order.orderId}`} className="orderDetail-reviewButton">
-              후기작성 &gt;
-              </Link>
+               <Link to={`/review/create?itemId=${order.itemOrders[0].itemId}&userId=${order.userId}`} className="orderDetail-reviewButton">
+               후기작성 &gt;
+           </Link>
             )}
           </div>
         ))}

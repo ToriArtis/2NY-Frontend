@@ -2,9 +2,9 @@ import { API_BASE_URL } from "../../config/app-config";
 
 // 액세스 토큰을 저장하기 위한 키 상수
 const ACCESS_TOKEN = "ACCESS_TOKEN";
-const UESR_NICKNAME = "UESR_NICKNAME";
+const USER_NICKNAME = "USER_NICKNAME";
 const USER_ROLESET = "USER_ROLESET";
-const UESR_EMAIL ="UESR_EMAIL";
+const USER_EMAIL ="USER_EMAIL";
 // 로그인 함수
 export async function login(userDTO) {
   
@@ -37,8 +37,8 @@ export async function login(userDTO) {
   
       if (result.token) {
         localStorage.setItem(ACCESS_TOKEN, result.token);
-        localStorage.setItem(UESR_NICKNAME, result.nickName);
-        localStorage.setItem(UESR_EMAIL, result.email);
+        localStorage.setItem(USER_NICKNAME, result.nickName);
+        localStorage.setItem(USER_EMAIL, result.email);
         if(result.roleSet) localStorage.setItem(USER_ROLESET, result.roleSet);
 
         if(window.history.back() === '/logout') window.location.href = "/";
@@ -60,9 +60,9 @@ export async function login(userDTO) {
     console.log("signout");
     // 로컬 스토리지에 제거
     localStorage.removeItem(ACCESS_TOKEN);
-    localStorage.removeItem(UESR_NICKNAME);
+    localStorage.removeItem(USER_NICKNAME);
     localStorage.removeItem(USER_ROLESET);
-    localStorage.removeItem(UESR_EMAIL);
+    localStorage.removeItem(USER_EMAIL);
     // 로그인 페이지로 리디렉션
     window.location.href = "/login";
   }

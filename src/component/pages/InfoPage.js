@@ -11,7 +11,7 @@ function InfoPage() {
 
     const navigate = useNavigate();
     const [nickName, setNickName] = useState(() => {
-        return localStorage.getItem("UESR_NICKNAME") || "";
+        return localStorage.getItem("USER_NICKNAME") || "";
     });
     const [role, setRole] = useState(() => {
         return localStorage.getItem("USER_ROLESET") || "";

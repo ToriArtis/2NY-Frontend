@@ -34,7 +34,7 @@ function Header(){
                         {userRoles.includes("ADMIN")
                         ? (<></>)
                         :(<button onClick={handleCartClick}><div><img src="/assets/Shopping bag.png" alt="Cart" /></div>장바구니</button>)}
-                        
+
                         { localStorage.getItem("ACCESS_TOKEN") ? (
                             <button onClick={()=> nav('/logout')}><div><img src="/assets/Logout.png" alt="Logout" /></div>로그아웃</button>
                         ) :(<></>) }
@@ -48,6 +48,7 @@ function Header(){
                         <button onClick={()=> nav('/')}><p>아우터</p></button>
                         <button onClick={()=> nav('/')}><p>스커트</p></button>
                         <button onClick={()=> nav('/')}><p>팬츠</p></button>
+                        <button onClick={()=> nav('/')}><p>원피스</p></button>
                     </div>
                 </Grid>
             </Grid>

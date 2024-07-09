@@ -6,7 +6,7 @@ import Input from './Input';
 
 export default function PasswordVaild({ onVerify }) {
     const [password, setPassword] = useState('');
-    const email = localStorage.getItem("UESR_EMAIL");
+    const email = localStorage.getItem("USER_EMAIL");
     const passwordVaild = {
       email: email,
       password: password

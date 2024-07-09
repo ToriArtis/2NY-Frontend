@@ -49,11 +49,28 @@ export function call(api, method, request) {
 }
 
 // 회원가입 함수
-export function signup(userDTO) {
-  return call("/users", "POST", userDTO);
+export async function signup(userDTO) {
+  try {
+    const response = await call("/users", "POST", userDTO);
+    
+    console.log("회원가입 성공:", response);
+    if (response && response.email) {
+      alert("회원가입이 성공적으로 완료되었습니다.");
+      window.location.href = "/login";
+    } else {
+      alert("회원가입에 실패했습니다. 다시 시도해 주세요.");
+      // 에러 메시지가 있다면 표시
+      if (response && response.message) {
+        console.error("회원가입 실패 이유:", response.message);
+      }
+    }
+  } catch (error) {
+    console.error("회원가입 중 오류 발생:", error);
+    alert("회원가입 실패 했습니다. 다시 시도해 주세요.", error);
+  }
 }
 
-// 회원가입 함수
+
 export function info() {
   return call("/users", "GET");
 }
@@ -63,10 +80,8 @@ export function verifyPassword(passwordVaild){
 }
 
 export async function deleteUser() {
-  console.log("deleteUser");
   try {
     const response = await call("/users", "DELETE");
-    console.log(response);
     return !!response; // response가 truthy면 true, falsy면 false 반환
   } catch (error) {
     console.error("Error deleting user:", error);

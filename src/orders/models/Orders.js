@@ -15,9 +15,10 @@ export class ItemOrder {
 }
 
 export class Order {
-  constructor(orderId, userId, name, address, detailAddress, phone, orderStatus, totalItems, totalPrice, totalDiscountPrice, expectPrice, itemOrders, createdAt, updatedAt) {
+  constructor(orderId, userId, email, name, address, detailAddress, phone, orderStatus, totalItems, totalPrice, totalDiscountPrice, expectPrice, itemOrders, createdAt, updatedAt) {
     this.orderId = orderId;
     this.userId = userId;
+    this.email = email;
     this.name = name;
     this.address = address;
     this.detailAddress = detailAddress;

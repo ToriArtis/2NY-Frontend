@@ -22,8 +22,6 @@ export function OrderDetail({ orderId}) {
     }
   };
 
-  // console.log(order.userId);
-
   return (
     <div className="orderDetail-container">
       <h2 className="orderDetail-title">주문내역 조회</h2>
@@ -59,11 +57,8 @@ export function OrderDetail({ orderId}) {
       </div>
       <div className="orderDetail-paymentInfo">
         <h3 className="orderDetail-sectionTitle">최종 결제 정보</h3>
-        {/* <p><span className="orderDetail-label">상품금액</span>₩{order.totalPrice.toLocaleString()}</p> */}
         <p><span className="orderDetail-label">상품금액</span>₩{parseInt(order.totalPrice).toLocaleString()}</p>
-        {/* <p><span className="orderDetail-label">할인</span>-₩{order.totalDiscountPrice.toLocaleString()}</p> */}
         <p><span className="orderDetail-label">할인</span>-₩{parseInt(order.totalDiscountPrice).toLocaleString()}</p>
-        {/* <p className="orderDetail-total"><span className="orderDetail-label">최종결제금액</span>₩{order.expectPrice.toLocaleString()}</p> */}
         <p className="orderDetail-total"><span className="orderDetail-label">최종결제금액</span>₩{parseInt(order.expectPrice).toLocaleString()}</p>
         <p><span className="orderDetail-label">결제 수단</span>{order.paymentMethod || '정보 없음'}</p>
       </div>

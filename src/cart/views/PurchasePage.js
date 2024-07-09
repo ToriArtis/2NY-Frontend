@@ -83,15 +83,6 @@ function PurchasePage() {
 
     updateOrderItems();
 
-    // if (isFromCart && carts && carts.length > 0) {
-    //     setOrderItems(carts);
-    // } else if (items && items.length > 0) {
-    //     setOrderItems(items);
-    // } 
-    // if (!isFromCart && !items) {
-    //     console.log("아이템이 없어요 !")
-    // }
-
     }, [isFromCart, items, carts]);
 
   useEffect(() => {
@@ -101,17 +92,14 @@ function PurchasePage() {
   const calculatePrices = () => {
     const total = orderItems.reduce((sum, item) => {
       const itemPrice = item.price * item.quantity;
-      console.log(`아이템 ${item.itemTitle}: 가격 ${item.price}, 수량 ${item.quantity}, 총 가격 ${itemPrice}, 할인율 ${item.discountRate}%`);
       return sum + itemPrice;
     }, 0);
 
     const discount = orderItems.reduce((sum, item) => {
       const itemDiscount = Math.round((item.price - item.discountPrice) * item.quantity);
-      console.log(`아이템 ${item.itemTitle}: 할인율 ${item.discountRate}%, 할인 금액 ${itemDiscount}`);
       return sum + itemDiscount;
     }, 0);
 
-    console.log(`총 가격: ${total}, 총 할인: ${discount}`);
     setTotalPrice(total);
     setDiscountPrice(discount);
     setFinalPrice(total - discount);
@@ -162,8 +150,6 @@ function PurchasePage() {
                   <Typography variant="body1">₩{item.price.toLocaleString()}</Typography>
                   <Typography variant="body2">색상: {item.color} / 사이즈: {item.size}</Typography>
                   <Typography variant="body2">수량: {item.quantity}</Typography>
-
-                  <Typography variant="body1">-₩{item.discountRate}</Typography>
                 </div>
               </div>
             ))}

@@ -9,6 +9,16 @@ import { getImageUrl } from '../../config/app-config';
 import { getReviewsByItemId } from '../../review/api/reviewApi';
 import UserListViewModel from '../../review/viewModels/UserListViewModel';
 
+const StarRating = ({ rating }) => {
+  return (
+    <div className="star-rating">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <span key={star} className={star <= rating ? "star filled" : "star"}>★</span>
+      ))}
+    </div>
+  );
+};
+
 const ItemDetailView = () => {
   const [itemData, setItem] = useState(null);
   const [error, setError] = useState(null);
@@ -20,15 +30,14 @@ const ItemDetailView = () => {
   const [reviews, setReviews] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
 
-
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // 날짜
+  // 날짜 포맷팅 함수
   const formatDate = (dateString) => {
     if (!dateString) return '';
     const date = new Date(dateString);
-    if (isNaN(date.getTime())) return dateString; // 유효하지 않은 날짜면 원본 문자열 반환
+    if (isNaN(date.getTime())) return dateString;
     return date.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\. /g, '.').slice(0, -1);
   };
 
@@ -41,7 +50,6 @@ const ItemDetailView = () => {
         setSelectedColor(Array.isArray(data.item.color) ? data.item.color[0] : data.item.color);
         setSelectedSize(Array.isArray(data.item.size) ? data.item.size[0] : data.item.size);
 
-        // 특정 상품 리뷰 데이터
         const reviewData = await getReviewsByItemId(id);
         if (reviewData && Array.isArray(reviewData.content)) {
           setReviews(reviewData.content);
@@ -62,14 +70,11 @@ const ItemDetailView = () => {
   }, [id]);
 
   const handleUpdate = async () => {
-    const path = `/items/${id}/edit`;
-    const isAdmin = localStorage.getItem("USER_ROLESET")?.includes("ADMIN");
     if (isAdmin) {
-      navigate(path);
+      navigate(`/items/${id}/edit`);
     } else {
-      alert("관리자 권한이 없습니다. ");
+      alert("관리자 권한이 없습니다.");
     }
-
   };
 
   const handleDelete = async () => {
@@ -90,7 +95,7 @@ const ItemDetailView = () => {
       return;
     }
     addItemToCart(id, quantity, selectedColor, selectedSize)
-    .then(() =>alert('장바구니에 상품이 추가되었습니다.'))
+    .then(() => alert('장바구니에 상품이 추가되었습니다.'))
     .catch(err => setError(err.message));
   };
 
@@ -141,7 +146,9 @@ const ItemDetailView = () => {
         </div>
         <div className="item-info">
           <h1>{item?.title}</h1>
-          <div className="rating">평균 별점: {item?.avgStar || 0}</div>
+          <div className="rating">
+            평균 별점: <StarRating rating={item?.avgStar || 0} />
+          </div>
           <div className="price-info">
             <span className="original-price">{item?.price}원</span><br />
             <span className="discount-rate">{item?.discountRate}%</span>
@@ -183,30 +190,25 @@ const ItemDetailView = () => {
             />
           </div>
           <div className="button-group">
-            <button onClick={handleUpdate} className="cart-button" isAdmin>수정하기</button>
+            {isAdmin && <button onClick={handleUpdate} className="cart-button">수정하기</button>}
             <button onClick={handleAddToCart} className="cart-button">장바구니</button>
             <button onClick={handleBuyNow} className="buy-button">구매하기</button>
           </div>
         </div>
       </div>
 
-      {/* 리뷰 디자인 */}
       <div className="review-list">
         <h2>Reviews</h2>
         {reviews.map((review) => (
           <div key={review.reviewId} className="review-item">
             <div className="review-header">
               <span className="review-author">{review.nickName}</span>
-              <div className="review-rating">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <span key={star} className={star <= review.star ? "star filled" : "star"}>★</span>
-                ))}
-              </div>
+              <StarRating rating={review.star} />
             </div>
             <p className="review-text">{review.content}</p>
             <span className="review-date">
               {review.updatedAt && review.updatedAt !== review.createdAt
-                ? `${formatDate(review.updatedAt)}` // 수정된 날짜 표시
+                ? `${formatDate(review.updatedAt)}`
                 : formatDate(review.createdAt)}
             </span>
           </div>
@@ -216,4 +218,5 @@ const ItemDetailView = () => {
     </>
   );
 };
+
 export default ItemDetailView;

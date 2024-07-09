@@ -119,6 +119,20 @@
     font-weight: bold;
 }
 
+.css-mhc70k-MuiGrid-root{
+    width: 80% !important;
+    margin: 0 auto !important;
+}
+.css-1idn90j-MuiGrid-root {
+    display: flex !important;
+    justify-content: left !important;
+}
+.css-1idn90j-MuiGrid-root>h1 {
+    float: none !important;
+    margin: 0 !important;
+    padding: 0 24px !important;
+}
+
 .css-zwha4c-MuiGrid-root {
     width: 20%;
     -webkit-box-flex: none !important;
@@ -132,7 +146,7 @@
     color: #8a8a8a !important;
     font-weight: bold !important;
     transition: 0.3s all !important;
-    justify-content: center !important;
+    justify-content: left !important;
 }
 .css-zoyb8x-MuiButtonBase-root-MuiButton-root.active {
     color: #000 !important;
@@ -140,7 +154,9 @@
 .css-zoyb8x-MuiButtonBase-root-MuiButton-root:hover {
     color: #000 !important;
 }
-
+.css-zoyb8x-MuiButtonBase-root-MuiButton-root:hover {
+    background-color: none !important;
+}
 .css-1qs1oxw-MuiGrid-root {
     padding: 1rem 0 0 0 !important;
     width: 80%;
@@ -148,6 +164,38 @@
     flex-basis: auto !important;
     flex-grow: initial !important;
     max-width: none !important;
+
+
+}
+.css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root {
+    width: 80% !important;
+    float: left !important;
+
+    border: 1px solid #ccc !important;
+    padding-top: 3rem !important;
+}
+
+.css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root h2 {
+    border-bottom: 1px solid #000;
+}
+
+.css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root div {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root div p {
+    width: 8%;
+}
+
+.css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root div .input-container {
+    width: 80%;
+    margin-bottom: 0;
+}
+
+.css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root div .input-container input {
+    padding: 0.5rem;
 }
 
 /* .MuiButton-root {

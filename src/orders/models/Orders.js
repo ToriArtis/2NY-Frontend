@@ -28,19 +28,21 @@ export class Order {
     this.totalPrice = totalPrice;
     this.totalDiscountPrice = totalDiscountPrice;
     this.expectPrice = expectPrice;
-    this.itemOrders = itemOrders.map(item => new ItemOrder(
-      item.itemOrderId,
-      item.itemId,
-      item.itemTitle,
-      item.quantity,
-      item.price,
-      item.totalPrice,
-      item.discountRate,
-      item.discountPrice,
-      item.color,
-      item.size,
-      item.thumbnail
-    ));
+    this.itemOrders = Array.isArray(itemOrders) 
+      ? itemOrders.map(item => new ItemOrder(
+          item.itemOrderId,
+          item.itemId,
+          item.itemTitle,
+          item.quantity,
+          item.price,
+          item.totalPrice,
+          item.discountRate,
+          item.discountPrice,
+          item.color,
+          item.size,
+          item.thumbnail
+        ))
+      : [];
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }

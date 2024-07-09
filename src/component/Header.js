@@ -66,7 +66,6 @@ function Header() {
                     </div>
                 </Grid>
                 <Grid item container direction="column" alignItems="center" className="header-bottom">
-                    <hr className="header-divider" />
                     <div className="category-nav">
                         <button onClick={() => nav('/items')}><p>ALL</p></button>
                         <button onClick={() => nav('/items/category/TOP')}><p>상의</p></button>

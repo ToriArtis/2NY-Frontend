@@ -5,7 +5,7 @@ import '../components/css/OrderDetailPage.css';
 import { cancelOrder } from '../api/ordersApi';
 import { getImageUrl } from '../../config/app-config';
 
-export function OrderDetail({ orderId}) {
+export function OrderDetail({ orderId }) {
   const { order, error, loading, refreshOrder } = OrderDetailViewModel(orderId);
 
   if (loading) return <div className="orderDetail-loading">Loading...</div>;
@@ -22,6 +22,14 @@ export function OrderDetail({ orderId}) {
     }
   };
 
+  // 날짜
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return dateString; // 유효하지 않은 날짜면 원본 문자열 반환
+    return date.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\. /g, '.').slice(0, -1);
+  };
+
   return (
     <div className="orderDetail-container">
       <h2 className="orderDetail-title">주문내역 조회</h2>
@@ -31,23 +39,27 @@ export function OrderDetail({ orderId}) {
           {order.orderStatus !== 'ORDER_CANCEL' && order.orderStatus !== 'ORDER_COMPLETE' && (
             <button onClick={handleCancelOrder} className="orderDetail-cancelButton">주문취소</button>
           )}
-        </div>
-        {order.itemOrders.map((item, index) => (
-          <div key={index} className="orderDetail-item">
-            <img className="orderDetail-itemImage" src={getImageUrl(item.thumbnail)} alt={item.itemTitle} />
-            <div className="orderDetail-itemInfo">
-              <p className="orderDetail-date">{order.createdAt}</p>
-              <h3 className="orderDetail-itemTitle">{item.itemTitle}</h3>
-              <p>{item.color}/{item.size}</p>
-              <p className="orderDetail-itemPrice">₩{parseInt(item.price).toLocaleString()}</p>
+        </div> 
+        {order?.itemOrders?.length > 0 ? (
+          order.itemOrders.map((item, index) => (
+            <div key={index} className="orderDetail-item">
+              <img className="orderDetail-itemImage" src={getImageUrl(item.thumbnail)} alt={item.itemTitle} />
+              <div className="orderDetail-itemInfo">
+                <p className="orderDetail-date">{formatDate(order.createdAt)}</p>
+                <h3>{item.itemTitle}</h3>
+                <p>{item.color}/{item.size}</p>
+                <p className="orderDetail-itemPrice">₩{item.price.toLocaleString()}</p>
+              </div>
+              {order.orderStatus !== 'ORDER_CANCEL' && order.orderStatus !== 'ORDER_REQUEST' && (
+                <Link to={`/review/create?itemId=${order.itemOrders[0].itemId}&userId=${order.userId}`} className="orderDetail-reviewButton">
+                  후기작성 &gt;
+                </Link>
+              )}
             </div>
-            {order.orderStatus !== 'ORDER_CANCEL' && order.orderStatus !== 'ORDER_REQUEST' && (
-               <Link to={`/review/create?itemId=${order.itemOrders[0].itemId}&userId=${order.userId}`} className="orderDetail-reviewButton">
-               후기작성 &gt;
-           </Link>
-            )}
-          </div>
-        ))}
+          ))
+        ) : (
+          null
+        )}
       </div>
       <div className="orderDetail-deliveryInfo">
         <h3 className="orderDetail-sectionTitle">배송 정보</h3>

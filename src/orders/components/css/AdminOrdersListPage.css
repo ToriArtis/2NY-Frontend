@@ -173,16 +173,35 @@
 
     border: 1px solid #ccc !important;
     padding-top: 3rem !important;
+    padding-bottom: 5rem !important;
 }
 
 .css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root h2 {
     border-bottom: 1px solid #000;
 }
 
-.css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root div {
+.css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root .input-box>div {
     display: flex;
     align-items: center;
     justify-content: left;
+    flex-wrap: wrap;
+}
+
+.password-button {
+    width: 88%;
+}
+.password-button button {
+    float: right;
+    margin:  4% 0 !important;
+    width: 20% !important;
+    background-color: #516FF5 !important;
+    color: white !important;
+    border: 1px solid #333 !important;
+
+    transition: 0.3s all !important;
+}
+.password-button button:hover {
+    background-color: #4a90e2 !important;
 }
 
 .css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root div p {
@@ -195,12 +214,8 @@
 }
 
 .css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root div .input-container input {
-    padding: 0.5rem;
+    padding: 0.5rem 0;
 }
-
-/* .MuiButton-root {
-    margin-top: 1rem !important;
-} */
 
 @media (min-width: 1536px) {
     .css-zwha4c-MuiGrid-root {

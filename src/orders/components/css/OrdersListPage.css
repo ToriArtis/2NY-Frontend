@@ -1,6 +1,15 @@
-.order-item {
+.orders-list-page {
     border: 1px solid #e0e0e0;
-    margin-bottom: 20px;
+    padding: 5rem 2rem;
+}
+
+.orders-list-page> h5 {
+    margin-left: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 1rem;
+}
+
+.order-item {
     padding: 20px;
 }
 
@@ -8,33 +17,32 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #e0e0e0;
-    margin-bottom: 15px;
+    padding-bottom: 0.5rem;
 }
 
 .order-status {
     font-weight: bold;
-    color: #4a90e2;
 }
 
 .order-detail-btn {
     border: none;
     background: none;
-    color: #888;
     cursor: pointer;
+}
+.order-detail-btn:hover {
+    text-decoration: underline;
 }
 
 .order-products {
     display: flex;
     flex-direction: column;
+    border-top: 1px solid #e0e0e0;
 }
 
 .order-product {
     display: flex;
     align-items: center;
     padding: 15px 0;
-    border-bottom: 1px solid #e0e0e0;
 }
 
 .order-product:last-child {
@@ -54,7 +62,8 @@
 
 .order-date {
     color: #888;
-    margin-bottom: 5px;
+    margin: 4px 0 0 0;
+    font-size: 1rem;
 }
 
 .product-title {
@@ -65,7 +74,8 @@
 
 .product-details {
     color: #888;
-    margin-bottom: 5px;
+    margin: 0;
+    font-size: 0.8rem;
 }
 
 .product-price {
@@ -85,7 +95,6 @@
     align-items: center;
     margin-top: 15px;
     padding-top: 15px;
-    border-top: 1px solid #e0e0e0;
 }
 
 .total-price {
@@ -100,4 +109,20 @@
     padding: 8px 15px;
     border-radius: 4px;
     cursor: pointer;
+}
+
+.orders-list-page>div>.pagination button {
+    color: #000;
+    background-color: #fff;
+}
+
+.orders-list-page>div>.pagination button:disabled {
+    background-color: #fff;
+    color: #888;
+}
+
+.orders-list-page>div>.pagination button.active {
+    background-color: #fff;
+    color: #000;
+    font-weight: bold;
 }

@@ -22,7 +22,6 @@ function SignUpView() {
             </Grid>
             <br />
             <Grid >
-                
             {error && <p>{error}</p>}
             <form onSubmit={handleSubmit}>
                 <Input

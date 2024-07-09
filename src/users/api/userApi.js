@@ -31,6 +31,10 @@ export function call(api, method, request) {
   return fetch(options.url, options)
     .then((response) =>
       response.json().then((json) => {
+        if(response.status === 400){
+          alert("다시 시도하시오")
+          return json;
+        }
         if (!response.ok) {
           // response.ok가 true이면 정상적인 응답, 아니면 에러 응답
           return Promise.reject(json);
@@ -98,4 +102,26 @@ export function modify(userDTO){
 // 사용자 정보 가져오기
 export function getUserInfo() {
   return call("/users", "GET");
+}
+
+export async function passwordFind(userDTO) {
+  console.log("passwordFind", userDTO);
+  try {
+    const response = await call("/users/passwordFind", "POST", userDTO);
+    
+    if (response === true) {
+      alert("비밀번호 재설정 이메일이 성공적으로 발송되었습니다.");
+      // 1초 후에 로그인 페이지로 리다이렉트
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 1000);
+    } else {
+      alert("비밀번호 찾기에 실패했습니다. 입력한 정보를 확인해 주세요.");
+      return false;
+    }
+  } catch (error) {
+    console.error('비밀번호 찾기 오류:', error);
+    alert("비밀번호 찾기 중 오류가 발생했습니다. 나중에 다시 시도해 주세요.");
+    return false;
+  }
 }

@@ -12,6 +12,13 @@ export function AdminOrdersList({ onOrderSelect }) {
 
     return (
         <div className="admin-orders-list">
+            <div className="admin-orders-column">
+                <p>아이디</p>
+                <p>이름</p>
+                <p>주소</p>
+                <p>목록</p>
+                <p>주문상태</p>
+            </div>
             {orders.map(order => (
                 <AdminOrderItem 
                     key={order.orderId} 

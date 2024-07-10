@@ -6,28 +6,35 @@ import Header from '../../component/Header';
 import Footer from '../../component/Footer';
 import ItemCard from '../components/ItemCard';
 
-
 const ItemAllListView = () => {
   const { category } = useParams();
   const location = useLocation();
-  const { items, loading, error, fetchItems, changeSort, sortOption, searchKeyword, handleSearch, clearSearch, calculateFinalPrice } = useItemViewModel();
+  const searchParams = new URLSearchParams(location.search);
+  const searchKeyword = searchParams.get('search');
+  
+  const { 
+    items, 
+    loading, 
+    error, 
+    fetchItems, 
+    changeSort, 
+    sortOption, 
+    calculateFinalPrice 
+  } = useItemViewModel();
+  
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 12;
 
   useEffect(() => {
     if (category) {
-      clearSearch(); // 카테고리가 변경되면 검색 상태 초기화
+      fetchItems(0, 1000, category);
+    } else if (searchKeyword) {
+      fetchItems(0, 1000, null, searchKeyword);
+    } else {
+      fetchItems(0, 1000);
     }
-    fetchItems(0, 1000, category); // Fetch a large number of items
-  }, [fetchItems, category, searchKeyword, clearSearch]);
-
-  // '/items' 경로로 이동할 때 검색 상태 초기화
-  useEffect(() => {
-    if (location.pathname === '/items') {
-      clearSearch();
-    }
-  }, [location, clearSearch]);
+  }, [fetchItems, category, searchKeyword]);
 
   const handleItemClick = (itemId) => {
     navigate(`/items/${itemId}`);
@@ -47,16 +54,16 @@ const ItemAllListView = () => {
         sorted.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
         break;
       case 'priceHigh':
-        sorted.sort((a, b) => b.discountedPrice - a.discountedPrice);
+        sorted.sort((a, b) => calculateFinalPrice(b) - calculateFinalPrice(a));
         break;
       case 'priceLow':
-        sorted.sort((a, b) => a.discountedPrice - b.discountedPrice);
+        sorted.sort((a, b) => calculateFinalPrice(a) - calculateFinalPrice(b));
         break;
       default:
         break;
     }
     return sorted;
-  }, [items, sortOption]);
+  }, [items, sortOption, calculateFinalPrice]);
 
   const paginatedItems = useMemo(() => {
     const startIndex = currentPage * itemsPerPage;
@@ -77,40 +84,47 @@ const ItemAllListView = () => {
     'PANTS': '팬츠',
   };
 
-  const title = category
-    ? `${categoryTitles[category] || category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()} 목록`
-    : '전체 상품 목록';
+  const title = useMemo(() => {
+    if (searchKeyword) {
+      return `"${searchKeyword}" 검색 결과`;
+    } else if (category) {
+      return `${categoryTitles[category] || category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()} 목록`;
+    } else {
+      return '전체 상품 목록';
+    }
+  }, [category, searchKeyword]);
 
   return (
     <>
-      <Header onSearch={handleSearch} clearSearch={clearSearch} />
+      <Header />
       <div className="all-items-container">
         <div className="items-header">
           <h1 className="all-items-title">{title}</h1>
           <select className="sort-select" value={sortOption} onChange={handleSortChange}>
             <option value="latest">최신순</option>
             <option value="oldest">오래된순</option>
-            <option value="priceHigh"> 높은 가격순</option>
+            <option value="priceHigh">높은 가격순</option>
             <option value="priceLow">낮은 가격순</option>
           </select>
         </div>
-        {loading && items.length === 0 ? (
+        {loading ? (
           <div className="loading">상품을 불러오는 중입니다...</div>
         ) : error ? (
           <div className="error">오류가 발생했습니다: {error}</div>
+        ) : paginatedItems.length === 0 ? (
+          <div className="no-results">검색 결과가 없습니다.</div>
         ) : (
           <>
-           <div className="all-items-grid">
+            <div className="all-items-grid">
               {paginatedItems.map(item => (
                 <ItemCard 
-                  key={item.id} 
+                  key={item.itemId} 
                   item={item} 
-                  onClick={handleItemClick} 
+                  onClick={() => handleItemClick(item.itemId)} 
                   calculateFinalPrice={calculateFinalPrice}
                 />
               ))}
             </div>
-            {loading && <div className="loading">추가 상품을 불러오는 중...</div>}
             {totalPages > 1 && (
               <div className="pagination">
                 <button

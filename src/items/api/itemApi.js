@@ -242,16 +242,52 @@ export const getItemsByCategory = async (category, page = 0, size = 20) => {
 // 상품 검색
 export const searchItems = async (keyword) => {
   try {
+    console.log('Searching items with keyword:', keyword);
     const response = await call(`/items/search?title=${encodeURIComponent(keyword)}`, "GET");
+    console.log('Search API response:', response);
     if (response && Array.isArray(response.content)) {
-      return response.content.map(item => ({
-        ...item,
-        id: item.id || item.itemId
-      }));
+      return {
+        content: response.content.map(item => ({
+          ...item,
+          id: item.id || item.itemId
+        })),
+        totalPages: response.totalPages,
+        totalElements: response.totalElements,
+        size: response.size,
+        number: response.number
+      };
     } else {
-      return [];
+      console.warn('Invalid search response structure:', response);
+      return { content: [], totalPages: 0, totalElements: 0, size: 0, number: 0 };
     }
   } catch (error) {
+    console.error('Error searching items:', error);
+    throw error;
+  }
+};
+
+export const getItemsByFilter = async (color, size) => {
+  try {
+    let url = `${API_BASE_URL}/items/filter?`;
+    if (color) url += `color=${encodeURIComponent(color)}`;
+    if (size) url += `${color ? '&' : ''}size=${encodeURIComponent(size)}`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`
+      }
+    });
+    if (!response.ok) {
+      throw new Error(`Server responded with ${response.status}`);
+    }
+    const data = await response.json();
+    return data.content ? data.content.map(item => ({
+      ...item,
+      id: item.id || item.itemId
+    })) : [];
+  } catch (error) {
+    console.error('Error fetching filtered items:', error);
     throw error;
   }
 };

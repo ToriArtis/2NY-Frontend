@@ -6,12 +6,11 @@ export const useItemViewModel = () => {
     const [item, setItem] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [pagination, setPagination] = useState({});
+    const [topSellingItems, setTopSellingItems] = useState([]);
     const [sortOption, setSortOption] = useState('latest');
     const [searchKeyword, setSearchKeyword] = useState('');
 
     const fetchItems = useCallback(async (page = 0, size = 20, category = null) => {
-        console.log('fetchItems called');
         setLoading(true);
         try {
             let data;
@@ -22,29 +21,12 @@ export const useItemViewModel = () => {
             } else {
                 data = await itemList(page, size);
             }
-            console.log('Fetched data:', data);
-
-            if (data && Array.isArray(data)) { // 배열인 경우 실행
-                setItems(data);
-                setPagination({});
-            } else if (data && data.content) {
-                setItems(data.content);
-                setPagination({
-                    totalPages: data.totalPages,
-                    totalElements: data.totalElements,
-                    size: data.size,
-                    number: data.number
-                });
-            } else {
-                setItems([]);
-                setPagination({});
-            }
+            setItems(data.content || []);
             setError(null);
         } catch (err) {
             console.error('Error fetching items:', err);
             setError(err.message);
             setItems([]);
-            setPagination({});
         } finally {
             setLoading(false);
         }
@@ -54,12 +36,34 @@ export const useItemViewModel = () => {
         setLoading(true);
         try {
             const response = await getItemDetail(itemId);
+            console.log('API response:', response);
+            if (!response || (!response.item && !response.reviews)) {
+                throw new Error('Invalid response structure');
+            }
             setItem(response);
             setError(null);
+            return response;
         } catch (error) {
             console.error('Error fetching item detail:', error);
             setError(error.message);
             setItem(null);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    const fetchTopSellingItems = useCallback(async () => {
+        setLoading(true);
+        try {
+            const data = await itemList(0, 100); // Fetch a large number of items
+            const sorted = (data.content || []).sort((a, b) => (b.sales || 0) - (a.sales || 0));
+            setTopSellingItems(sorted.slice(0, 4)); // Get top 4
+            setError(null);
+        } catch (err) {
+            console.error('Error fetching top selling items:', err);
+            setError(err.message);
+            setTopSellingItems([]);
         } finally {
             setLoading(false);
         }
@@ -86,33 +90,33 @@ export const useItemViewModel = () => {
         return sorted;
     }, [items, sortOption]);
 
-    const changeSort = (newSortOption) => {
+    const changeSort = useCallback((newSortOption) => {
         setSortOption(newSortOption);
-    };
+    }, []);
 
-    // 검색 핸들러
-    const handleSearch = (keyword) => {
+    const handleSearch = useCallback((keyword) => {
         setSearchKeyword(keyword);
         fetchItems();
-    };
+    }, [fetchItems]);
 
-    // 검색 상태를 초기화
     const clearSearch = useCallback(() => {
         setSearchKeyword('');
-      }, []);
+        fetchItems();
+    }, [fetchItems]);
 
     return {
         items: sortedItems,
         item,
         loading,
         error,
-        pagination,
-        fetchItems,
-        fetchItem,
-        changeSort,
+        topSellingItems,
         sortOption,
         searchKeyword,
+        fetchItems,
+        fetchItem,
+        fetchTopSellingItems,
+        changeSort,
         handleSearch,
-        clearSearch
+        clearSearch,
     };
 };

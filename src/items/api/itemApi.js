@@ -49,14 +49,14 @@ export const itemCreate = async (itemData) => {
   formData.append('itemDTO', new Blob([JSON.stringify({
     title: itemData.title,
     content: itemData.content,
-    price: itemData.price,
-    discountPrice: itemData.discountPrice,
-    discountRate: itemData.discountRate,
-    sales: itemData.sales,
+    price: Number(itemData.price),
+    discountPrice: Number(itemData.discountPrice),
+    discountRate: Number(itemData.discountRate),
+    sales: Number(itemData.sales),
     color: itemData.color,
     size: itemData.size,
     category: itemData.category,
-    avgStar: itemData.avgStar
+    avgStar: Number(itemData.avgStar)
   })], { type: 'application/json' }));
 
   // 썸네일 이미지 파일 추가
@@ -72,6 +72,7 @@ export const itemCreate = async (itemData) => {
       formData.append(`descriptionImageFiles`, file);
     });
   }
+
 
   try {
     const response = await fetch(`${API_BASE_URL}/items`, {

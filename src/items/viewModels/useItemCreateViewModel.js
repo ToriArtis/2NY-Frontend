@@ -36,10 +36,30 @@ export default function useItemCreateViewModel() {
     // 일반 입력 필드 변경 핸들러
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setValues(prevValues => ({
-            ...prevValues,
-            [name]: value
-        }));
+        let newValue = value;
+
+        if (name === 'price' || name === 'discountRate') {
+            newValue = Number(value);
+        }
+
+        setValues(prevValues => {
+            const newValues = {
+                ...prevValues,
+                [name]: newValue
+            };
+
+            // 가격과 할인율이 변경될 때마다 할인 가격을 계산
+            if (name === 'price' || name === 'discountRate') {
+                newValues.discountPrice = calculateDiscountPrice(newValues.price, newValues.discountRate);
+            }
+
+            return newValues;
+        });
+    };
+
+    // 할인 가격 계산 함수
+    const calculateDiscountPrice = (price, discountRate) => {
+        return Math.round(price * (1 - discountRate / 100));
     };
 
     // 파일 입력 필드 변경 핸들러

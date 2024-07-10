@@ -55,12 +55,12 @@ function Header({ onSearch, clearSearch }) {
                 </Grid>
                 <Grid item container direction="column" alignItems="center" className="header-bottom">
                     <div className="category-nav">
-                        <button onClick={() => {if(typeof clearSearch === 'function') clearSearch(); nav('/items');}}><p>ALL</p></button>
-                        <button onClick={() => {clearSearch(); nav('/items/category/TOP')}}><p>상의</p></button>
-                        <button onClick={() => {clearSearch(); nav('/items/category/OUTER')}}><p>아우터</p></button>
-                        <button onClick={() => {clearSearch(); nav('/items/category/DRESS')}}><p>원피스</p></button>
-                        <button onClick={() => {clearSearch(); nav('/items/category/SKIRT')}}><p>스커트</p></button>
-                        <button onClick={() => {clearSearch(); nav('/items/category/PANTS')}}><p>팬츠</p></button>
+                        <button onClick={() => {if(typeof clearSearch === 'function') clearSearch(); nav('/items')}}><p>ALL</p></button>
+                        <button onClick={() => {if(typeof clearSearch === 'function') clearSearch(); nav('/items/category/TOP')}}><p>상의</p></button>
+                        <button onClick={() => {if(typeof clearSearch === 'function') clearSearch(); nav('/items/category/OUTER')}}><p>아우터</p></button>
+                        <button onClick={() => {if(typeof clearSearch === 'function') clearSearch(); nav('/items/category/DRESS')}}><p>원피스</p></button>
+                        <button onClick={() => {if(typeof clearSearch === 'function') clearSearch(); nav('/items/category/SKIRT')}}><p>스커트</p></button>
+                        <button onClick={() => {if(typeof clearSearch === 'function') clearSearch(); nav('/items/category/PANTS')}}><p>팬츠</p></button>
                     </div>
                 </Grid>
             </Grid>

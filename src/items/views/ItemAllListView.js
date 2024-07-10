@@ -47,10 +47,10 @@ const ItemAllListView = () => {
         sorted.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
         break;
       case 'priceHigh':
-        sorted.sort((a, b) => b.price - a.price);
+        sorted.sort((a, b) => b.discountedPrice - a.discountedPrice);
         break;
       case 'priceLow':
-        sorted.sort((a, b) => a.price - b.price);
+        sorted.sort((a, b) => a.discountedPrice - b.discountedPrice);
         break;
       default:
         break;

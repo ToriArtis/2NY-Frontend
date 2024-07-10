@@ -6,7 +6,8 @@ import BlueButton from '../../component/BlueButton';
 import WhiteButton from '../../component/WhiteButton';
 import DeleteView from './DeleteView';
 
-export default function ModifyView(userInfo, isAdmin) {
+export default function ModifyView(userInfo) {
+  const isAdmin = localStorage.getItem("USER_ROLESET").includes("ADMIN")?true:false;
   const {
     values,
     handleChange,

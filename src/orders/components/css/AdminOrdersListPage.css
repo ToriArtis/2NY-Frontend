@@ -1,7 +1,7 @@
 
 .admin-orders-page {
     padding: 3rem;
-    border: 1px solid #9B9B9B;
+    border: 1px solid #ccc;
 }
   
 .admin-orders-title {
@@ -178,6 +178,8 @@
 
 .css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root h2 {
     border-bottom: 1px solid #000;
+    margin-bottom: 0 !important;
+    padding-bottom: 1rem !important;
 }
 
 .css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root .input-box>div {
@@ -188,7 +190,7 @@
 }
 
 .password-button {
-    width: 88%;
+    width: 90%;
 }
 .password-button button {
     float: right;
@@ -205,7 +207,7 @@
 }
 
 .css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root div p {
-    width: 8%;
+    width: 10%;
 }
 
 .css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root div .input-container {

@@ -13,7 +13,6 @@ export default function UserRoleInfo() {
     const [activeButton, setActiveButton] = useState("정보 수정");  
 
     useEffect(() => {
-        // 컴포넌트 마운트 시 회원정보 뷰를 기본으로 설정
         handleClick("정보 수정");
     }, []);
 

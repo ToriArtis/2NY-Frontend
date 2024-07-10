@@ -19,7 +19,11 @@ const ItemAllListView = () => {
     fetchItems, 
     changeSort, 
     sortOption, 
-    calculateFinalPrice 
+    calculateFinalPrice,
+    handleColorFilter,
+    handleSizeFilter,
+    filterColor,
+    filterSize
   } = useItemViewModel();
   
   const navigate = useNavigate();
@@ -34,7 +38,7 @@ const ItemAllListView = () => {
     } else {
       fetchItems(0, 1000);
     }
-  }, [fetchItems, category, searchKeyword]);
+  }, [fetchItems, category, searchKeyword, filterColor, filterSize]);
 
   const handleItemClick = (itemId) => {
     navigate(`/items/${itemId}`);
@@ -106,6 +110,21 @@ const ItemAllListView = () => {
             <option value="priceHigh">높은 가격순</option>
             <option value="priceLow">낮은 가격순</option>
           </select>
+          <select value={filterColor} onChange={(e) => handleColorFilter(e.target.value)}>
+              <option value="">All Colors</option>
+              <option value="BLACK">Black</option>
+              <option value="WHITE">White</option>
+              <option value="GRAY">Gray</option>
+            </select>
+            <select value={filterSize} onChange={(e) => handleSizeFilter(e.target.value)}>
+              <option value="">All Sizes</option>
+              <option value="XS">XS</option>
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+              <option value="XXL">XXL</option>
+            </select>
         </div>
         {loading ? (
           <div className="loading">상품을 불러오는 중입니다...</div>

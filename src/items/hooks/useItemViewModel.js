@@ -149,6 +149,7 @@ export const useItemViewModel = () => {
     }, [fetchItems]);
 
     const handleColorFilter = useCallback((color) => {
+        console.log('Color filter applied:', color);
         setFilterColor(color);
         fetchItems();
     }, [fetchItems]);

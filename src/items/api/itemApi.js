@@ -242,9 +242,7 @@ export const getItemsByCategory = async (category, page = 0, size = 20) => {
 // 상품 검색
 export const searchItems = async (keyword) => {
   try {
-    console.log('Searching items with keyword:', keyword);
     const response = await call(`/items/search?title=${encodeURIComponent(keyword)}`, "GET");
-    console.log('Search API response:', response);
     if (response && Array.isArray(response.content)) {
       return {
         content: response.content.map(item => ({
@@ -266,28 +264,28 @@ export const searchItems = async (keyword) => {
   }
 };
 
+// 색상&사이즈 필터
 export const getItemsByFilter = async (color, size) => {
   try {
-    let url = `${API_BASE_URL}/items/filter?`;
-    if (color) url += `color=${encodeURIComponent(color)}`;
-    if (size) url += `${color ? '&' : ''}size=${encodeURIComponent(size)}`;
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`
+      let url = `${API_BASE_URL}/items/filter?`;
+//      if (category) url += `category=${encodeURIComponent(category)}&`;
+      if (color) url += `color=${encodeURIComponent(color)}`;
+      if (size) url += `${color ? '&' : ''}size=${encodeURIComponent(size)}`;
+      const response = await fetch(url, {
+          method: "GET",
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`
+          }
+      });
+      if (!response.ok) {
+          throw new Error(`Server responded with ${response.status}`);
       }
-    });
-    if (!response.ok) {
-      throw new Error(`Server responded with ${response.status}`);
-    }
-    const data = await response.json();
-    return data.content ? data.content.map(item => ({
-      ...item,
-      id: item.id || item.itemId
-    })) : [];
+      const data = await response.json();
+      console.log('Filtered data:', data);
+      return data;
   } catch (error) {
-    console.error('Error fetching filtered items:', error);
-    throw error;
+      console.error('Error fetching filtered items:', error);
+      throw error;
   }
 };

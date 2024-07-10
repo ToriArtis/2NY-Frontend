@@ -140,6 +140,8 @@ const ItemEditView = () => {
                   <option value="SKIRT">SKIRT</option>
                   <option value="TOP">TOP</option>
                   <option value="BOTTOM">BOTTOM</option>
+                  <option value="DRESS">DRESS</option>
+                  <option value="OUTER">OUTER</option>
                 </select>
               </div>
               <div className="form-group">

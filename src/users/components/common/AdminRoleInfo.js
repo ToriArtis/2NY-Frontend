@@ -5,7 +5,7 @@ import useInfoViewModel from '../../viewModels/useInfoViewModel';
 import PasswordVaild from './PasswordVaild';
 import ModifyView from '../../views/ModifyView';
 
-import ItemAllListView from '../../../items/views/ItemAllListView';
+import MypageItemCreateView from '../../../items/views/MypageItemCreateView';
 import ItemCreateView from '../../../items/views/ItemCreateView';
 
 import OrderListPage from '../../../orders/views/OrderListPage';
@@ -38,7 +38,7 @@ export default function AdminRoleInfo() {
 
                 break;
             case "상품 조회":
-                setActiveView(<ItemAllListView isAdmin activeButton={activeButton} />);
+                setActiveView(<MypageItemCreateView isAdmin activeButton={activeButton} />);
                 break;
             default:
                 setActiveView(<UserInfo isAdmin activeButton={activeButton} />);

@@ -10,6 +10,15 @@ export const useItemViewModel = () => {
     const [sortOption, setSortOption] = useState('latest');
     const [searchKeyword, setSearchKeyword] = useState('');
 
+    const calculateFinalPrice = (item) => {
+        if (item.discountPrice !== undefined && item.discountPrice !== null) {
+            return item.discountPrice;
+        }
+        if (item.discountRate !== undefined && item.discountRate !== null) {
+            return item.price * (1 - item.discountRate / 100);
+        }
+        return item.price;
+    };
     const fetchItems = useCallback(async (page = 0, size = 20, category = null) => {
         setLoading(true);
         try {
@@ -79,10 +88,18 @@ export const useItemViewModel = () => {
                 sorted.sort((a, b) => (a.id || 0) - (b.id || 0));
                 break;
             case 'priceHigh':
-                sorted.sort((a, b) => (b.price || 0) - (a.price || 0));
+                sorted.sort((a, b) => {
+                    const finalPriceA = calculateFinalPrice(a);
+                    const finalPriceB = calculateFinalPrice(b);
+                    return finalPriceB - finalPriceA;
+                });
                 break;
             case 'priceLow':
-                sorted.sort((a, b) => (a.price || 0) - (b.price || 0));
+                sorted.sort((a, b) => {
+                    const finalPriceA = calculateFinalPrice(a);
+                    const finalPriceB = calculateFinalPrice(b);
+                    return finalPriceA - finalPriceB;
+                });
                 break;
             default:
                 break;
@@ -118,5 +135,6 @@ export const useItemViewModel = () => {
         changeSort,
         handleSearch,
         clearSearch,
+        calculateFinalPrice
     };
 };

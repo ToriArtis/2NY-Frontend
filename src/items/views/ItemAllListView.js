@@ -10,7 +10,7 @@ import ItemCard from '../components/ItemCard';
 const ItemAllListView = () => {
   const { category } = useParams();
   const location = useLocation();
-  const { items, loading, error, fetchItems, changeSort, sortOption, searchKeyword, handleSearch, clearSearch  } = useItemViewModel();
+  const { items, loading, error, fetchItems, changeSort, sortOption, searchKeyword, handleSearch, clearSearch, calculateFinalPrice } = useItemViewModel();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 12;
@@ -90,8 +90,8 @@ const ItemAllListView = () => {
           <select className="sort-select" value={sortOption} onChange={handleSortChange}>
             <option value="latest">최신순</option>
             <option value="oldest">오래된순</option>
-            <option value="priceHigh">높은가격순</option>
-            <option value="priceLow">낮은가격순</option>
+            <option value="priceHigh"> 높은 가격순</option>
+            <option value="priceLow">낮은 가격순</option>
           </select>
         </div>
         {loading && items.length === 0 ? (
@@ -100,9 +100,14 @@ const ItemAllListView = () => {
           <div className="error">오류가 발생했습니다: {error}</div>
         ) : (
           <>
-            <div className="all-items-grid">
+           <div className="all-items-grid">
               {paginatedItems.map(item => (
-                <ItemCard key={item.id} item={item} onClick={handleItemClick} />
+                <ItemCard 
+                  key={item.id} 
+                  item={item} 
+                  onClick={handleItemClick} 
+                  calculateFinalPrice={calculateFinalPrice}
+                />
               ))}
             </div>
             {loading && <div className="loading">추가 상품을 불러오는 중...</div>}

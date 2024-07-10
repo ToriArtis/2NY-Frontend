@@ -1,11 +1,14 @@
 import { useState, useCallback, useEffect } from 'react';
 import { itemRead, itemList } from '../api/itemApi';
 import { itemCreate, itemDelete, itemUpdate } from '../../users/api/userApi';
+import { useState, useCallback, useMemo, useEffect } from 'react';
+import { getItemDetail, itemList, getItemsByCategory, searchItems } from '../api/itemApi';
 
 export const useItemViewModel = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [topSellingItems, setTopSellingItems] = useState([]);
 
   const fetchItems = useCallback(async () => {
     console.log('fetchItems called');
@@ -94,6 +97,22 @@ export const useItemViewModel = () => {
     console.log('Items in useItemViewModel updated:', items);
   }, [items]);
 
+  const fetchTopSellingItems = useCallback(async () => {
+    setLoading(true);
+    try {
+        const data = await itemList(0, 100); // Fetch a large number of items
+        const sorted = data.content.sort((a, b) => b.sales - a.sales);
+        setTopSellingItems(sorted.slice(0, 4)); // Get top 4
+        setError(null);
+    } catch (err) {
+        console.error('Error fetching top selling items:', err);
+        setError(err.message);
+        setTopSellingItems([]);
+    } finally {
+        setLoading(false);
+    }
+}, []);
+
   return {
     items,
     loading,
@@ -102,6 +121,8 @@ export const useItemViewModel = () => {
     fetchItem,
     createItem,
     updateItem,
-    deleteItem
+    deleteItem,
+    topSellingItems,
+    fetchTopSellingItems,
   };
 };

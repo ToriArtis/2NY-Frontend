@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getItemDetail, itemDelete } from '../api/itemApi';
+import { useItemViewModel } from '../hooks/useItemViewModel';
 import { useCart } from '../../cart/hooks/useCart';
-import { getReviewsByItemId } from '../../review/api/reviewApi';
 import { getImageUrl } from '../../config/app-config';
 import Header from '../../component/Header';
 import Footer from '../../component/Footer';
+import ItemCard from '../components/ItemCard';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -39,12 +39,11 @@ const ImageCarousel = ({ images }) => {
     </Slider>
   );
 };
-
 const ItemDetailView = () => {
-  const [itemData, setItem] = useState(null);
+  const [itemData, setItemData] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [reviews, setReviews] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
@@ -53,24 +52,32 @@ const ItemDetailView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addItemToCart } = useCart();
+  const { fetchItem, fetchTopSellingItems, topSellingItems, loading: itemLoading, error: itemError } = useItemViewModel();
 
   useEffect(() => {
     const fetchItemAndReviews = async () => {
       setIsLoading(true);
       try {
-        const data = await getItemDetail(id);
-        setItem(data);
-        setSelectedColor(Array.isArray(data.item.color) ? data.item.color[0] : data.item.color);
-        setSelectedSize(Array.isArray(data.item.size) ? data.item.size[0] : data.item.size);
-
-        const reviewData = await getReviewsByItemId(id);
-        if (reviewData && Array.isArray(reviewData.content)) {
-          setReviews(reviewData.content);
+        const data = await fetchItem(id);
+        console.log('Fetched data:', data);
+        if (data && data.item) {
+          setItemData(data.item);
+          setSelectedColor(Array.isArray(data.item.color) ? data.item.color[0] : data.item.color);
+          setSelectedSize(Array.isArray(data.item.size) ? data.item.size[0] : data.item.size);
         } else {
-          console.error('Invalid review data:', reviewData);
+          throw new Error('Invalid item data structure');
+        }
+
+        if (data && data.reviews && Array.isArray(data.reviews.content)) {
+          setReviews(data.reviews.content);
+        } else {
+          console.warn('No reviews found or invalid review data structure');
           setReviews([]);
         }
+
+        await fetchTopSellingItems();
       } catch (err) {
+        console.error('Error in fetchItemAndReviews:', err);
         setError(err.message);
       } finally {
         setIsLoading(false);
@@ -81,25 +88,13 @@ const ItemDetailView = () => {
 
     const userRoles = localStorage.getItem("USER_ROLESET");
     setIsAdmin(userRoles && userRoles.includes("ADMIN"));
-  }, [id]);
+  }, [id, fetchItem, fetchTopSellingItems]);
 
   const handleUpdate = () => {
     if (isAdmin) {
       navigate(`/items/${id}/edit`);
     } else {
       alert("관리자 권한이 없습니다.");
-    }
-  };
-
-  const handleDelete = async () => {
-    if (window.confirm('정말로 이 상품을 삭제하시겠습니까?')) {
-      try {
-        await itemDelete(id);
-        alert('상품이 성공적으로 삭제되었습니다.');
-        navigate('/items');
-      } catch (err) {
-        setError(err.message);
-      }
     }
   };
 
@@ -118,13 +113,13 @@ const ItemDetailView = () => {
       alert("관리자는 구매할 수 없습니다.");
       return;
     }
-    if (itemData?.item) {
+    if (itemData) {
       const itemOrder = {
         itemId: id,
         quantity: quantity,
-        itemTitle: itemData.item.title,
-        price: itemData.item.price,
-        thumbnail: itemData.item.thumbnail,
+        itemTitle: itemData.title,
+        price: itemData.price,
+        thumbnail: itemData.thumbnail,
         color: selectedColor,
         size: selectedSize
       };
@@ -144,51 +139,49 @@ const ItemDetailView = () => {
   if (error) return <div className="error-message">{error}</div>;
   if (!itemData) return <div>상품을 찾을 수 없습니다.</div>;
 
-  const { item } = itemData;
-
   return (
     <>
       <Header />
       <div className="item-detail-container">
         <div className="item-images">
-          {item?.thumbnail && item.descriptionImage && (
+          {itemData.thumbnail && itemData.descriptionImage && (
             <ImageCarousel 
-              images={[getImageUrl(item.thumbnail), ...item.descriptionImage.map(img => getImageUrl(img))]} 
+              images={[getImageUrl(itemData.thumbnail), ...itemData.descriptionImage.map(img => getImageUrl(img))]} 
             />
           )}
         </div>
         <div className="item-info">
-          <h1>{item?.title}</h1>
+          <h1>{itemData.title}</h1>
           <div className="rating">
-            평균 별점: <StarRating rating={item?.avgStar || 0} />
+            평균 별점: <StarRating rating={itemData.avgStar || 0} />
           </div>
           <div className="price-info">
-            <span className="original-price">₩{item?.price}</span>
-            <span className="discount-rate">{item?.discountRate}%</span>
-            <span className="discounted-price">₩{item?.discountPrice}</span>
+            <span className="original-price">₩{itemData.price}</span>
+            <span className="discount-rate">{itemData.discountRate}%</span>
+            <span className="discounted-price">₩{itemData.discountPrice}</span>
           </div>
-          {item?.color && (
+          {itemData.color && (
             <div className="color-selection">
               <label>색상:</label>
               <select value={selectedColor} onChange={(e) => setSelectedColor(e.target.value)}>
-                {Array.isArray(item.color)
-                  ? item.color.map((color, index) => (
+                {Array.isArray(itemData.color)
+                  ? itemData.color.map((color, index) => (
                     <option key={index} value={color}>{color}</option>
                   ))
-                  : <option value={item.color}>{item.color}</option>
+                  : <option value={itemData.color}>{itemData.color}</option>
                 }
               </select>
             </div>
           )}
-          {item?.size && (
+          {itemData.size && (
             <div className="size-selection">
               <label>사이즈:</label>
               <select value={selectedSize} onChange={(e) => setSelectedSize(e.target.value)}>
-                {Array.isArray(item.size)
-                  ? item.size.map((size, index) => (
+                {Array.isArray(itemData.size)
+                  ? itemData.size.map((size, index) => (
                     <option key={index} value={size}>{size}</option>
                   ))
-                  : <option value={item.size}>{item.size}</option>
+                  : <option value={itemData.size}>{itemData.size}</option>
                 }
               </select>
             </div>
@@ -209,23 +202,43 @@ const ItemDetailView = () => {
           </div>
         </div>
       </div>
+      
+      <div className="content-and-top-selling">
+  <div className="item-content">
+    <h2>상품 설명</h2>
+    <p>{itemData.content}</p>
+  </div>
+
+  <div className="top-selling-items">
+    <h2>인기 상품</h2>
+    <div className="item-grid">
+      {topSellingItems.map((item) => (
+        <ItemCard key={item.id} item={item} onClick={() => navigate(`/items/${item.id}`)} />
+      ))}
+    </div>
+  </div>
+</div>
 
       <div className="review-list">
         <h2>Reviews</h2>
-        {reviews.map((review) => (
-          <div key={review.reviewId} className="review-item">
-            <div className="review-header">
-              <span className="review-author">{review.nickName}</span>
-              <StarRating rating={review.star} />
+        {reviews.length > 0 ? (
+          reviews.map((review) => (
+            <div key={review.reviewId} className="review-item">
+              <div className="review-header">
+                <span className="review-author">{review.nickName}</span>
+                <StarRating rating={review.star} />
+              </div>
+              <p className="review-text">{review.content}</p>
+              <span className="review-date">
+                {review.updatedAt && review.updatedAt !== review.createdAt
+                  ? `${formatDate(review.updatedAt)}`
+                  : formatDate(review.createdAt)}
+              </span>
             </div>
-            <p className="review-text">{review.content}</p>
-            <span className="review-date">
-              {review.updatedAt && review.updatedAt !== review.createdAt
-                ? `${formatDate(review.updatedAt)}`
-                : formatDate(review.createdAt)}
-            </span>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>아직 리뷰가 없습니다.</p>
+        )}
       </div>
       <Footer />
     </>

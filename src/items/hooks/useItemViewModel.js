@@ -10,15 +10,16 @@ export const useItemViewModel = () => {
     const [sortOption, setSortOption] = useState('latest');
     const [searchKeyword, setSearchKeyword] = useState('');
 
-    const calculateFinalPrice = (item) => {
-        if (item.discountPrice !== undefined && item.discountPrice !== null) {
+    const calculateFinalPrice = useCallback((item) => {
+        if (item.discountPrice != null) {
             return item.discountPrice;
         }
-        if (item.discountRate !== undefined && item.discountRate !== null) {
+        if (item.discountRate != null) {
             return item.price * (1 - item.discountRate / 100);
         }
         return item.price;
-    };
+    }, []);
+
     const fetchItems = useCallback(async (page = 0, size = 20, category = null) => {
         setLoading(true);
         try {
@@ -30,7 +31,12 @@ export const useItemViewModel = () => {
             } else {
                 data = await itemList(page, size);
             }
-            setItems(data.content || []);
+            const processedData = (data.content || []).map(item => ({
+                ...item,
+                finalPrice: calculateFinalPrice(item)
+            }));
+            console.log('Processed items:', processedData);
+            setItems(processedData);
             setError(null);
         } catch (err) {
             console.error('Error fetching items:', err);
@@ -39,7 +45,7 @@ export const useItemViewModel = () => {
         } finally {
             setLoading(false);
         }
-    }, [searchKeyword]);
+    }, [searchKeyword, calculateFinalPrice]);
 
     const fetchItem = useCallback(async (itemId) => {
         setLoading(true);
@@ -65,9 +71,14 @@ export const useItemViewModel = () => {
     const fetchTopSellingItems = useCallback(async () => {
         setLoading(true);
         try {
-            const data = await itemList(0, 100); // Fetch a large number of items
-            const sorted = (data.content || []).sort((a, b) => (b.sales || 0) - (a.sales || 0));
-            setTopSellingItems(sorted.slice(0, 4)); // Get top 4
+            const data = await itemList(0, 100);
+            const sorted = (data.content || [])
+                .map(item => ({
+                    ...item,
+                    finalPrice: calculateFinalPrice(item)
+                }))
+                .sort((a, b) => (b.sales || 0) - (a.sales || 0));
+            setTopSellingItems(sorted.slice(0, 4));
             setError(null);
         } catch (err) {
             console.error('Error fetching top selling items:', err);
@@ -76,9 +87,10 @@ export const useItemViewModel = () => {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [calculateFinalPrice]);
 
     const sortedItems = useMemo(() => {
+        console.log('Sorting items with option:', sortOption);
         let sorted = [...items];
         switch (sortOption) {
             case 'latest':
@@ -88,26 +100,20 @@ export const useItemViewModel = () => {
                 sorted.sort((a, b) => (a.id || 0) - (b.id || 0));
                 break;
             case 'priceHigh':
-                sorted.sort((a, b) => {
-                    const finalPriceA = calculateFinalPrice(a);
-                    const finalPriceB = calculateFinalPrice(b);
-                    return finalPriceB - finalPriceA;
-                });
+                sorted.sort((a, b) => b.finalPrice - a.finalPrice);
                 break;
             case 'priceLow':
-                sorted.sort((a, b) => {
-                    const finalPriceA = calculateFinalPrice(a);
-                    const finalPriceB = calculateFinalPrice(b);
-                    return finalPriceA - finalPriceB;
-                });
+                sorted.sort((a, b) => a.finalPrice - b.finalPrice);
                 break;
             default:
                 break;
         }
+        console.log('Sorted items:', sorted);
         return sorted;
     }, [items, sortOption]);
 
     const changeSort = useCallback((newSortOption) => {
+        console.log('Changing sort option to:', newSortOption);
         setSortOption(newSortOption);
     }, []);
 

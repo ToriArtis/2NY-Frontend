@@ -1,5 +1,5 @@
-import { useState, useCallback, useMemo } from 'react';
-import { getItemDetail, itemList, getItemsByCategory, searchByTitleOrContent } from '../api/itemApi';
+import { useState, useCallback, useMemo, useEffect } from 'react';
+import { getItemDetail, itemList, getItemsByCategory, searchItems } from '../api/itemApi';
 
 export const useItemViewModel = () => {
     const [items, setItems] = useState([]);
@@ -8,37 +8,26 @@ export const useItemViewModel = () => {
     const [error, setError] = useState(null);
     const [pagination, setPagination] = useState({});
     const [sortOption, setSortOption] = useState('latest');
-
     const [searchKeyword, setSearchKeyword] = useState('');
-
-    //검색 함수
-    const searchItems = useCallback(async (keyword) => {
-        setLoading(true);
-        try {
-          const response = await searchByTitleOrContent(keyword);
-          setItems(response);
-          setError(null);
-        } catch (error) {
-          console.error('Error searching items:', error);
-          setError(error.message);
-        } finally {
-          setLoading(false);
-        }
-      }, []);
-
 
     const fetchItems = useCallback(async (page = 0, size = 20, category = null) => {
         console.log('fetchItems called');
         setLoading(true);
         try {
             let data;
-            if (category) {
+            if (searchKeyword) {
+                data = await searchItems(searchKeyword);
+            } else if (category) {
                 data = await getItemsByCategory(category, page, size);
             } else {
                 data = await itemList(page, size);
             }
             console.log('Fetched data:', data);
-            if (data && data.content) {
+
+            if (data && Array.isArray(data)) { // 배열인 경우 실행
+                setItems(data);
+                setPagination({});
+            } else if (data && data.content) {
                 setItems(data.content);
                 setPagination({
                     totalPages: data.totalPages,
@@ -59,7 +48,7 @@ export const useItemViewModel = () => {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [searchKeyword]);
 
     const fetchItem = useCallback(async (itemId) => {
         setLoading(true);
@@ -101,6 +90,17 @@ export const useItemViewModel = () => {
         setSortOption(newSortOption);
     };
 
+    // 검색 핸들러
+    const handleSearch = (keyword) => {
+        setSearchKeyword(keyword);
+        fetchItems();
+    };
+
+    // 검색 상태를 초기화
+    const clearSearch = useCallback(() => {
+        setSearchKeyword('');
+      }, []);
+
     return {
         items: sortedItems,
         item,
@@ -112,7 +112,7 @@ export const useItemViewModel = () => {
         changeSort,
         sortOption,
         searchKeyword,
-        setSearchKeyword,
-        searchItems
+        handleSearch,
+        clearSearch
     };
 };

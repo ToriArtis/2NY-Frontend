@@ -1,36 +1,33 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-
+import { useItemViewModel } from '../hooks/useItemViewModel';
 import '../components/css/AllList.css';
 import Header from '../../component/Header';
 import Footer from '../../component/Footer';
 import ItemCard from '../components/ItemCard';
-import { useItemViewModel } from '../hooks/useItemViewModel';
+
 
 const ItemAllListView = () => {
   const { category } = useParams();
-  const location = useLocation(); 
-  const searchParams = new URLSearchParams(location.search);
-  const keyword = searchParams.get('keyword'); // 파라미터 값 가져옴
-
-  const { items, loading, error, fetchItems, changeSort, sortOption, searchKeyword, setSearchKeyword, searchItems } = useItemViewModel();
+  const location = useLocation();
+  const { items, loading, error, fetchItems, changeSort, sortOption, searchKeyword, handleSearch, clearSearch  } = useItemViewModel();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 12;
-  
-  useEffect(() => {
-    if (keyword) {
-      // 검색 키워드가 있는 경우 searchItems 함수 호출
-      searchItems(keyword);
-    } else {
-      // 검색 키워드가 없는 경우 fetchItems 함수 호출
-      fetchItems(0, 1000, category);
-    }
-  }, [fetchItems, category, keyword, searchItems]);
 
   useEffect(() => {
+    if (category) {
+      clearSearch(); // 카테고리가 변경되면 검색 상태 초기화
+    }
     fetchItems(0, 1000, category); // Fetch a large number of items
-  }, [fetchItems, category]);
+  }, [fetchItems, category, searchKeyword, clearSearch]);
+
+  // '/items' 경로로 이동할 때 검색 상태 초기화
+  useEffect(() => {
+    if (location.pathname === '/items') {
+      clearSearch();
+    }
+  }, [location, clearSearch]);
 
   const handleItemClick = (itemId) => {
     navigate(`/items/${itemId}`);
@@ -80,13 +77,13 @@ const ItemAllListView = () => {
     'PANTS': '팬츠',
   };
 
-  const title = category 
-    ? `${categoryTitles[category] || category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()} 목록` 
+  const title = category
+    ? `${categoryTitles[category] || category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()} 목록`
     : '전체 상품 목록';
 
   return (
     <>
-      <Header />
+      <Header onSearch={handleSearch} clearSearch={clearSearch} />
       <div className="all-items-container">
         <div className="items-header">
           <h1 className="all-items-title">{title}</h1>
@@ -111,14 +108,14 @@ const ItemAllListView = () => {
             {loading && <div className="loading">추가 상품을 불러오는 중...</div>}
             {totalPages > 1 && (
               <div className="pagination">
-                <button 
+                <button
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 0}
                 >
                   이전
                 </button>
                 <span>{currentPage + 1} / {totalPages}</span>
-                <button 
+                <button
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage >= totalPages - 1}
                 >

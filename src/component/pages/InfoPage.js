@@ -29,13 +29,13 @@ function InfoPage() {
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <Typography component="h1" variant="h5" style={{ float: "left", margin: "0 0 0 5%" }}>
-                    <h1 style={{ display: "inline" }}><b>({nickName}) 님</b> &nbsp;</h1>
+                    <h1 style={{ display: "inline" }}><b>{nickName} 님</b> &nbsp;</h1>
                     <a style={{ color: "#8A8A8A", textDecoration: "none", fontSize: "1rem" }} href="/logout"> 로그아웃</a>
                 </Typography>
             </Grid>
         </Grid>
 
-        {role === 'ADMIN,USER' || role === 'USER,ADMIN' ? <AdminRoleInfo /> : <UserRoleInfo />}
+        {role.includes("ADMIN") ? <AdminRoleInfo /> : <UserRoleInfo />}
         
         
         <Footer />

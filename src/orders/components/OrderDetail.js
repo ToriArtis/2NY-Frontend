@@ -35,7 +35,7 @@ export function OrderDetail({ orderId }) {
       <h2 className="orderDetail-title">주문내역 조회</h2>
       <div className="orderDetail-items">
         <div className="orderDetail-top">
-          <p>{order.orderStatus}</p>
+          {order.orderStatus === 'ORDER_REQUEST' ? '주문 요청' : order.orderStatus === 'ORDER_COMPLETE' ? '주문 완료' : order.orderStatus === 'ORDER_CANCEL' ? '주문 취소' : order.orderStatus}
           {order.orderStatus !== 'ORDER_CANCEL' && order.orderStatus !== 'ORDER_COMPLETE' && (
             <button onClick={handleCancelOrder} className="orderDetail-cancelButton">주문취소</button>
           )}

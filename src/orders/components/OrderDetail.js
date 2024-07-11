@@ -5,12 +5,17 @@ import '../components/css/OrderDetailPage.css';
 import { cancelOrder } from '../api/ordersApi';
 import { getImageUrl } from '../../config/app-config';
 
-export function OrderDetail({ orderId }) {
+export function OrderDetail({ orderId, onReviewClick }) {
   const { order, error, loading, refreshOrder } = OrderDetailViewModel(orderId);
 
   if (loading) return <div className="orderDetail-loading">Loading...</div>;
   if (error) return <div className="orderDetail-error">Error: {error}</div>;
   if (!order) return <div className="orderDetail-notFound">주문을 찾을 수 없습니다.</div>;
+
+  const handleReviewClick = (itemId, userId, orderId) => {
+    // 리뷰 작성 페이지로 이동하는 함수를 props로 받아 호출
+    onReviewClick(itemId, userId, orderId);
+  };
 
   const handleCancelOrder = async () => {
     try {
@@ -39,7 +44,7 @@ export function OrderDetail({ orderId }) {
           {order.orderStatus !== 'ORDER_CANCEL' && order.orderStatus !== 'ORDER_COMPLETE' && (
             <button onClick={handleCancelOrder} className="orderDetail-cancelButton">주문취소</button>
           )}
-        </div> 
+        </div>
         {order?.itemOrders?.length > 0 ? (
           order.itemOrders.map((item, index) => (
             <div key={index} className="orderDetail-item">
@@ -51,9 +56,11 @@ export function OrderDetail({ orderId }) {
                 <p className="orderDetail-itemPrice">₩{item.price.toLocaleString()}</p>
               </div>
               {order.orderStatus !== 'ORDER_CANCEL' && order.orderStatus !== 'ORDER_REQUEST' && (
-                <Link to={`/review/create?itemId=${order.itemOrders[0].itemId}&userId=${order.userId}`} className="orderDetail-reviewButton">
+                <button
+                  onClick={() => handleReviewClick(order.itemOrders[0].itemId, order.userId, order.orderId)}
+                  className="orderDetail-reviewButton">
                   후기작성 &gt;
-                </Link>
+                </button>
               )}
             </div>
           ))

@@ -2,20 +2,20 @@ import { useEffect, useState } from 'react';
 import useForm from '../hooks/useForm';
 import { createReview, getReviewsByItemId } from '../api/reviewApi';
 
-export function CreateReviewViewModel(itemId, userId) {
+export function CreateReviewViewModel(itemId, userId, orderId) {
   const [error, setError] = useState(null);
   const { values, handleChange } = useForm({
     content: '',
     star: 0,
   });
 
-  useEffect(() => {
+   useEffect(() => {
     async function checkReviewExists() {
       try {
         const response = await getReviewsByItemId(itemId);
-        const userReview = response.content.find(review => review.userId === userId);
+        const userReview = response.content.find(review => review.orderId === orderId);
         if (userReview) {
-          alert('이미 리뷰를 작성하셨습니다.');
+          alert('이미 이 주문에 대한 후기를 작성하셨습니다.');
           window.history.back();
         }
       } catch (error) {
@@ -23,7 +23,7 @@ export function CreateReviewViewModel(itemId, userId) {
       }
     }
     checkReviewExists();
-  }, [itemId, userId]);
+  }, [itemId, userId, orderId]);
 
 
   const validateForm = () => {
@@ -45,8 +45,8 @@ export function CreateReviewViewModel(itemId, userId) {
     if (!validateForm()) return;
     
      // itemId와 userId가 유효한지 확인
-    if (!itemId || !userId) {
-      setError('상품 정보 또는 사용자 정보가 올바르지 않습니다.');
+    if (!itemId || !userId || !orderId) {
+      setError('상품 정보, 사용자 정보 또는 주문 정보가 올바르지 않습니다.');
       return;
     }
     
@@ -55,12 +55,13 @@ export function CreateReviewViewModel(itemId, userId) {
       const reviewDTO = {
         itemId,
         userId,
+        orderId,
         star: values.star,
         content: values.content,
       };
       await createReview(reviewDTO);
       alert('리뷰가 등록되었습니다.');
-      window.location.href = '/review/user';
+      window.location.href = '/mypage';
 
     } catch (error) {
       setError(error.message);

@@ -5,6 +5,12 @@ import Input from "../components/common/Input";
 import Footer from "../../component/Footer";
 import { useLoginViewModel } from "../viewModels/useLoginViewModel";
 
+// 환경 변수에서 클라이언트 ID와 리디렉션 URI를 가져옵니다.
+const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID;
+const KAKAO_CLIENT_ID = process.env.REACT_APP_KAKAO_CLIENT_ID;
+const REDIRECT_URI = process.env.REACT_APP_OAUTH_REDIRECT_URI;
+
 
 function LoginView() {
   if(localStorage.getItem("ACCESS_TOKEN") ) {
@@ -17,6 +23,33 @@ function LoginView() {
     handleSubmit,
     error,
   } = useLoginViewModel();
+
+  const generateState = () => {
+    return Math.random().toString(36).substring(2, 15);
+  };
+
+const handleSocialLogin = (provider) => {
+  const state = Math.random().toString(36).substring(2, 15);
+  sessionStorage.setItem('oauth_state', state);
+  sessionStorage.setItem('oauth_provider', provider);
+
+    let authUrl;
+    switch(provider) {
+      case 'google':
+        authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.REACT_APP_OAUTH_REDIRECT_URI)}&response_type=code&scope=email%20profile&state=${state}`;
+        break;
+      case 'naver':
+        authUrl = `https://nid.naver.com/oauth2.0/authorize?client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.REACT_APP_OAUTH_REDIRECT_URI)  }&response_type=code&state=${state}`;
+        break;
+        case 'kakao':
+          authUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.REACT_APP_OAUTH_REDIRECT_URI)}&response_type=code&state=${state}`;
+        break;
+      default:
+        return;
+    }
+    window.location.href = authUrl;
+  };
+
 
   return (
   <>
@@ -69,22 +102,25 @@ function LoginView() {
       </Grid>
 
       <div className="hr-sect">&nbsp; 또는 &nbsp;</div>
-
-      <div className="btns">
-        {['kakao', 'naver', 'google'].map((provider) => (
-          <Button key={provider} className={provider} aria-label={provider}>
-            <img
-              style={{ width: "60%", height: 'auto' }}
-              src={`/assets/${provider}.png`}
-              alt={`${provider} login`}
-              onClick={() => window.open(`https://${provider}.com`)}
-            />
-          </Button>
-        ))}
-      </div>
-    </Container>
-    <Container sx={{ marginTop: "8%" }}></Container>
-    <Footer />
+       <div className="btns">
+          {['kakao', 'naver', 'google'].map((provider) => (
+            <Button 
+              key={provider} 
+              className={provider} 
+              aria-label={provider}
+              onClick={() => handleSocialLogin(provider)}
+            >
+              <img
+                style={{ width: "60%", height: 'auto' }}
+                src={`/assets/${provider}.png`}
+                alt={`${provider} login`}
+              />
+            </Button>
+          ))}
+        </div>
+      </Container>
+      <Container sx={{ marginTop: "8%" }}></Container>
+      <Footer />
     </>
   );
 }

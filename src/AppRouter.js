@@ -20,6 +20,7 @@ import EmailFind from "./users/views/EmailFind";
 
 
 import AddressSearch from "./users/components/AddressSearch";
+import OAuth2RedirectHandler from "./users/components/OAuthRedirectHandler";
 
 function AppRouter() {
     const isAdmin = localStorage.getItem("USER_ROLESET")?.includes("ADMIN");
@@ -27,7 +28,7 @@ function AppRouter() {
     return (
         <Routes>
             <Route path="/" element={<ItemListView />} />
-            
+            <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
             <Route path="/login" element={<LoginView />} />
             <Route path="/logout" element={<Logout />}/>
             <Route path="/signup" element={<SignUpView />}/>

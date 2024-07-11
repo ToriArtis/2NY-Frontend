@@ -59,7 +59,7 @@ export function ModifyReviewViewModel(reviewId) {
       };
       await modifyReview(reviewId, reviewDTO);
       alert('리뷰가 수정되었습니다.');
-      window.location.href = '/review/user';
+      window.location.href = '/mypage';
 
     } catch (error) {
       setError(error.message || '리뷰 수정 중 오류가 발생했습니다.');

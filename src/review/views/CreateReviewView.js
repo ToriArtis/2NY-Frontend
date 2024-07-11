@@ -19,6 +19,7 @@ function CreateReviewView({ itemId: propItemId, userId: propUserId, orderId: pro
     console.log("itemId:", finalItemId, "userId:", finalUserId, "orderId:", finalOrderId);
 
     const { content, star, handleChange, handleSubmit, handleStarChange, error } = CreateReviewViewModel(finalItemId, finalUserId, finalOrderId);
+   
     return (
         <Container component="main" maxWidth="xs" sx={{ marginTop: "8%" }}>
             <Grid container spacing={2}>

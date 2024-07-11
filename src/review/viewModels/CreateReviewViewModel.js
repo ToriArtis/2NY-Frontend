@@ -13,7 +13,7 @@ export function CreateReviewViewModel(itemId, userId, orderId) {
     async function checkReviewExists() {
       try {
         const response = await getReviewsByItemId(itemId);
-        const userReview = response.content.find(review => review.orderId === orderId);
+        const userReview = response.content.find(review => review.itemId === itemId && review.orderId === orderId);
         if (userReview) {
           alert('이미 이 주문에 대한 후기를 작성하셨습니다.');
           window.history.back();

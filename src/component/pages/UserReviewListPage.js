@@ -1,21 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import UserListViewModel from "../../review/viewModels/UserListViewModel";
 import "../css/UserReviewListPage.css";
 import { Link } from "react-router-dom";
 import { getImageUrl } from "../../config/app-config";
+import ModifyReviewView from "../../review/views/ModifyReviewView";
 
 
 function UserReviewListPage() {
     const { reviews, error, handleDeleteReview } = UserListViewModel();
-    // console.log("Reviews:", reviews);
-    // console.log("Error:", error);
+    const [selectedReviewId, setSelectedReviewId] = useState(null);
 
     if (error) {
         return <div>Error: {error}</div>
     }
 
     if (!reviews || reviews.length === 0) {
-        return <div>리뷰 표시</div>
+        return <div>작성한 후기가 없습니다.</div>
+    }
+
+    if (selectedReviewId) {
+        return <ModifyReviewView 
+            reviewId={selectedReviewId} 
+            onCancel={() => setSelectedReviewId(null)}
+        />;
     }
 
     // 날짜
@@ -50,8 +57,12 @@ function UserReviewListPage() {
                             <p className="review-text">{review.content}</p>
                         </div>
                         <div className="review-item-actions">
-                            <Link to={`/review/modify/${review.reviewId}`} style={{ textDecoration: "none", color: "#888"}}>
-                                수정</Link> 
+                            <span 
+                                onClick={() => setSelectedReviewId(review.reviewId)} 
+                                style={{ textDecoration: "none", color: "#888", cursor: "pointer" }}
+                            >
+                                수정
+                            </span> 
                                 | <span onClick={() => handleDeleteReview(review.reviewId)} style={{ cursor: "pointer" }}>삭제</span>
                         </div>
                     </div>

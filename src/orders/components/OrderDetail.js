@@ -57,7 +57,7 @@ export function OrderDetail({ orderId, onReviewClick }) {
               </div>
               {order.orderStatus !== 'ORDER_CANCEL' && order.orderStatus !== 'ORDER_REQUEST' && (
                 <button
-                  onClick={() => handleReviewClick(order.itemOrders[0].itemId, order.userId, order.orderId)}
+                  onClick={() => handleReviewClick(item.itemId, order.userId, order.orderId)}
                   className="orderDetail-reviewButton">
                   후기작성 &gt;
                 </button>

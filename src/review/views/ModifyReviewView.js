@@ -4,8 +4,7 @@ import { Grid, Typography, Container, CircularProgress, TextField, Button } from
 import { ModifyReviewViewModel } from '../viewModels/ModifyReviewViewModel';
 import StarRating from '../components/StarRating';
 
-export default function ModifyReviewView() {
-  const { reviewId } = useParams();
+export default function ModifyReviewView({ reviewId }) {
   const {
     values,
     handleChange,

@@ -17,9 +17,6 @@ export function OrdersListViewModel(isAdmin = false) {
     setLoading(true);
     try {
       const response = isAdmin ? await getAllOrders(page, size) : await list(page, size);
-      // 주문 취소 상태가 아닌 주문만 필터링 
-      // const filteredOrders = response.content.filter(order => order.status !== 'ORDER_CANCEL');
-      // setOrders(filteredOrders);
       setOrders(response.content);
       setTotalPages(response.totalPages);
     } catch (err) {

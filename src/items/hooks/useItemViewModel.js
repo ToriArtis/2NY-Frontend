@@ -142,8 +142,7 @@ export const useItemViewModel = () => {
     const clearSearch = useCallback(() => {
         console.log('clearSearch called');
         setSearchKeyword('');
-        setFilterColor('');
-        setFilterSize('');
+      
         setCurrentCategory(null);
         fetchItems(0, 20, null);
     }, [fetchItems]);

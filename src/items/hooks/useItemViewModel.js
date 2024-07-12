@@ -3,7 +3,6 @@ import { getItemDetail, itemList, getItemsByCategory, searchItems, getItemsByFil
 
 export const useItemViewModel = () => {
     const [items, setItems] = useState([]);
-    const [filteredItems, setFilteredItems] = useState([]);
     const [item, setItem] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -14,6 +13,7 @@ export const useItemViewModel = () => {
     const [filterSize, setFilterSize] = useState('');
     const [currentCategory, setCurrentCategory] = useState(null);
     const [pagination, setPagination] = useState({});
+
 
     const calculateFinalPrice = (item) => {
         if (item.discountPrice !== undefined && item.discountPrice !== null) {
@@ -31,23 +31,18 @@ export const useItemViewModel = () => {
         try {
             let data;
             if (keyword) {
-                data = await searchItems(keyword);
-                setCurrentCategory(null);
-            } else if (category) {
-                data = await getItemsByCategory(category, page, size);
-                setCurrentCategory(category);
-            } else if (filterColor || filterSize) {
-                data = await getItemsByFilter(filterColor, filterSize);
-                setCurrentCategory(null);
-            } else {
-                data = await itemList(page, size);
-                setCurrentCategory(null);
-            }
-
+            data = await searchItems(keyword);
+            setCurrentCategory(null);
+        } else if (category) {
+            data = await getItemsByCategory(category, page, size);
+            setCurrentCategory(category);
+        } else {
+            data = await itemList(page, size);
+            setCurrentCategory(null);
+        }
             console.log('Fetched data:', data);
             if (data && data.content) {
                 setItems(data.content);
-                setFilteredItems(data.content);
                 setPagination({
                     totalPages: data.totalPages,
                     totalElements: data.totalElements,
@@ -56,20 +51,18 @@ export const useItemViewModel = () => {
                 });
             } else {
                 setItems([]);
-                setFilteredItems([]);
                 setPagination({});
             }
             setError(null);
         } catch (err) {
             console.error('Error fetching items:', err);
             setError(err.message);
-            setItems([]);
-            setFilteredItems([]);
+            setItems([]);;
             setPagination({});
         } finally {
             setLoading(false);
         }
-    }, [filterColor, filterSize]);
+    }, []);
 
     const fetchItem = useCallback(async (itemId) => {
         setLoading(true);
@@ -108,6 +101,14 @@ export const useItemViewModel = () => {
         }
     }, []);
 
+    // 색상&사이즈 필터
+    const filteredItems = useMemo(() => {
+        return items.filter(item => 
+            (!filterColor || item.color === filterColor) &&
+            (!filterSize || item.size === filterSize)
+        );
+    }, [items, filterColor, filterSize]);
+
     const sortedItems = useMemo(() => {
         let sorted = [...filteredItems];
         switch (sortOption) {
@@ -139,32 +140,32 @@ export const useItemViewModel = () => {
         fetchItems(0, 1000, null, keyword);
     }, [fetchItems]);
 
+    
+    const resetFilters = useCallback(() => {
+        setFilterColor('');
+        setFilterSize('');
+      }, []);
+
     const clearSearch = useCallback(() => {
         console.log('clearSearch called');
         setSearchKeyword('');
-      
         setCurrentCategory(null);
-        fetchItems(0, 20, null);
-    }, [fetchItems]);
+        resetFilters();
+    }, [resetFilters]);
 
     const handleColorFilter = useCallback((color) => {
-        console.log('Color filter applied:', color);
         setFilterColor(color);
-        fetchItems();
-    }, [fetchItems]);
-
+    }, []);
+    
     const handleSizeFilter = useCallback((size) => {
         setFilterSize(size);
-        fetchItems();
-    }, [fetchItems]);
+    }, []);
 
     const handleCategoryChange = useCallback((category) => {
         setCurrentCategory(category);
+        setFilterColor('');
+        setFilterSize('');
         fetchItems(0, 1000, category);
-    }, [fetchItems]);
-
-    useEffect(() => {
-        fetchItems();
     }, [fetchItems]);
 
     return {
@@ -188,6 +189,7 @@ export const useItemViewModel = () => {
         handleColorFilter,
         handleSizeFilter,
         handleCategoryChange,
-        calculateFinalPrice
+        calculateFinalPrice,
+        resetFilters
     };
 };

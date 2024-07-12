@@ -23,7 +23,10 @@ const ItemAllListView = () => {
     handleColorFilter,
     handleSizeFilter,
     filterColor,
-    filterSize
+    filterSize,
+    handleSearch,
+    clearSearch,
+    resetFilters
   } = useItemViewModel();
   
   const navigate = useNavigate();
@@ -31,14 +34,22 @@ const ItemAllListView = () => {
   const itemsPerPage = 12;
 
   useEffect(() => {
-    if (category) {
-      fetchItems(0, 1000, category);
-    } else if (searchKeyword) {
-      fetchItems(0, 1000, null, searchKeyword);
-    } else {
-      fetchItems(0, 1000);
-    }
-  }, [fetchItems, category, searchKeyword, filterColor, filterSize]);
+    const fetchData = async () => {
+      if (category) {
+        console.log('Fetching items for category:', category);
+        resetFilters();
+        await fetchItems(0, 1000, category);
+      } else if (searchKeyword) {
+        console.log('Fetching items for search:', searchKeyword);
+        await fetchItems(0, 1000, null, searchKeyword);
+      } else {
+        console.log('Fetching all items');
+        await fetchItems(0, 1000);
+      }
+    };
+  
+    fetchData();
+  }, [fetchItems, category, searchKeyword, resetFilters]);
 
   const handleItemClick = (itemId) => {
     navigate(`/items/${itemId}`);
@@ -100,7 +111,7 @@ const ItemAllListView = () => {
 
   return (
     <>
-      <Header />
+      <Header onSearch={handleSearch} clearSearch={clearSearch} />
       <div className="all-items-container">
         <div className="items-header">
           <h1 className="all-items-title">{title}</h1>

@@ -265,12 +265,17 @@ export const searchItems = async (keyword) => {
 };
 
 // 색상&사이즈 필터
-export const getItemsByFilter = async (color, size) => {
+export const getItemsByFilter = async (category, color, size) => {
   try {
       let url = `${API_BASE_URL}/items/filter?`;
-//      if (category) url += `category=${encodeURIComponent(category)}&`;
-      if (color) url += `color=${encodeURIComponent(color)}`;
-      if (size) url += `${color ? '&' : ''}size=${encodeURIComponent(size)}`;
+      const params = [];
+
+      if (category) params.push(`category=${encodeURIComponent(category)}`);
+      if (color) params.push(`color=${encodeURIComponent(color)}`);
+      if (size) params.push(`size=${encodeURIComponent(size)}`);
+
+      url += params.join('&');
+
       const response = await fetch(url, {
           method: "GET",
           headers: {
@@ -282,10 +287,8 @@ export const getItemsByFilter = async (color, size) => {
           throw new Error(`Server responded with ${response.status}`);
       }
       const data = await response.json();
-      console.log('Filtered data:', data);
       return data;
   } catch (error) {
-      console.error('Error fetching filtered items:', error);
       throw error;
   }
 };

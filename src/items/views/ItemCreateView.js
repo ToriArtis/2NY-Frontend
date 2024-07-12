@@ -1,8 +1,8 @@
 import '../components/css/CreateItem.css';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import useItemCreateViewModel from '../viewModels/useItemCreateViewModel';
-
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const ItemCreateView = () => {
   const {
@@ -20,11 +20,33 @@ const ItemCreateView = () => {
     colorOptions,
     sizeOptions,
     thumbnailPreview,
-    descriptionImagePreviews
+    descriptionImagePreviews,
+    handleContentChange
   } = useItemCreateViewModel();
+
+  // React Quill 에디터 설정
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+      [{ 'align': [] }, { 'color': [] }, { 'background': [] }],
+      ['clean']
+    ],
+  };
+
+  // React Quill 에디터에서 사용할 포맷 설정
+  const formats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike',
+    'list', 'bullet', 'indent',
+    'link', 'image',
+    'align', 'color', 'background'
+  ];
+
   return (
     <div className="create-item-container">
-      
+
       <div className="main-content">
         <h1>상품 등록</h1>
         {error && <p className="error-message">{error}</p>}
@@ -76,11 +98,13 @@ const ItemCreateView = () => {
               </div>
               <div className="form-group">
                 <label htmlFor="content">상품 정보</label>
-                <textarea
-                  id="content"
-                  name="content"
+                {/* 에디터 컴포넌트 */}
+                <ReactQuill
                   value={content}
-                  onChange={handleChange}
+                  onChange={handleContentChange}
+                  modules={modules}
+                  formats={formats}
+                  theme="snow"
                 />
               </div>
               <div className="form-group">
@@ -160,7 +184,7 @@ const ItemCreateView = () => {
               </div>
             </div>
           </div>
-          
+
         </form>
       </div>
     </div>

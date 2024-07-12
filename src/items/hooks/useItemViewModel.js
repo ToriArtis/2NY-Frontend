@@ -31,15 +31,15 @@ export const useItemViewModel = () => {
         try {
             let data;
             if (keyword) {
-            data = await searchItems(keyword);
-            setCurrentCategory(null);
-        } else if (category) {
-            data = await getItemsByCategory(category, page, size);
-            setCurrentCategory(category);
-        } else {
-            data = await itemList(page, size);
-            setCurrentCategory(null);
-        }
+                data = await searchItems(keyword);
+                setCurrentCategory(null);
+            } else if (category) {
+                data = await getItemsByCategory(category, page, size);
+                setCurrentCategory(category);
+            } else {
+                data = await itemList(page, size);
+                setCurrentCategory(null);
+            }
             console.log('Fetched data:', data);
             if (data && data.content) {
                 setItems(data.content);
@@ -103,7 +103,7 @@ export const useItemViewModel = () => {
 
     // 색상&사이즈 필터
     const filteredItems = useMemo(() => {
-        return items.filter(item => 
+        return items.filter(item =>
             (!filterColor || item.color === filterColor) &&
             (!filterSize || item.size === filterSize)
         );
@@ -140,11 +140,11 @@ export const useItemViewModel = () => {
         fetchItems(0, 1000, null, keyword);
     }, [fetchItems]);
 
-    
+
     const resetFilters = useCallback(() => {
         setFilterColor('');
         setFilterSize('');
-      }, []);
+    }, []);
 
     const clearSearch = useCallback(() => {
         console.log('clearSearch called');
@@ -156,7 +156,7 @@ export const useItemViewModel = () => {
     const handleColorFilter = useCallback((color) => {
         setFilterColor(color);
     }, []);
-    
+
     const handleSizeFilter = useCallback((size) => {
         setFilterSize(size);
     }, []);

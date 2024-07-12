@@ -100,37 +100,19 @@ export const itemCreate = async (itemData) => {
 export const itemUpdate = async (id, itemData) => {
   console.log("itemUpdate", id, itemData);
 
-  const formData = new FormData();
-
-  // ItemDTO 데이터를 JSON 문자열로 변환하여 추가
-  formData.append('itemDTO', new Blob([JSON.stringify(itemData.item)], { type: 'application/json' }));
-
-  // 썸네일 이미지 파일 추가
-  if (itemData.thumbnail && itemData.thumbnail.length > 0) {
-    itemData.thumbnail.forEach((file, index) => {
-      formData.append(`thumbnailFiles`, file);
-    });
-  }
-
-  // 상세 이미지 파일 추가
-  if (itemData.descriptionImage && itemData.descriptionImage.length > 0) {
-    itemData.descriptionImage.forEach((file, index) => {
-      formData.append(`descriptionImageFiles`, file);
-    });
-  }
-
   try {
     const response = await fetch(`${API_BASE_URL}/items/${id}`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`
       },
-      body: formData
+      body: itemData
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to update item');
+      const errorData = await response.text();
+      console.error('Server error response:', errorData);
+      throw new Error(errorData || 'Failed to update item');
     }
 
     return response.json();

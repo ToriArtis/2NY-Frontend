@@ -85,6 +85,7 @@ export function verifyPassword(passwordVaild){
 
 export async function deleteUser() {
   try {
+    console.log("deleteUser");
     const response = await call("/users", "DELETE");
     return !!response; // response가 truthy면 true, falsy면 false 반환
   } catch (error) {

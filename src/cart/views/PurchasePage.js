@@ -28,13 +28,14 @@ function PurchasePage() {
   const { carts, clearAllItems } = useCart();
 
   useEffect(() => {
-
+    // 관리자 권한 체크
     const userRoles = localStorage.getItem("USER_ROLESET");
     if (userRoles === 'ADMIN,USER' || userRoles === 'USER,ADMIN') {
       navigate("/");
       alert("관리자는 구매할 수 없습니다.");
     }
 
+    // 사용자 정보 가져오기
     const fetchUserInfo = async () => {
       try {
             const user = await getUserInfo();
@@ -51,6 +52,7 @@ function PurchasePage() {
 
     fetchUserInfo();
 
+    // 상품 상세 정보 가져오기
     const fetchItemDetails = async (items) => {
       const updatedItems = await Promise.all(items.map(async (item) => {
         try {
@@ -68,6 +70,7 @@ function PurchasePage() {
       return updatedItems;
     };
 
+    // 주문 아이템 업데이트
     const updateOrderItems = async () => {
       if (isFromCart && carts && carts.length > 0) {
         const updatedCarts = await fetchItemDetails(carts);
@@ -83,12 +86,53 @@ function PurchasePage() {
 
     updateOrderItems();
 
-    }, [isFromCart, items, carts]);
+  }, [isFromCart, items, carts]);
 
+  // 가격 계산
   useEffect(() => {
     calculatePrices();
   }, [orderItems]);
 
+  // 결제 모듈 스크립트 로드
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = "https://cdn.iamport.kr/v1/iamport.js";
+    script.async = true;
+    script.onload = () => {
+      if (window.IMP) {
+        window.IMP.init("imp17468865");
+      }
+    };
+    document.body.appendChild(script);
+  
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  // 결제 요청 함수
+  const onClickPay = () => {
+    if (!window.IMP) {
+      alert("결제 모듈을 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
+      return;
+    }
+  
+    window.IMP.request_pay({
+      pg: "kakaopay",
+      pay_method: "card",
+      amount: finalPrice,
+      name: orderItems[0].itemTitle + (orderItems.length > 1 ? ` 외 ${orderItems.length - 1}건` : ''),
+      merchant_uid: `ORD${new Date().getTime()}`,
+    }, function(rsp) {
+      if (rsp.success) {
+        handlePurchase();
+      } else {
+        alert("결제에 실패하였습니다. " + rsp.error_msg);
+      }
+    });
+  };
+
+  // 가격 계산 함수
   const calculatePrices = () => {
     const total = orderItems.reduce((sum, item) => {
       const itemPrice = item.price * item.quantity;
@@ -105,6 +149,7 @@ function PurchasePage() {
     setFinalPrice(total - discount);
   };
 
+  // 주문 처리 함수
   const handlePurchase = async () => {
     try {
       let order;
@@ -125,7 +170,6 @@ function PurchasePage() {
   if (orderItems.length === 0) {
     return <div>주문할 상품이 없습니다.</div>;
   }
-
 
   return (
     <div className="purchase-page">
@@ -179,10 +223,13 @@ function PurchasePage() {
               variant="contained" 
               color="primary" 
               fullWidth 
-              onClick={handlePurchase}
-              style={{marginTop: '20px'}}
+              onClick={onClickPay}
+              style={{              
+                marginTop: '20px',
+                background: '#fee500',
+                color: '#000',}}
             >
-              토스페이 결제하기
+              카카오페이 결제하기
             </Button>
           </Grid>
         </Grid>

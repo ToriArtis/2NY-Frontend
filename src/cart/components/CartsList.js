@@ -24,10 +24,14 @@ function CartsList() {
     // 에러가 있을 때 표시
     if (error) return <div>Error: {error}</div>;
     // 장바구니가 비어있을 때 표시
-    if (!carts || carts.length === 0) return <div>장바구니가 비어있습니다.</div>;
+    // if (!carts || carts.length === 0) return <div>장바구니가 비어있습니다.</div>;
 
     // 구매하기
     const handlePurchase = () => {
+        if(!carts || carts.length === 0) {
+            alert('주문 할 상품이 없습니다 !');
+            return;
+        }
         navigate('/purchase', { state: { isFromCart: true } });
     };
 
@@ -62,6 +66,11 @@ function CartsList() {
                             onRemoveItem={handleRemoveItem}
                         />
                     ))}
+                    {!carts || carts.length === 0 && (
+                        <>
+                            <div style={{textAlign: 'center', paddingTop: '5rem'}}>장바구니가 비어있습니다</div>
+                        </>
+                    )}
 
                     {hasMore && (
                         <button onClick={loadMoreCarts} className="loadMoreBtn" disabled={loading}>

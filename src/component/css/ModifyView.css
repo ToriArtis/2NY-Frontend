@@ -22,11 +22,6 @@ form>div>div>* {
     width: 15% !important;
 }
 
-.modify-address-box .MuiTypography-h4 {
-    margin-top: 2rem !important;
-}
-
-.modify-address-box .MuiTypography-h4,
-.modify-info-box .MuiTypography-h4 {
-    margin-bottom: 1.5rem !important;
+.배송지>h4 {
+    margin-top: 4rem !important;
 }

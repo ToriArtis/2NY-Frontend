@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Logout from '../api/userLoginApi';
 
 export default function DeleteView() {
+    console.log("DeleteView");
     const [openModal, setOpenModal] = useState(true);  // 컴포넌트 마운트 시 모달 표시
     const [deleteStatus, setDeleteStatus] = useState(null);
     const navigate = useNavigate();

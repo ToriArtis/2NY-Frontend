@@ -19,7 +19,6 @@ import PassWordFind from "./users/views/PasswordFindView";
 import EmailFind from "./users/views/EmailFind";
 
 
-import AddressSearch from "./users/components/AddressSearch";
 import OAuth2RedirectHandler from "./users/components/OAuthRedirectHandler";
 
 function AppRouter() {
@@ -35,9 +34,6 @@ function AppRouter() {
             <Route path="/mypage" element={<InfoPage />}/>
             <Route path="/passwordFind" element={<PassWordFind />}/>
             <Route path="/emailFind" element={<EmailFind />}/>
-
-            <Route path="/api" element={<AddressSearch />} />
-
             
             <Route path="/items" element={<ItemAllListView />} />
             <Route path="/items/category/:category" element={<ItemAllListView />} />

@@ -79,7 +79,6 @@ export function OrderDetail({ orderId, onReviewClick }) {
         <p><span className="orderDetail-label">상품금액</span>₩{parseInt(order.totalPrice).toLocaleString()}</p>
         <p><span className="orderDetail-label">할인</span>-₩{parseInt(order.totalDiscountPrice).toLocaleString()}</p>
         <p className="orderDetail-total"><span className="orderDetail-label">최종결제금액</span>₩{parseInt(order.expectPrice).toLocaleString()}</p>
-        <p><span className="orderDetail-label">결제 수단</span>{order.paymentMethod || '정보 없음'}</p>
       </div>
     </div>
   );

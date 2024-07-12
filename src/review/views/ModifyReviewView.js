@@ -53,7 +53,7 @@ export default function ModifyReviewView({ reviewId }) {
           > 리뷰 수정
           </Button>
 
-          <Button variant="outlined" color="secondary" 
+          <Button variant="outlined" color="secondary" style={{marginBottom: "50%"}}
           onClick={() => window.history.back()} fullWidth sx={{ mt: 2 }}>
             취소
             </Button>

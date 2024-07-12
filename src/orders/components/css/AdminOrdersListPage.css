@@ -187,6 +187,7 @@
     align-items: center;
     justify-content: left;
     flex-wrap: wrap;
+    margin-top: 1rem;
 }
 
 .password-button {

@@ -1,0 +1,32 @@
+form {
+    padding-top: 3rem;
+}
+
+form>div>div>* {
+    margin-bottom: 1rem !important;
+    padding: 0 !important;
+}
+
+.modify-input {
+    margin-left: 1rem;
+    width: 80%;
+    padding: 8px 0;
+    font-size: 16px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+    background-color: transparent;
+    outline: none;
+}
+
+.modify-label {
+    width: 15% !important;
+}
+
+.modify-address-box .MuiTypography-h4 {
+    margin-top: 2rem !important;
+}
+
+.modify-address-box .MuiTypography-h4,
+.modify-info-box .MuiTypography-h4 {
+    margin-bottom: 1.5rem !important;
+}

@@ -31,6 +31,9 @@
     padding: 10px;
     background-color: white;
     border: none;   
+
+    display: flex;
+    align-items: center;
 }
 .right-btn > button {
     background-color: white;
@@ -42,6 +45,28 @@
     height: auto;
     max-width: 50%;
     max-height: 50%;
+}
+.search-box {
+    display: flex;
+    align-items: center;
+}
+.search-box button {
+    background-color: white;
+    border: none;
+}
+.search-icon {
+    width: 40%;
+    height: auto;
+    max-width: 50%;
+    max-height: 50%;
+}
+.search-box form {
+    padding-top: 0;
+
+    transition: 0.8 all;
+}
+.search-box form .input-container {
+    margin-bottom: 0;
 }
 
 .category-nav {

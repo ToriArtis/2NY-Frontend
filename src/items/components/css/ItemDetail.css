@@ -132,7 +132,7 @@ select, input[type="number"] {
 .button-group {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  
   flex-wrap: wrap;
   margin: 0;
   padding: 0;
@@ -177,8 +177,9 @@ select, input[type="number"] {
 
 .review-list {
   max-width: 1200px;
-  margin: 40px auto 0;
+  margin: 5px auto 0;
   padding: 20px;
+  
 }
 
 .review-item {

@@ -19,8 +19,8 @@ import PassWordFind from "./users/views/PasswordFindView";
 import EmailFind from "./users/views/EmailFind";
 
 
-import AddressSearch from "./users/components/AddressSearch";
 import OAuth2RedirectHandler from "./users/components/OAuthRedirectHandler";
+import AddressSearch from "./users/components/AddressSearch";
 
 function AppRouter() {
     const isAdmin = localStorage.getItem("USER_ROLESET")?.includes("ADMIN");
@@ -35,9 +35,7 @@ function AppRouter() {
             <Route path="/mypage" element={<InfoPage />}/>
             <Route path="/passwordFind" element={<PassWordFind />}/>
             <Route path="/emailFind" element={<EmailFind />}/>
-
             <Route path="/api" element={<AddressSearch />} />
-
             
             <Route path="/items" element={<ItemAllListView />} />
             <Route path="/items/category/:category" element={<ItemAllListView />} />

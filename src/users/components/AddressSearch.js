@@ -1,71 +1,87 @@
 import React, { useState, useEffect } from 'react';
-import { key } from '../../Config';
-
 
 const AddressSearch = () => {
   const [address, setAddress] = useState({
-    zipcode: '',
+    postcode: '',
     roadAddress: '',
     jibunAddress: '',
     detailAddress: '',
+    extraAddress: '',
   });
-
-  const handlePostCode = () => {
-    const config = {
-      apiUrl: 'https://www.juso.go.kr/addrlink/addrLinkUrl.do',
-      confmKey: key,
-      returnUrl: 'http://localhost:3000',
-      resultType: 4,
-    };
-
-    const url = `${config.apiUrl}?confmKey=${config.confmKey}&returnUrl=${config.returnUrl}&resultType=${config.resultType}`;
-    window.open(url, 'popup', 'width=570,height=450,scrollbars=yes,resizable=yes');
-  };
-
-  const receiveMessage = (event) => {
-    if (typeof event.data === 'string') {
-      const dataParts = event.data.split(',');
-      if (dataParts.length >= 3) {
-        setAddress({
-          zipcode: dataParts[0],
-          roadAddress: dataParts[1],
-          jibunAddress: dataParts[2],
-          detailAddress: '',
-        });
-      } else {
-        console.error('Received data is not in the expected format:', event.data);
-      }
-    } else {
-      console.error('event.data is not a string:', event.data);
-    }
-  };
+  const [guide, setGuide] = useState('');
 
   useEffect(() => {
-    window.addEventListener('message', receiveMessage, false);
+    const script = document.createElement('script');
+    script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+    script.async = true;
+    document.body.appendChild(script);
     return () => {
-      window.removeEventListener('message', receiveMessage, false);
+      document.body.removeChild(script);
     };
   }, []);
 
-  const handleDetailAddressChange = (e) => {
-    setAddress(prev => ({ ...prev, detailAddress: e.target.value }));
+  const handleComplete = (data) => {
+    let roadAddr = data.roadAddress;
+    let extraRoadAddr = '';
+
+    if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+      extraRoadAddr += data.bname;
+    }
+    if (data.buildingName !== '' && data.apartment === 'Y') {
+      extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+    }
+    if (extraRoadAddr !== '') {
+      extraRoadAddr = ' (' + extraRoadAddr + ')';
+    }
+
+    setAddress(prev => ({
+      ...prev,
+      postcode: data.zonecode,
+      roadAddress: roadAddr,
+      jibunAddress: data.jibunAddress,
+      extraAddress: extraRoadAddr,
+    }));
+
+    if (data.autoRoadAddress) {
+      const expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+      setGuide(`(예상 도로명 주소 : ${expRoadAddr})`);
+    } else if (data.autoJibunAddress) {
+      const expJibunAddr = data.autoJibunAddress;
+      setGuide(`(예상 지번 주소 : ${expJibunAddr})`);
+    } else {
+      setGuide('');
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setAddress(prev => ({ ...prev, [name]: value }));
+  };
+
+  const openDaumPostcode = () => {
+    new window.daum.Postcode({
+      oncomplete: handleComplete,
+      width: 500,
+      height: 600,
+    }).open();
   };
 
   return (
     <div>
-      <h1>도로명주소 검색</h1>
-      <button onClick={handlePostCode}>우편번호 찾기</button>
-      <div>
-        <p>우편번호: {address.zipcode}</p>
-        <p>도로명 주소: {address.roadAddress}</p>
-        <p>지번 주소: {address.jibunAddress}</p>
-        <input
-          type="text"
-          value={address.detailAddress}
-          onChange={handleDetailAddressChange}
-          placeholder="상세 주소를 입력하세요"
-        />
-      </div>
+      <input type="text" id="sample4_postcode" placeholder="우편번호" value={address.postcode} readOnly />
+      <input type="button" onClick={openDaumPostcode} value="우편번호 찾기" /><br />
+      <input type="text" id="sample4_roadAddress" placeholder="도로명주소" value={address.roadAddress} readOnly />
+      <input type="text" id="sample4_jibunAddress" placeholder="지번주소" value={address.jibunAddress} readOnly />
+      <span id="guide" style={{color:'#999', display: guide ? 'block' : 'none'}}>{guide}</span>
+      <input 
+        type="text" 
+        id="sample4_detailAddress" 
+        placeholder="상세주소" 
+        name="detailAddress"
+        value={address.detailAddress} 
+        onChange={handleChange}
+      />
+      <input type="text" id="sample4_extraAddress" placeholder="참고항목" value={address.extraAddress} readOnly />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import BlueButton from '../../component/BlueButton';
 import WhiteButton from '../../component/WhiteButton';
 import DeleteView from './DeleteView';
 import { styled } from '@mui/material/styles';
+import '../../component/css/ModifyView.css';
 
 const PostcodeButton = styled(Button)({
   width: '35%',
@@ -49,16 +50,16 @@ export default function ModifyView(userInfo) {
 
   return (
     <Container>
-      <Typography variant="h4">
-        로그인 정보
-      </Typography>
       <div></div>
       {!showDeleteView ? (
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid container spacing={2}>
+              <Typography variant="h4">
+                로그인 정보
+              </Typography>
               <Grid item xs={12}>
-                <Typography>닉네임</Typography>
+                <Typography className="modify-label">닉네임</Typography>
                 <Input
                   name="nickName"
                   value={values.nickName}
@@ -67,7 +68,7 @@ export default function ModifyView(userInfo) {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Typography>이메일</Typography>
+                <Typography className="modify-label">이메일</Typography>
                 <Input
                   name="email"
                   value={values.email}
@@ -76,7 +77,7 @@ export default function ModifyView(userInfo) {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Typography>비밀번호</Typography>
+                <Typography className="modify-label">비밀번호</Typography>
                 <Input
                   name="password"
                   type="password"
@@ -93,7 +94,7 @@ export default function ModifyView(userInfo) {
                   배송지 정보
                 </Typography>
                 <Grid item xs={12}>
-                  <Typography>전화번호</Typography>
+                  <Typography className="modify-label">전화번호</Typography>
                   <Input
                     name="phone"
                     value={values.phone}
@@ -101,7 +102,7 @@ export default function ModifyView(userInfo) {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography>이름</Typography>
+                  <Typography className="modify-label">이름</Typography>
                   <Input
                     name="realName"
                     value={values.realName}
@@ -111,7 +112,7 @@ export default function ModifyView(userInfo) {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Typography>우편번호</Typography>
+                  <Typography className="modify-label">우편번호</Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                     <Input
                       name="postcode"
@@ -131,7 +132,7 @@ export default function ModifyView(userInfo) {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Typography>주소</Typography>
+                  <Typography className="modify-label">주소</Typography>
                   <Input
                     name="address"
                     value={values.address}
@@ -139,7 +140,7 @@ export default function ModifyView(userInfo) {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography>상세주소</Typography>
+                  <Typography className="modify-label">상세주소</Typography>
                   <Input
                     name="detailAddress"
                     value={values.detailAddress}

@@ -62,8 +62,6 @@
 }
 .search-box form {
     padding-top: 0;
-
-    transition: 0.8 all;
 }
 .search-box form .input-container {
     margin-bottom: 0;

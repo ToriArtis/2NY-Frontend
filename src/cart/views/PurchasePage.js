@@ -167,9 +167,6 @@ function PurchasePage() {
     }
   };
 
-  if (orderItems.length === 0) {
-    return <div>주문할 상품이 없습니다.</div>;
-  }
 
   return (
     <div className="purchase-page">
@@ -231,6 +228,19 @@ function PurchasePage() {
             >
               카카오페이 결제하기
             </Button>
+
+            {/* <button
+              fullWidth 
+              onClick={onClickPay}
+              style={{              
+                marginTop: '20px',
+                background: 'none',
+                color: '#000',
+                border: 'none'}}
+            >
+              <img src='/assets/kakaopay.png' alt='kakaopay'></img>
+            </button> */}
+
           </Grid>
         </Grid>
       </main>

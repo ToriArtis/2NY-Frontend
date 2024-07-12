@@ -235,6 +235,21 @@
     }
 }
 
+@media (max-width: 1440px) {
+    .css-zoyb8x-MuiButtonBase-root-MuiButton-root {
+        font-size: 1.2rem !important;
+    }
+    .css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root {
+        padding: 0 !important;
+    }
+    /* .css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root {
+        font-size: 1.5rem !important;
+    }
+    .css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root div p {
+        width: 20% !important;
+    } */
+}
+
 @media (min-width: 1200px) {
     .css-zwha4c-MuiGrid-root {
         -webkit-box-flex: none !important;

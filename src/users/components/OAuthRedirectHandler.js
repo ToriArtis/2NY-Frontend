@@ -48,6 +48,23 @@ function OAuth2RedirectHandler() {
           console.log('Response data:', data);
           if (data.token) {
             localStorage.setItem('ACCESS_TOKEN', data.token);
+            
+            // 사용자 정보 가져오기
+            const userInfoResponse = await fetch(`${API_BASE_URL}/users`, {
+              headers: {
+                'Authorization': `Bearer ${data.token}`
+              }
+            });
+            
+            if (userInfoResponse.ok) {
+              const userInfo = await userInfoResponse.json();
+              localStorage.setItem('USER_NICKNAME', userInfo.nickName);
+              localStorage.setItem('USER_EMAIL', userInfo.email);
+              if(userInfo.roleSet) localStorage.setItem('USER_ROLESET', JSON.stringify(userInfo.roleSet));
+            } else {
+              console.error('Failed to fetch user info');
+            }
+            
             navigate('/');
           } else {
             throw new Error('Token not received');

@@ -1,11 +1,19 @@
 import React, { useEffect } from 'react';
-import { Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, TextField, Typography } from "@mui/material";
 import { useSignUpViewModel } from "../viewModels/useSignUpViewModel";
 import Input from "../components/common/Input";
 import WhiteButton from "../../component/WhiteButton";
 import BlueButton from "../../component/BlueButton";
+import { styled } from '@mui/material/styles';
 import Footer from "../../component/Footer";
 
+const PostcodeButton = styled(Button)({
+    width: '35%',
+    height: 'auto', 
+    marginLeft: '10px',
+    marginBottom: '10px',
+});
+  
 function SignUpView() {
   const { 
     values, 
@@ -46,11 +54,25 @@ function SignUpView() {
           <Input label="이름" type="text" name="realName" value={values.realName} onChange={handleChange} required />
           <Input label="닉네임" type="text" name="nickName" value={values.nickName} onChange={handleChange} required />
           
-          <Input label="우편번호" type="text" name="postcode" value={address.postcode} readOnly />
-          <input type="button" onClick={openDaumPostcode} value="우편번호 찾기" />
-          <Input label="도로명주소" type="text" name="roadAddress" value={address.roadAddress} readOnly />
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+            <Input
+              name="postcode"
+              value={address.postcode}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+            <PostcodeButton 
+              variant="contained" 
+              onClick={openDaumPostcode}
+            >
+              우편번호 찾기
+            </PostcodeButton>
+          </Box>
+          
+          <Input type="text" name="roadAddress" value={address.roadAddress} readOnly />
           <Input label="상세주소" type="text" name="detailAddress" value={address.detailAddress} onChange={handleAddressChange} />
-          <Input label="참고항목" type="text" name="extraAddress" value={address.extraAddress} readOnly />
+          <Input type="text" name="extraAddress" value={address.extraAddress} readOnly />
           
           <Input label="전화번호" type="tel" name="phone" value={values.phone} onChange={handleChange} required />
           

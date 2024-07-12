@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { getItemDetail, itemDelete } from '../api/itemApi';
+import { itemDelete } from '../api/itemApi';
 import useItemEditViewModel from '../viewModels/useItemEditViewModel';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import '../components/css/EditItem.css';
 
 const ItemEditView = () => {
-  // URL 파라미터와 네비게이션 훅
   const { id } = useParams();
   const navigate = useNavigate();
-  // 커스텀 훅 사용
   const {
     values,
     handleChange,
+    handleContentChange,
     handleFileChange,
     handleSubmit,
     error,
@@ -19,15 +20,8 @@ const ItemEditView = () => {
     colorOptions,
     sizeOptions,
     thumbnailPreview,
-    descriptionImagePreviews,
-    fetchItem
+    descriptionImagePreviews
   } = useItemEditViewModel(id);
-
-  // 컴포넌트 마운트 시 아이템 정보 로드
-  useEffect(() => {
-    fetchItem();
-  }, [fetchItem]);
-
   const handleDelete = async () => {
     if (window.confirm('정말로 이 상품을 삭제하시겠습니까?')) {
       try {
@@ -39,18 +33,22 @@ const ItemEditView = () => {
       }
     }
   };
-  // 로딩 중 표시
+
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      ['link', 'image'],
+      ['clean']
+    ],
+  };
+
   if (isLoading) return <div>Loading...</div>;
-
-  // 에러 표시
   if (error) return <div className="error-message">{error}</div>;
-
-  // 아이템이 없을 경우
-  if (!values || !colorOptions || !sizeOptions) return <div>상품 정보를 불러오는 중 오류가 발생했습니다.</div>;
 
   return (
     <div className="edit-item-container">
-      
       <div className="main-content">
         <h1>상품 수정</h1>
         <form onSubmit={(e) => handleSubmit(e, navigate)}>
@@ -80,12 +78,12 @@ const ItemEditView = () => {
                   multiple
                 />
                 <div className="image-preview-container">
-                  {(descriptionImagePreviews || []).map((preview, index) => (
-                  <div key={index} className="image-preview">
-                    <img src={preview} alt={`상세 이미지 ${index + 1}`} />
-                  </div>
-                ))}
-              </div>
+                  {descriptionImagePreviews.map((preview, index) => (
+                    <div key={index} className="image-preview">
+                      <img src={preview} alt={`상세 이미지 ${index + 1}`} />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
             <div className="item-details-section">
@@ -101,11 +99,10 @@ const ItemEditView = () => {
               </div>
               <div className="form-group">
                 <label htmlFor="content">상품 정보</label>
-                <textarea
-                  id="content"
-                  name="content"
+                <ReactQuill
                   value={values.content}
-                  onChange={handleChange}
+                  onChange={handleContentChange}
+                  modules={modules}
                 />
               </div>
               <div className="form-group">
@@ -149,7 +146,7 @@ const ItemEditView = () => {
                 <select
                   id="color"
                   name="color"
-                  value={values?.color || ''}
+                  value={values.color}
                   onChange={handleChange}
                 >
                   <option value="">선택하세요</option>
@@ -165,7 +162,7 @@ const ItemEditView = () => {
                 <select
                   id="size"
                   name="size"
-                  value={values?.size || ''}
+                  value={values.size}
                   onChange={handleChange}
                 >
                   <option value="">선택하세요</option>
@@ -176,7 +173,6 @@ const ItemEditView = () => {
                   ))}
                 </select>
               </div>
-
             </div>
           </div>
           <div className="button-group">

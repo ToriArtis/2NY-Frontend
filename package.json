@@ -20,6 +20,7 @@
     "react-icons": "^5.2.1",
     "react-kakao-login": "^2.1.1",
     "react-naver-login": "^0.1.4",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^6.24.0",
     "react-scripts": "^5.0.1",
     "react-slick": "^0.30.2",

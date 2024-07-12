@@ -205,8 +205,8 @@ const ItemDetailView = () => {
       
       <div className="content-and-top-selling">
   <div className="item-content">
-    <h2>상품 설명</h2>
-    <p>{itemData.content}</p>
+    <h2>상품 정보</h2>
+    <div dangerouslySetInnerHTML={{ __html: itemData.content }} />
   </div>
 
   <div className="top-selling-items">

@@ -81,6 +81,14 @@ export default function useItemCreateViewModel() {
         }
     };
 
+    // React Quill에서 content 변경 처리
+    const handleContentChange = (content) => {
+        setValues(prevValues => ({
+            ...prevValues,
+            content: content
+        }));
+    };
+
     // 폼 유효성 검사
     const validateForm = () => {
         if (!values.title) {
@@ -144,6 +152,7 @@ export default function useItemCreateViewModel() {
         colorOptions,
         sizeOptions,
         thumbnailPreview,
-        descriptionImagePreviews
+        descriptionImagePreviews,
+        handleContentChange
     };
 }

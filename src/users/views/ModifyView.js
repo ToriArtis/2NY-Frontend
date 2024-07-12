@@ -15,7 +15,7 @@ const PostcodeButton = styled(Button)({
 });
 
 export default function ModifyView(userInfo) {
-  const isAdmin = localStorage.getItem("USER_ROLESET").includes("ADMIN");
+  const userRoles = localStorage.getItem("USER_ROLESET");
   const [showDeleteView, setShowDeleteView] = useState(false);
 
   const {
@@ -87,7 +87,7 @@ export default function ModifyView(userInfo) {
               </Grid>
             </Grid>
             
-            {!isAdmin && (
+            {userRoles && !(userRoles && userRoles.includes("ADMIN")) && (
               <Grid container spacing={2} className='배송지 정보'>
                 <Typography variant="h4">
                   배송지 정보

@@ -4,13 +4,7 @@ import "../components/css/users.css";
 import Input from "../components/common/Input";
 import Footer from "../../component/Footer";
 import { useLoginViewModel } from "../viewModels/useLoginViewModel";
-
-// 환경 변수에서 클라이언트 ID와 리디렉션 URI를 가져옵니다.
-const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-const NAVER_CLIENT_ID = process.env.REACT_APP_NAVER_CLIENT_ID;
-const KAKAO_CLIENT_ID = process.env.REACT_APP_KAKAO_CLIENT_ID;
-const REDIRECT_URI = process.env.REACT_APP_OAUTH_REDIRECT_URI;
-
+import { googleKey, naverKey, kakaoKey, redirectUri } from "../../Config";
 
 function LoginView() {
   if(localStorage.getItem("ACCESS_TOKEN") ) {
@@ -33,19 +27,19 @@ const handleSocialLogin = (provider) => {
   sessionStorage.setItem('oauth_state', state);
   sessionStorage.setItem('oauth_provider', provider);
 
-    let authUrl;
-    switch(provider) {
-      case 'google':
-        authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.REACT_APP_OAUTH_REDIRECT_URI)}&response_type=code&scope=email%20profile&state=${state}`;
-        break;
-      case 'naver':
-        authUrl = `https://nid.naver.com/oauth2.0/authorize?client_id=${process.env.REACT_APP_NAVER_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.REACT_APP_OAUTH_REDIRECT_URI)  }&response_type=code&state=${state}`;
-        break;
-        case 'kakao':
-          authUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.REACT_APP_OAUTH_REDIRECT_URI)}&response_type=code&state=${state}`;
-        break;
-      default:
-        return;
+  let authUrl;
+  switch(provider) {
+    case 'google':
+      authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleKey}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=email%20profile&state=${state}`;
+      break;
+    case 'naver':
+      authUrl = `https://nid.naver.com/oauth2.0/authorize?client_id=${naverKey}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&state=${state}`;
+      break;
+    case 'kakao':
+      authUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoKey}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&state=${state}`;
+      break;
+    default:
+      return;
     }
     window.location.href = authUrl;
   };

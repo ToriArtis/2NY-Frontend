@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
-import { Grid, Typography, Container, CircularProgress } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Grid, Typography, Container, CircularProgress, Box, Button } from '@mui/material';
 import { useModifyViewModel } from '../viewModels/useModifyViewModel';
 import Input from '../components/common/Input';
 import BlueButton from '../../component/BlueButton';
 import WhiteButton from '../../component/WhiteButton';
 import DeleteView from './DeleteView';
+import { styled } from '@mui/material/styles';
+
+const PostcodeButton = styled(Button)({
+  width: '35%',
+  height: 'auto', 
+  marginLeft: '10px',
+  marginBottom: '10px',
+});
 
 export default function ModifyView(userInfo) {
   const isAdmin = localStorage.getItem("USER_ROLESET").includes("ADMIN");
@@ -14,9 +22,26 @@ export default function ModifyView(userInfo) {
     values,
     handleChange,
     handleSubmit,
+    handleDaumPostcode,
     error,
     isSubmitting
   } = useModifyViewModel(userInfo);
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+    script.async = true;
+    document.body.appendChild(script);
+    return () => document.body.removeChild(script);
+  }, []);
+
+  const openDaumPostcode = () => {
+    new window.daum.Postcode({
+      oncomplete: handleDaumPostcode,
+      width: 500,
+      height: 600,
+    }).open();
+  };
 
   if (!values.email) {
     return <CircularProgress />;
@@ -84,6 +109,27 @@ export default function ModifyView(userInfo) {
                     readOnly
                   />
                 </Grid>
+
+                <Grid item xs={12}>
+                  <Typography>우편번호</Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                    <Input
+                      name="postcode"
+                      value={values.postcode}
+                      onChange={handleChange}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                    <PostcodeButton 
+                      variant="contained" 
+                      onClick={openDaumPostcode}
+                    >
+                      우편번호 찾기
+                    </PostcodeButton>
+                  </Box>
+                </Grid>
+
                 <Grid item xs={12}>
                   <Typography>주소</Typography>
                   <Input

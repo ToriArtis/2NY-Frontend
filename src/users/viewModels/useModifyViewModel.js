@@ -14,6 +14,7 @@ export function useModifyViewModel(initialUserInfo) {
     address: '',
     detailAddress: '',
     phone: '',
+    postcode: '',
   });
 
   useEffect(() => {
@@ -61,10 +62,20 @@ export function useModifyViewModel(initialUserInfo) {
     }
   };
 
+  const handleDaumPostcode = useCallback((data) => {
+    setValues(prev => ({
+      ...prev,
+      postcode: data.zonecode,
+      address: data.roadAddress,
+      detailAddress: '',
+    }));
+  }, [setValues]);
+
   return {
     values,
     handleChange,
     handleSubmit,
+    handleDaumPostcode,
     error,
     isSubmitting,
   };

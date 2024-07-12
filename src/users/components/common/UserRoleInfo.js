@@ -59,7 +59,7 @@ export default function UserRoleInfo() {
             </Grid>
 
             {/* Right side - 70% */}
-            <Grid item xs={12} md={8.4} sx={{ pl: 4 }}>
+            <Grid item xs={12} md={8.4} sx={{ pl: 4 }} className='review'>
                 {activeView}
             </Grid>
         </Grid>

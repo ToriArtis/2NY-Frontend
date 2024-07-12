@@ -8,11 +8,13 @@ function Header({ onSearch, clearSearch }) {
     let nav = useNavigate();
     const userRoles = localStorage.getItem("USER_ROLESET");
     const [searchKeyword, setSearchKeyword] = useState("");
+    const [isSearchVisible, setIsSearchVisible] = useState(false);
 
     // 검색 핸들러
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         onSearch(searchKeyword);
+        setIsSearchVisible(false);
     };
 
     const handleCartClick = () => {
@@ -23,6 +25,10 @@ function Header({ onSearch, clearSearch }) {
         }
     };
 
+    const toggleSearch = () => {
+        setIsSearchVisible(!isSearchVisible);
+      };
+
     return (
         <Container component="header" className="header-container">
             <Grid container direction="column" alignItems="center">
@@ -30,15 +36,25 @@ function Header({ onSearch, clearSearch }) {
                     <div className="left-btn">
                         <button onClick={() => nav('/')}><img src="/assets/logo.png" alt="Logo" /></button>
                     </div>
-                    <form onSubmit={handleSearchSubmit}>
-                        <Input
-                            label="검색"
-                            value={searchKeyword}
-                            onChange={(e) => setSearchKeyword(e.target.value)}
-                        />
-                    </form>
                     <div className="right-btn">
-                        <button><div><img src="/assets/Search.png" alt="Search" /></div>검색</button>
+                        <div className="search-box">
+                            {isSearchVisible ? (
+                                    <>
+                                    <form onSubmit={handleSearchSubmit} className="search-form">
+                                        <Input
+                                            label="검색"
+                                            value={searchKeyword}
+                                            onChange={(e) => setSearchKeyword(e.target.value)}
+                                            autoFocus
+                                        />
+                                    </form>
+                                    </>
+                                ) : null }
+                            <button onClick={toggleSearch} className="search-icon-button">
+                                <div><img src="/assets/Search.png" alt="Search" className="search-icon" /></div>
+                                검색
+                            </button>
+                        </div>
 
                         {localStorage.getItem("ACCESS_TOKEN") ? (
                             <button onClick={() => nav('/mypage')}><div><img src="/assets/User.png" alt="User" /></div>마이페이지</button>

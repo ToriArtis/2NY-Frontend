@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useItemViewModel } from '../hooks/useItemViewModel';
 import { useCart } from '../../cart/hooks/useCart';
@@ -10,6 +10,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import '../components/css/ItemDetail.css';
+import Pagination from '../../review/components/Pagination';
 
 const StarRating = ({ rating }) => (
   <div className="star-rating">
@@ -49,46 +50,59 @@ const ItemDetailView = () => {
   const [selectedSize, setSelectedSize] = useState('');
   const [quantity, setQuantity] = useState(1);
 
+  // 리뷰 페이지네이션
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
   const { id } = useParams();
   const navigate = useNavigate();
   const { addItemToCart } = useCart();
   const { fetchItem, fetchTopSellingItems, topSellingItems, loading: itemLoading, error: itemError } = useItemViewModel();
 
-  useEffect(() => {
-    const fetchItemAndReviews = async () => {
-      setIsLoading(true);
-      try {
-        const data = await fetchItem(id);
-        console.log('Fetched data:', data);
-        if (data && data.item) {
-          setItemData(data.item);
-          setSelectedColor(Array.isArray(data.item.color) ? data.item.color[0] : data.item.color);
-          setSelectedSize(Array.isArray(data.item.size) ? data.item.size[0] : data.item.size);
-        } else {
-          throw new Error('Invalid item data structure');
-        }
 
-        if (data && data.reviews && Array.isArray(data.reviews.content)) {
-          setReviews(data.reviews.content);
-        } else {
-          console.warn('No reviews found or invalid review data structure');
-          setReviews([]);
-        }
-
-        await fetchTopSellingItems();
-      } catch (err) {
-        console.error('Error in fetchItemAndReviews:', err);
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
+  const fetchItemAndReviews = useCallback(async (page = 0) => {
+    try {
+      const data = await fetchItem(id, page);
+      console.log('Fetched data:', data);
+      if (data && data.item) {
+        setItemData(data.item);
+        setSelectedColor(Array.isArray(data.item.color) ? data.item.color[0] : data.item.color);
+        setSelectedSize(Array.isArray(data.item.size) ? data.item.size[0] : data.item.size);
+      } else {
+        throw new Error('Invalid item data structure');
       }
-    };
 
+      if (data && data.reviews && Array.isArray(data.reviews.content)) {
+        setReviews(data.reviews.content);
+        setCurrentPage(data.reviews.number);
+        setTotalPages(data.reviews.totalPages);
+      } else {
+        console.warn('No reviews found or invalid review data structure');
+        setReviews([]);
+      }
+
+      await fetchTopSellingItems();
+    } catch (err) {
+      console.error('Error in fetchItemAndReviews:', err);
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [id, fetchItem, fetchTopSellingItems]);
+
+
+  // 페이지 변경
+  const handlePageChange = useCallback((newPage) => {
+    fetchItemAndReviews(newPage);
+  }, [fetchItemAndReviews]);
+
+  useEffect(() => {
     fetchItemAndReviews();
 
     const userRoles = localStorage.getItem("USER_ROLESET");
     setIsAdmin(userRoles && userRoles.includes("ADMIN"));
-  }, [id, fetchItem, fetchTopSellingItems]);
+  }, [fetchItemAndReviews]);
+
 
   const handleUpdate = () => {
     if (isAdmin) {
@@ -130,8 +144,8 @@ const ItemDetailView = () => {
   const formatDate = (dateString) => {
     if (!dateString) return '';
     const date = new Date(dateString);
-    return isNaN(date.getTime()) 
-      ? dateString 
+    return isNaN(date.getTime())
+      ? dateString
       : date.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\. /g, '.').slice(0, -1);
   };
 
@@ -145,8 +159,8 @@ const ItemDetailView = () => {
       <div className="item-detail-container">
         <div className="item-images">
           {itemData.thumbnail && itemData.descriptionImage && (
-            <ImageCarousel 
-              images={[getImageUrl(itemData.thumbnail), ...itemData.descriptionImage.map(img => getImageUrl(img))]} 
+            <ImageCarousel
+              images={[getImageUrl(itemData.thumbnail), ...itemData.descriptionImage.map(img => getImageUrl(img))]}
             />
           )}
         </div>
@@ -202,40 +216,45 @@ const ItemDetailView = () => {
           </div>
         </div>
       </div>
-      
-      <div className="content-and-top-selling">
-  <div className="item-content">
-    <h2>상품 정보</h2>
-    <div dangerouslySetInnerHTML={{ __html: itemData.content }} />
-  </div>
 
-  <div className="top-selling-items">
-    <h2>인기 상품</h2>
-    <div className="item-grid">
-      {topSellingItems.map((item) => (
-        <ItemCard key={item.id} item={item} onClick={() => navigate(`/items/${item.id}`)} />
-      ))}
-    </div>
-  </div>
-</div>
+      <div className="content-and-top-selling">
+        <div className="item-content">
+          <h2>상품 정보</h2>
+          <div dangerouslySetInnerHTML={{ __html: itemData.content }} />
+        </div>
+
+        <div className="top-selling-items">
+          <h2>인기 상품</h2>
+          <div className="item-grid">
+            {topSellingItems.map((item) => (
+              <ItemCard key={item.id} item={item} onClick={() => navigate(`/items/${item.id}`)} />
+            ))}
+          </div>
+        </div>
+      </div>
 
       <div className="review-list">
         <h2>Reviews</h2>
         {reviews.length > 0 ? (
-          reviews.map((review) => (
-            <div key={review.reviewId} className="review-item">
-              <div className="review-header">
-                <span className="review-author">{review.nickName}</span>
-                <StarRating rating={review.star} />
+          <>
+            {reviews.map((review) => (
+              <div key={review.reviewId} style={{ borderBottom: '1px solid #e0e0e0', padding: '20px 0' }} >
+                <div className="review-header">
+                  <span className="review-author">{review.nickName}</span>
+                </div>
+                <div className="rating-date-container">
+                  <StarRating rating={review.star} />
+                  <span className="review-date">
+                    {review.updatedAt && review.updatedAt !== review.createdAt
+                      ? `${formatDate(review.updatedAt)}`
+                      : formatDate(review.createdAt)}
+                  </span>
+                </div>
+                <p className="review-text">{review.content}</p>
               </div>
-              <p className="review-text">{review.content}</p>
-              <span className="review-date">
-                {review.updatedAt && review.updatedAt !== review.createdAt
-                  ? `${formatDate(review.updatedAt)}`
-                  : formatDate(review.createdAt)}
-              </span>
-            </div>
-          ))
+            ))}
+            <Pagination currentPage={currentPage} totalPages={totalPages} paginate={handlePageChange} />
+          </>
         ) : (
           <p>아직 리뷰가 없습니다.</p>
         )}

@@ -18,22 +18,21 @@ export default function ModifyReviewView({ reviewId }) {
   if (isLoading) {
     return <CircularProgress />;
   }
-
+  
   return (
+    <div className="review-list-page"
+    style={{border : "1px solid #e0e0e0", margin: "0 auto", padding: "2rem 1.2rem"}} >
     <Container component="main" maxWidth="xs" sx={{ marginTop: "8%" }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography component="h1" variant="h5" 
-            style={{ textAlign: "left", borderBottom: "1px solid #ddd", paddingBottom: "10px", marginBottom: "20px"}}>
-            <b>Review</b>
-          </Typography>
-        </Grid>
-      </Grid>
+      <Typography component="h1" variant="h5"
+        style={{ textAlign: "left", borderBottom: "1px solid #ddd", paddingBottom: "10px", marginBottom: "20px" }}>
+        <b>Review</b>
+      </Typography>
       <br />
-      
+
       <Grid>
+      <h3 style={{ textAlign: "center" }}>상품은 만족하셨나요?</h3>
+      <StarRating onChange={handleStarChange} initialRating={values.star} />
         <form onSubmit={handleSubmit}>
-          <StarRating onChange={handleStarChange} initialRating={values.star} />
           <Typography variant="subtitle1" sx={{ mt: 3, mb: 1 }}>내용</Typography>
           <TextField
             multiline
@@ -46,19 +45,21 @@ export default function ModifyReviewView({ reviewId }) {
             variant="outlined"
             sx={{ mb: 2 }}
           />
-          
+
           {error && <Typography color="error" sx={{ mb: 2 }}>{error}</Typography>}
-          <Button variant="contained" color="primary" type="submit" fullWidth
-            disabled={isSubmitting}
-          > 리뷰 수정
+          <Button variant="contained" color="primary" type="submit" fullWidth disabled={isSubmitting}
+          style={{backgroundColor: "#516FF5"}}> 
+            후기 수정
           </Button>
 
-          <Button variant="outlined" color="secondary" style={{marginBottom: "50%"}}
-          onClick={() => window.history.back()} fullWidth sx={{ mt: 2 }}>
+          <Button variant="outlined" color="secondary" 
+          style={{ marginBottom: "50%", color: "#464646", borderColor: "#464646"}}
+            onClick={() => window.history.back()} fullWidth sx={{ mt: 2, '&:hover': {backgroundColor: 'rgba(0, 0, 0, 0.04)' }}}>
             취소
-            </Button>
+          </Button>
         </form>
       </Grid>
     </Container>
+    </div>
   );
 }

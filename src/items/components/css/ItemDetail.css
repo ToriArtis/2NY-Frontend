@@ -247,12 +247,6 @@ select, input[type="number"] {
     min-width: auto;
   }
 }
-  /* 리뷰 디자인 */
-  .review-list {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
 
   @media (max-width: 768px) {
     .content-and-top-selling {
@@ -263,4 +257,48 @@ select, input[type="number"] {
     .top-selling-items {
       flex: 0 0 100%;
     }
+  }
+  
+  
+  /* 리뷰 디자인 */
+  .review-list {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .review-author {
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+  
+  .review-date {
+    font-size: 0.9em;
+    color: #888;
+  }
+  
+  .star-rating {
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+    color: #FFD700;
+    margin-right: 10px
+  }
+  
+  .review-text {
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+
+  .rating-date-container {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
   }

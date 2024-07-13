@@ -28,7 +28,7 @@ export function CreateReviewViewModel(itemId, userId, orderId) {
 
   const validateForm = () => {
     if (values.content.length < 10) {
-      setError('리뷰 내용은 10자 이상이어야 합니다.');
+      setError('후기 내용은 10자 이상이어야 합니다.');
       return false;
     }
     if (values.star < 1 || values.star > 5) {
@@ -60,7 +60,7 @@ export function CreateReviewViewModel(itemId, userId, orderId) {
         content: values.content,
       };
       await createReview(reviewDTO);
-      alert('리뷰가 등록되었습니다.');
+      alert('후기가 등록되었습니다.');
       window.location.href = '/mypage';
 
     } catch (error) {

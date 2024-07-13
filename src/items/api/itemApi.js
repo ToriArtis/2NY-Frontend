@@ -152,10 +152,9 @@ export const itemList = async (page = 0, size = 20) => {
 
 
 // 아이템 상세 조회 (이름을 getItemDetail로 변경)
-export const getItemDetail = async (id) => {
+export const getItemDetail = async (id, page = 0, size = 10) => {
   try {
-    console.log(`Fetching item with id: ${id}`);
-    const response = await call(`/items/${id}`, "GET");
+    const response = await call(`/items/${id}?page=${page}&size=${size}`, "GET");
     console.log('API response:', response);
     return response;
   } catch (error) {

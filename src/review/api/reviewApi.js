@@ -66,8 +66,8 @@ export function modifyReview(reviewId, reviewDTO) {
 }
 
 // 로그인한 사용자의 리뷰 목록 조회
-export function userReviewList() {
-  return call("/review/user", "GET");
+export function userReviewList(page = 0, size = 10) {
+  return call(`/review/user?page=${page}&size=${size}`, "GET");
 }
 
 // 리뷰 삭제
@@ -76,6 +76,6 @@ export function deleteReview(reviewId) {
 }
 
 // 특정 상품의 리뷰 목록 조회
-export function getReviewsByItemId(itemId) {
-  return call(`/review/item/${itemId}`, "GET");
+export function getReviewsByItemId(itemId, page = 0, size =10) {
+  return call(`/review/item/${itemId}?page=${page}&size=${size}`, "GET");
 }

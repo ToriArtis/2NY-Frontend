@@ -21,7 +21,7 @@ export function ModifyReviewViewModel(reviewId) {
         });
         setIsLoading(false);
       } catch (error) {
-        setError('리뷰 정보를 불러오는데 실패했습니다.');
+        setError('후기 정보를 불러오는데 실패했습니다.');
         setIsLoading(false);
       }
     };
@@ -31,7 +31,7 @@ export function ModifyReviewViewModel(reviewId) {
 
   const validateForm = () => {
     if (values.content.length < 10) {
-      setError('리뷰 내용은 10자 이상이어야 합니다.');
+      setError('후기 내용은 10자 이상이어야 합니다.');
       return false;
     }
     if (values.star < 1 || values.star > 5) {
@@ -58,11 +58,11 @@ export function ModifyReviewViewModel(reviewId) {
         star: values.star,
       };
       await modifyReview(reviewId, reviewDTO);
-      alert('리뷰가 수정되었습니다.');
+      alert('후기가 수정되었습니다.');
       window.location.href = '/mypage';
 
     } catch (error) {
-      setError(error.message || '리뷰 수정 중 오류가 발생했습니다.');
+      setError(error.message || '후기 수정 중 오류가 발생했습니다.');
     } finally {
       setIsSubmitting(false);
     }

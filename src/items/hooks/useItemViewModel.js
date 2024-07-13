@@ -64,10 +64,10 @@ export const useItemViewModel = () => {
         }
     }, []);
 
-    const fetchItem = useCallback(async (itemId) => {
+    const fetchItem = useCallback(async (itemId, page = 0, size = 10) => {
         setLoading(true);
         try {
-            const response = await getItemDetail(itemId);
+            const response = await getItemDetail(itemId, page, size);
             console.log('API response:', response);
             if (!response || (!response.item && !response.reviews)) {
                 throw new Error('Invalid response structure');

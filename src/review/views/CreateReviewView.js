@@ -19,23 +19,18 @@ function CreateReviewView({ itemId: propItemId, userId: propUserId, orderId: pro
     console.log("itemId:", finalItemId, "userId:", finalUserId, "orderId:", finalOrderId);
 
     const { content, star, handleChange, handleSubmit, handleStarChange, error } = CreateReviewViewModel(finalItemId, finalUserId, finalOrderId);
-   
+
     return (
         <Container component="main" maxWidth="xs" sx={{ marginTop: "8%" }}>
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <Typography component="h1" variant="h5"
-                        style={{ textAlign: "left", borderBottom: "1px solid #ddd", paddingBottom: "10px", margiBnottom: "20px" }}>
-                        <b>Review</b>
-                    </Typography>
-                </Grid>
-            </Grid>
+            <Typography component="h1" variant="h5"
+                style={{ textAlign: "left", borderBottom: "1px solid #ddd", paddingBottom: "10px", margiBnottom: "20px" }}>
+                <b>Review</b>
+            </Typography>
             <br />
             <Grid>
                 <h3 style={{ textAlign: "center" }}>상품은 만족하셨나요?</h3>
-
+                <StarRating onChange={handleStarChange} />
                 <form onSubmit={handleSubmit}>
-                    <StarRating onChange={handleStarChange} />
                     <Typography variant="subtitle1" sx={{ mt: 3, mb: 1 }}>내용</Typography>
                     <TextField
                         multiline
@@ -50,10 +45,12 @@ function CreateReviewView({ itemId: propItemId, userId: propUserId, orderId: pro
                     />
 
                     {error && <Typography color="error">{error}</Typography>}
-                    <Button variant="contained" color="primary" type="submit" fullWidth>
-                        리뷰 등록
+                    <Button variant="contained" color="primary" type="submit" fullWidth
+                    style={{backgroundColor: "#516FF5"}}>
+                        후기 등록
                     </Button>
-                    <Button variant="outlined" color="secondary" onClick={onCancel} fullWidth sx={{ mt: 2 }}>
+                    <Button variant="outlined" color="secondary" 
+                    onClick={onCancel} style={{color: "#464646", borderColor: "#464646"}} fullWidth sx={{ mt: 2, '&:hover': {backgroundColor: 'rgba(0, 0, 0, 0.04)' }}}>
                         취소
                     </Button>
                 </form>

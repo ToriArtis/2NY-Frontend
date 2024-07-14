@@ -28,7 +28,7 @@ function CartsList() {
 
     // 구매하기
     const handlePurchase = () => {
-        if(!carts || carts.length === 0) {
+        if (!carts || carts.length === 0) {
             alert('주문 할 상품이 없습니다 !');
             return;
         }
@@ -59,7 +59,7 @@ function CartsList() {
             <div className="carts-list-wrapper">
                 <div className="cart-item-wrapper">
                     {carts.map((cart) => (
-                        <CartItem 
+                        <CartItem
                             key={cart.itemCartId}
                             cart={cart}
                             onUpdateQuantity={handleUpdateQuantity}
@@ -68,7 +68,7 @@ function CartsList() {
                     ))}
                     {!carts || carts.length === 0 && (
                         <>
-                            <div style={{textAlign: 'center', paddingTop: '5rem'}}>장바구니가 비어있습니다</div>
+                            <div style={{ textAlign: 'center', paddingTop: '5rem' }}>장바구니가 비어있습니다</div>
                         </>
                     )}
 
@@ -78,14 +78,14 @@ function CartsList() {
                         </button>
                     )}
                 </div>
-                
+
                 <div className="cart-summary">
                     <div className="cart-summary-top">
                         <div>
                             <p>상품 합계 금액: </p>
                             <p>₩{parseInt(totalPrice).toLocaleString()}</p>
                         </div>
-                        
+
                         <div>
                             <p>할인: </p>
                             <p>₩{parseInt(totalDiscountAmount).toLocaleString()}</p>

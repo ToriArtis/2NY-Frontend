@@ -22,10 +22,10 @@ function CartsListPage() {
         <div className="carts-page">
             <main>
                 <h1>장바구니</h1>
-                <CartsList 
-                    carts={carts} 
-                    onUpdateQuantity={updateItemQuantity} 
-                    onRemoveItem={removeItemFromCart} 
+                <CartsList
+                    carts={carts}
+                    onUpdateQuantity={updateItemQuantity}
+                    onRemoveItem={removeItemFromCart}
                 />
                 <div className="cart-summary">
                     <p>총 상품금액: ₩{parseInt(totalPrice).toLocaleString()}</p>

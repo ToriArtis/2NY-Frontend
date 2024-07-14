@@ -17,11 +17,11 @@ export function CartItem({ cart, onUpdateQuantity, onRemoveItem }) {
         <div className="cart-item">
             <div className="cart-product">
                 <img src={getImageUrl(cart.thumbnail[0])} alt={cart.itemTitle} />
-                
+
                 <div className="product-info">
                     <h3>{cart.itemTitle}</h3>
                     <p>₩{parseInt(cart.price).toLocaleString()}</p>
-                    
+
                     <div className="quantity-control">
                         <button onClick={() => handleUpdateQuantity(cart.itemCartId, -1)}>-</button>
                         <span>{cart.quantity}</span>

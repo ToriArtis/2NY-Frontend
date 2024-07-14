@@ -135,3 +135,29 @@ h1 {
     background-color: #3d4b9a;
     text-decoration: none;
 }
+
+@media (max-width: 768px) {
+    .cart-item-wrapper {
+        width: 60%;
+    }
+
+    .cart-summary {
+        width: 30%;
+    }
+}
+
+@media (max-width: 540px) {
+    .carts-list-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cart-item-wrapper {
+        width: 100%;
+    }
+
+    .cart-summary {
+        width: 100%;
+        margin-top: 5rem;
+    }
+}

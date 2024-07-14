@@ -1,9 +1,8 @@
-
 .admin-orders-page {
     padding: 3rem;
     border: 1px solid #ccc;
 }
-  
+
 .admin-orders-title {
     font-size: 2rem;
     color: #333;
@@ -11,7 +10,7 @@
     border-bottom: 2px solid #333;
     padding-bottom: 0.5rem;
 }
-  
+
 .admin-orders-list {
     background-color: white;
 }
@@ -22,32 +21,34 @@
     width: 100%;
     border-bottom: 1px solid #D9D9D9;
 }
+
 .admin-orders-column p {
     width: 20%;
     text-align: center;
 }
-  
+
 .admin-order-item {
     border-bottom: 1px solid #e0e0e0;
     padding: 15px;
     transition: background-color 0.3s ease;
 }
-  
+
 .admin-order-item:hover {
     background-color: #f9f9f9;
 }
-  
+
 .admin-order-details {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-  
+
 .admin-order-info {
     display: flex;
     align-items: center;
     width: 100%;
 }
+
 .admin-order-info p,
 .admin-order-status {
     width: 20%;
@@ -61,7 +62,7 @@
 .admin-order-status {
     text-align: center;
 }
-  
+
 .admin-status-select {
     width: 40%;
     text-align: center;
@@ -102,7 +103,7 @@
     justify-content: center;
     margin-top: 20px;
 }
-  
+
 .admin-pagination button {
     background-color: white;
     border: none;
@@ -110,23 +111,25 @@
     margin: 0 5px;
     cursor: pointer;
 }
-  
+
 .admin-pagination button:hover {
     background-color: #e9ecef;
 }
-  
+
 .admin-pagination button.active {
     font-weight: bold;
 }
 
-.css-mhc70k-MuiGrid-root{
+.css-mhc70k-MuiGrid-root {
     width: 80% !important;
     margin: 0 auto !important;
 }
+
 .css-1idn90j-MuiGrid-root {
     display: flex !important;
     justify-content: left !important;
 }
+
 .css-1idn90j-MuiGrid-root>h1 {
     float: none !important;
     margin: 0 !important;
@@ -148,15 +151,19 @@
     transition: 0.3s all !important;
     justify-content: left !important;
 }
+
 .css-zoyb8x-MuiButtonBase-root-MuiButton-root.active {
     color: #000 !important;
 }
+
 .css-zoyb8x-MuiButtonBase-root-MuiButton-root:hover {
     color: #000 !important;
 }
+
 .css-zoyb8x-MuiButtonBase-root-MuiButton-root:hover {
     background-color: none !important;
 }
+
 .css-1qs1oxw-MuiGrid-root {
     padding: 1rem 0 0 0 !important;
     width: 80%;
@@ -167,7 +174,8 @@
 
 
 }
-.css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root {
+
+.css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root {
     width: 80% !important;
     float: left !important;
 
@@ -176,13 +184,13 @@
     padding-bottom: 5rem !important;
 }
 
-.css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root h2 {
+.css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root h2 {
     border-bottom: 1px solid #000;
     margin-bottom: 0 !important;
     padding-bottom: 1rem !important;
 }
 
-.css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root .input-box>div {
+.css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root .input-box>div {
     display: flex;
     align-items: center;
     justify-content: left;
@@ -193,9 +201,10 @@
 .password-button {
     width: 90%;
 }
+
 .password-button button {
     float: right;
-    margin:  4% 0 !important;
+    margin: 4% 0 !important;
     width: 20% !important;
     background-color: #516FF5 !important;
     color: white !important;
@@ -203,21 +212,44 @@
 
     transition: 0.3s all !important;
 }
+
 .password-button button:hover {
     background-color: #4a90e2 !important;
 }
 
-.css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root div p {
+.css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root div p {
     width: 10%;
 }
 
-.css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root div .input-container {
+.css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root div .input-container {
     width: 80%;
     margin-bottom: 0;
 }
 
-.css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root div .input-container input {
+.css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root div .input-container input {
     padding: 0.5rem 0;
+}
+
+@media (max-width: 1440px) {
+    .css-mhc70k-MuiGrid-root {
+        width: 100% !important;
+    }
+
+    .css-bn9g8l-MuiGrid-root {
+        width: 100% !important;
+    }
+
+    .css-zoyb8x-MuiButtonBase-root-MuiButton-root {
+        font-size: 1.2rem !important;
+    }
+
+    .css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root {
+        padding: 0 !important;
+    }
+
+    .css-1oqqzyl-MuiContainer-root form .input-box {
+        margin-left: 1rem !important;
+    }
 }
 
 @media (min-width: 1536px) {
@@ -227,6 +259,7 @@
         flex-grow: initial !important;
         max-width: none !important;
     }
+
     .css-bn9g8l-MuiGrid-root>.MuiGrid-item {
         -webkit-box-flex: none !important;
         flex-basis: auto !important;
@@ -235,19 +268,14 @@
     }
 }
 
-@media (max-width: 1440px) {
-    .css-zoyb8x-MuiButtonBase-root-MuiButton-root {
-        font-size: 1.2rem !important;
+@media (max-width: 1240px) {
+    nav.css-1oqqzyl-MuiContainer-root {
+        padding-right: 0 !important;
     }
-    .css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root {
-        padding: 0 !important;
+
+    .css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root {
+        width: 90% !important;
     }
-    /* .css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root {
-        font-size: 1.5rem !important;
-    }
-    .css-1qs1oxw-MuiGrid-root> .css-1oqqzyl-MuiContainer-root div p {
-        width: 20% !important;
-    } */
 }
 
 @media (min-width: 1200px) {
@@ -270,6 +298,24 @@
     }
 }
 
+@media (max-width: 920px) {
+    .css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root h2 {
+        font-size: 1.2rem !important;
+    }
+
+    .css-1oqqzyl-MuiContainer-root form .input-box {
+        font-size: 0.9rem !important;
+    }
+
+    .css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root div .input-container input {
+        font-size: 0.9rem !important;
+    }
+
+    .css-zwha4c-MuiGrid-root nav button {
+        font-size: 1.1rem !important;
+    }
+}
+
 @media (min-width: 900px) {
     .css-zwha4c-MuiGrid-root {
         -webkit-box-flex: none !important;
@@ -286,6 +332,75 @@
     }
 }
 
+@media (max-width: 860px) {
+    .css-bn9g8l-MuiGrid-root {
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+
+    .css-bn9g8l-MuiGrid-root>.css-zwha4c-MuiGrid-root {
+        width: 100% !important;
+        padding-left: 0 !important;
+    }
+
+    .css-zwha4c-MuiGrid-root nav {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .css-zwha4c-MuiGrid-root nav button {
+        display: block !important;
+    }
+
+    .css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root {
+        width: 100% !important;
+        margin-top: 1rem !important;
+    }
+
+    .css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root form {
+        padding-top: 1.5rem !important;
+    }
+
+    .css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root form h2 {
+        width: 90% !important;
+    }
+}
+
+@media (max-width: 700px) {
+    .css-1oqqzyl-MuiContainer-root form .input-box {
+        width: 90% !important;
+    }
+
+    .css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root .input-box>div {
+        justify-content: space-between !important;
+    }
+
+    .css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root form div.input-box div p {
+        width: 15% !important;
+    }
+
+    .css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root div .input-container {
+        width: 85% !important;
+    }
+
+    .password-button {
+        width: 100% !important;
+    }
+
+    .modify-input-box {
+        flex-direction: column !important;
+    }
+
+    .css-1idn90j-MuiGrid-root .css-ahj2mt-MuiTypography-root {
+        width: 100% !important;
+    }
+
+    .button-box {
+        justify-content: left !important;
+    }
+}
+
 @media (min-width: 600px) {
     .css-zwha4c-MuiGrid-root {
         -webkit-box-flex: none !important;
@@ -299,5 +414,38 @@
         flex-basis: auto !important;
         flex-grow: initial !important;
         max-width: none !important;
+    }
+}
+
+@media (max-width: 500px) {
+    .css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root div .input-container {
+        width: 70% !important;
+    }
+
+    .css-1qs1oxw-MuiGrid-root>.css-1oqqzyl-MuiContainer-root div p {
+        width: 30% !important;
+    }
+
+    .password-button button {
+        width: 40% !important;
+    }
+
+    .css-1idn90j-MuiGrid-root .css-ahj2mt-MuiTypography-root {
+        width: 100% !important;
+    }
+
+    .modify-delivery,
+    .modify-login {
+        font-size: 1.5rem !important;
+    }
+}
+
+@media (max-width: 410px) {
+    .css-zwha4c-MuiGrid-root nav button {
+        font-size: 1rem !important;
+    }
+
+    .css-1idn90j-MuiGrid-root .css-ahj2mt-MuiTypography-root {
+        width: 100% !important;
     }
 }

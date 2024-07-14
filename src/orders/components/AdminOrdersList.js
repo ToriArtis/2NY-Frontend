@@ -20,18 +20,18 @@ export function AdminOrdersList({ onOrderSelect }) {
                 <p>주문상태</p>
             </div>
             {orders.map(order => (
-                <AdminOrderItem 
-                    key={order.orderId} 
-                    order={order} 
+                <AdminOrderItem
+                    key={order.orderId}
+                    order={order}
                     onSelect={onOrderSelect}
-                    onUpdateOrderStatus={updateOrderStatus} 
+                    onUpdateOrderStatus={updateOrderStatus}
                 />
             ))}
             <div className="admin-pagination">
                 <button onClick={() => setPage(page - 1)} disabled={page === 0}>&lt;</button>
                 {[...Array(totalPages).keys()].map((pageNum) => (
-                    <button 
-                        key={pageNum} 
+                    <button
+                        key={pageNum}
                         onClick={() => setPage(pageNum)}
                         className={page === pageNum ? "active" : ""}
                     >

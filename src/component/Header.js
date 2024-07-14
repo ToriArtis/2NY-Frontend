@@ -27,7 +27,7 @@ function Header({ onSearch, clearSearch }) {
 
     const toggleSearch = () => {
         setIsSearchVisible(!isSearchVisible);
-      };
+    };
 
     return (
         <Container component="header" className="header-container">
@@ -39,7 +39,7 @@ function Header({ onSearch, clearSearch }) {
                     <div className="right-btn">
                         <div className="search-box">
                             {isSearchVisible ? (
-                                    <>
+                                <>
                                     <form onSubmit={handleSearchSubmit} className="search-form">
                                         <Input
                                             label="검색"
@@ -48,8 +48,8 @@ function Header({ onSearch, clearSearch }) {
                                             autoFocus
                                         />
                                     </form>
-                                    </>
-                                ) : null }
+                                </>
+                            ) : null}
                             <button onClick={toggleSearch} className="search-icon-button">
                                 <div><img src="/assets/Search.png" alt="Search" className="search-icon" /></div>
                                 검색

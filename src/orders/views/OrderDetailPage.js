@@ -16,18 +16,18 @@ function OrderDetailPage({ orderId }) {
     setReviewOrderId(orderId);
     setShowReview(true);
   };
-  
+
   return (
     <div className="order-detail-page">
       <main>
-      {!showReview ? (
+        {!showReview ? (
           <OrderDetail orderId={orderId} onReviewClick={handleReviewClick} />
         ) : (
-          <CreateReviewView 
-            itemId={reviewItemId} 
-            userId={reviewUserId} 
+          <CreateReviewView
+            itemId={reviewItemId}
+            userId={reviewUserId}
             orderId={reviewOrderId}
-            onCancel={() => setShowReview(false)} 
+            onCancel={() => setShowReview(false)}
           />
         )}
       </main>

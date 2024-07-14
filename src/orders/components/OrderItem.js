@@ -7,8 +7,8 @@ export function OrderItem({ order, onSelect, isAdmin, onUpdateOrderStatus }) {
     onUpdateOrderStatus(order.orderId, e.target.value);
   }
 
-   // 날짜
-   const formatDate = (dateString) => {
+  // 날짜
+  const formatDate = (dateString) => {
     if (!dateString) return '';
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return dateString; // 유효하지 않은 날짜면 원본 문자열 반환
@@ -21,7 +21,7 @@ export function OrderItem({ order, onSelect, isAdmin, onUpdateOrderStatus }) {
         <span className="order-status">
           {order.orderStatus === 'ORDER_REQUEST' ? '주문 요청' : order.orderStatus === 'ORDER_COMPLETE' ? '주문 완료' : order.orderStatus === 'ORDER_CANCEL' ? '주문 취소' : order.orderStatus}
         </span>
-        <button className="order-detail-btn" onClick={() => {onSelect(order.orderId)}}>주문상세 &gt;</button>
+        <button className="order-detail-btn" onClick={() => { onSelect(order.orderId) }}>주문상세 &gt;</button>
       </div>
       <div className="order-products">
         {order.itemOrders.map((item, index) => (

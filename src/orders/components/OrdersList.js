@@ -14,15 +14,15 @@ export function OrdersList({ onOrderSelect, isAdmin }) {
         <div>
             <div className="orders-list">
                 {orders.map(order => (
-                    <OrderItem key={order.orderId} order={order} onSelect={() => {onOrderSelect(order.orderId)}}
-                    isAdmin={isAdmin} onUpdateOrderStatus={updateOrderStatus} />
+                    <OrderItem key={order.orderId} order={order} onSelect={() => { onOrderSelect(order.orderId) }}
+                        isAdmin={isAdmin} onUpdateOrderStatus={updateOrderStatus} />
                 ))}
             </div>
             <div className="pagination">
                 <button onClick={() => setPage(page - 1)} disabled={page === 0}>&lt;</button>
                 {[...Array(totalPages).keys()].map((pageNum) => (
-                    <button 
-                        key={pageNum} 
+                    <button
+                        key={pageNum}
                         onClick={() => setPage(pageNum)}
                         className={page === pageNum ? "active" : ""}
                     >

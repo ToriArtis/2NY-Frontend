@@ -2,6 +2,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  margin-bottom: 5rem;
 }
 
 .purchase-order-item {
@@ -30,6 +31,50 @@
   margin-bottom: 20px !important;
 }
 
-.purchase-page.MuiTypography-body1, .MuiTypography-body2 {
+.purchase-page.MuiTypography-body1,
+.MuiTypography-body2 {
   margin-bottom: 5px !important;
+}
+
+.kakaopay-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  flex: 1;
+  max-width: 30%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 40px;
+}
+
+.kakaopay-btn img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.kakaopay-btn:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 900px) {
+  .payment-btn-container {
+    justify-content: center !important;
+  }
+
+  .kakaopay-btn {
+    max-width: 15% !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .kakaopay-btn {
+    max-width: 20% !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .kakaopay-btn {
+    max-width: 30% !important;
+  }
 }

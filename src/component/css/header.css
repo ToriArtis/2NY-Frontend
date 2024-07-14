@@ -1,4 +1,4 @@
-.left-btn{
+.left-btn {
     float: left;
     margin-left: 10px;
     margin-right: 10px;
@@ -7,62 +7,74 @@
     background-color: white;
     border: none;
 }
-.left-btn > button {
+
+.left-btn>button {
     background-color: white;
     border: none;
 }
-.left-btn > button > img {
+
+.left-btn>button>img {
     width: 60%;
     height: auto;
 }
+
 .header-divider {
     width: 100%;
     border: none;
-    border-top: 1px solid #ccc;  /* 색상을 더 진하게 변경 */
+    border-top: 1px solid #ccc;
+    /* 색상을 더 진하게 변경 */
     margin: 20px 0;
-    display: block;  /* 이 속성을 추가 */
+    display: block;
+    /* 이 속성을 추가 */
 }
 
-.right-btn{
+.right-btn {
     float: right;
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 10px;
     padding: 10px;
     background-color: white;
-    border: none;   
+    border: none;
 
     display: flex;
     align-items: center;
 }
-.right-btn > button {
+
+.right-btn>button {
     background-color: white;
     border: none;
-    
+
 }
-.right-btn > button >div> img {
+
+.right-btn>button>div>img {
     width: 40%;
     height: auto;
     max-width: 50%;
     max-height: 50%;
 }
+
 .search-box {
     display: flex;
     align-items: center;
 }
+
 .search-box button {
     background-color: white;
     border: none;
 }
+
 .search-icon {
     width: 40%;
     height: auto;
     max-width: 50%;
     max-height: 50%;
 }
+
 .search-box form {
     padding-top: 0;
 }
+
 .search-box form .input-container {
     margin-bottom: 0;
 }
@@ -73,13 +85,13 @@
     margin-bottom: 3rem;
 }
 
-.category-nav> button{
+.category-nav>button {
     background-color: white;
-    border: none;   
+    border: none;
     margin-right: 1rem;
 }
 
-.category-nav> button>p{
+.category-nav>button>p {
     font-size: 170%;
     display: inline-block;
     margin: 0 auto 1rem;

@@ -38,7 +38,7 @@ export function useCart() {
   // 더 많은 장바구니 아이템을 로드하는 함수
   const loadMoreCarts = useCallback(() => {
     if (!loading && hasMore) {
-      setPage(prevPage => prevPage + 1); 
+      setPage(prevPage => prevPage + 1);
     }
   }, [loading, hasMore]);
 
@@ -64,10 +64,10 @@ export function useCart() {
     try {
       setLoading(true);
       const updatedItem = await updateCartItemQuantity(itemCartId, upDown);
-      setCarts(prevCarts => prevCarts.map(cart => 
-        cart.itemCartId === itemCartId 
+      setCarts(prevCarts => prevCarts.map(cart =>
+        cart.itemCartId === itemCartId
           ? new Cart(cart.itemCartId, cart.itemId, cart.itemTitle, cart.thumbnail,
-                     updatedItem.quantity, cart.price, cart.discountRate)
+            updatedItem.quantity, cart.price, cart.discountRate)
           : cart
       ));
     } catch (err) {

@@ -3,7 +3,7 @@
     padding: 5rem 2rem;
 }
 
-.orders-list-page> h5 {
+.orders-list-page>h5 {
     margin-left: 1rem;
     border-bottom: 1px solid #e0e0e0;
     padding-bottom: 1rem;
@@ -29,6 +29,7 @@
     background: none;
     cursor: pointer;
 }
+
 .order-detail-btn:hover {
     text-decoration: underline;
 }

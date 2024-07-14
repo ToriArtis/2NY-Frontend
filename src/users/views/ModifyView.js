@@ -55,10 +55,10 @@ export default function ModifyView(userInfo) {
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid container spacing={2}>
-              <Typography variant="h4">
+              <Typography variant="h4" className='modify-login'>
                 로그인 정보
               </Typography>
-              <Grid item xs={12}>
+              <Grid item xs={12} className='modify-input-box'>
                 <Typography className="modify-label">닉네임</Typography>
                 <Input
                   name="nickName"
@@ -67,7 +67,7 @@ export default function ModifyView(userInfo) {
                   required
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} className='modify-input-box'>
                 <Typography className="modify-label">이메일</Typography>
                 <Input
                   name="email"
@@ -76,7 +76,7 @@ export default function ModifyView(userInfo) {
                   readOnly
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} className='modify-input-box'>
                 <Typography className="modify-label">비밀번호</Typography>
                 <Input
                   name="password"
@@ -90,10 +90,10 @@ export default function ModifyView(userInfo) {
             
             {userRoles && !(userRoles && userRoles.includes("ADMIN")) && (
               <Grid container spacing={2} className='배송지 정보'>
-                <Typography variant="h4">
+                <Typography variant="h4" className='modify-delivery'>
                   배송지 정보
                 </Typography>
-                <Grid item xs={12}>
+                <Grid item xs={12} className='modify-input-box'>
                   <Typography className="modify-label">전화번호</Typography>
                   <Input
                     name="phone"
@@ -101,7 +101,7 @@ export default function ModifyView(userInfo) {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} className='modify-input-box'>
                   <Typography className="modify-label">이름</Typography>
                   <Input
                     name="realName"
@@ -111,7 +111,7 @@ export default function ModifyView(userInfo) {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item xs={12} className='modify-input-box'>
                   <Typography className="modify-label">우편번호</Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                     <Input
@@ -125,13 +125,14 @@ export default function ModifyView(userInfo) {
                     <PostcodeButton 
                       variant="contained" 
                       onClick={openDaumPostcode}
+                      className='modify-input-box'
                     >
                       우편번호 찾기
                     </PostcodeButton>
                   </Box>
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item xs={12} className='modify-input-box'>
                   <Typography className="modify-label">주소</Typography>
                   <Input
                     name="address"
@@ -139,7 +140,7 @@ export default function ModifyView(userInfo) {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} className='modify-input-box'>
                   <Typography className="modify-label">상세주소</Typography>
                   <Input
                     name="detailAddress"
@@ -155,7 +156,7 @@ export default function ModifyView(userInfo) {
                 <Typography color="error">{error}</Typography>
               </Grid>
             )}
-            <Grid item xs={12}>
+            <Grid item xs={12} className='button-box'>
               <WhiteButton
                 type="submit"
                 btnName="수정하기"

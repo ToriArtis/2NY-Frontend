@@ -4,7 +4,7 @@ import { OrdersList } from "../components/OrdersList";
 import "../components/css/OrdersListPage.css";
 import { useNavigate } from "react-router-dom";
 
-function OrdersListPage({ onOrderSelect,}) {
+function OrdersListPage({ onOrderSelect, }) {
     const [nickName, setNickName] = useState(() => {
         return localStorage.getItem("USER_NICKNAME") || "";
     });

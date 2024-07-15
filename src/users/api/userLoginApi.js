@@ -10,7 +10,7 @@ export async function login(userDTO) {
   
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-  
+
     const raw = JSON.stringify({
       "email": userDTO.email,
       "password": userDTO.password
@@ -35,11 +35,13 @@ export async function login(userDTO) {
       const result = await response.json();
       console.log("로그인 성공:", result);
   
-      if (result.token) {
-        localStorage.setItem(ACCESS_TOKEN, result.token);
+      if (result.accessToken) {
+        localStorage.setItem(ACCESS_TOKEN, result.accessToken);
         localStorage.setItem(USER_NICKNAME, result.nickName);
         localStorage.setItem(USER_EMAIL, result.email);
         if(result.roleSet) localStorage.setItem(USER_ROLESET, result.roleSet);
+        if(result.refreshToken) localStorage.setItem("REFRESH_TOKEN", result.refreshToken);
+        if(result.provider) localStorage.setItem("PROVIDER", result.provider);
 
         if(window.history.back() === '/logout') window.location.href = "/";
         else window.history.back();
@@ -63,6 +65,7 @@ export async function login(userDTO) {
     localStorage.removeItem(USER_NICKNAME);
     localStorage.removeItem(USER_ROLESET);
     localStorage.removeItem(USER_EMAIL);
+    localStorage.removeItem("PROVIDER");
     // 로그인 페이지로 리디렉션
     window.location.href = "/login";
   }

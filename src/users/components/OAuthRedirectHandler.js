@@ -46,25 +46,17 @@ function OAuth2RedirectHandler() {
         if (contentType && contentType.indexOf("application/json") !== -1) {
           const data = await response.json();
           console.log('Response data:', data);
-          if (data.token) {
-            localStorage.setItem('ACCESS_TOKEN', data.token);
+          if (data.accessToken) {
+            // ACCESS_TOKEN 저장
+            localStorage.setItem('ACCESS_TOKEN', data.accessToken);
             
-            // 사용자 정보 가져오기
-            const userInfoResponse = await fetch(`${API_BASE_URL}/users`, {
-              headers: {
-                'Authorization': `Bearer ${data.token}`
-              }
-            });
-            
-            if (userInfoResponse.ok) {
-              const userInfo = await userInfoResponse.json();
-              localStorage.setItem('USER_NICKNAME', userInfo.nickName);
-              localStorage.setItem('USER_EMAIL', userInfo.email);
-              if(userInfo.roleSet) localStorage.setItem('USER_ROLESET', JSON.stringify(userInfo.roleSet));
-            } else {
-              console.error('Failed to fetch user info');
-            }
-            
+            localStorage.setItem('USER_NICKNAME', data.nickName);
+            localStorage.setItem('USER_EMAIL', data.email);
+
+            if(data.refreshToken) localStorage.setItem("REFRESH_TOKEN", data.refreshToken);
+            if(data.provider) localStorage.setItem("PROVIDER", data.provider);
+    
+            if(data.roleSet) localStorage.setItem("USER_ROLESET", data.roleSet);
             navigate('/');
           } else {
             throw new Error('Token not received');

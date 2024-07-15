@@ -14,6 +14,8 @@ const ItemEditView = () => {
     handleChange,
     handleContentChange,
     handleFileChange,
+    removeThumbnail,
+    removeDescriptionImage,
     handleSubmit,
     error,
     isLoading,
@@ -22,6 +24,7 @@ const ItemEditView = () => {
     thumbnailPreview,
     descriptionImagePreviews
   } = useItemEditViewModel(id);
+
   const handleDelete = async () => {
     if (window.confirm('정말로 이 상품을 삭제하시겠습니까?')) {
       try {
@@ -61,26 +64,30 @@ const ItemEditView = () => {
                   id="thumbnail"
                   name="thumbnail"
                   onChange={handleFileChange}
+                  accept="image/*"
                 />
                 {thumbnailPreview && (
                   <div className="image-preview">
                     <img src={thumbnailPreview} alt="썸네일 미리보기" />
+                    <button type="button" onClick={removeThumbnail}>삭제</button>
                   </div>
                 )}
               </div>
               <div className="form-group">
-                <label htmlFor="descriptionImage">상세 이미지</label>
+                <label htmlFor="descriptionImages">상세 이미지</label>
                 <input
                   type="file"
-                  id="descriptionImage"
-                  name="descriptionImage"
+                  id="descriptionImages"
+                  name="descriptionImages"
                   onChange={handleFileChange}
                   multiple
+                  accept="image/*"
                 />
                 <div className="image-preview-container">
                   {descriptionImagePreviews.map((preview, index) => (
                     <div key={index} className="image-preview">
                       <img src={preview} alt={`상세 이미지 ${index + 1}`} />
+                      <button type="button" onClick={() => removeDescriptionImage(index)}>삭제</button>
                     </div>
                   ))}
                 </div>

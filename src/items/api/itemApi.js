@@ -97,8 +97,9 @@ export const itemCreate = async (itemData) => {
 
 
 // 아이템 수정
+
 export const itemUpdate = async (id, itemData) => {
-  console.log("itemUpdate", id, itemData);
+  console.log("itemUpdate", id);
 
   try {
     const response = await fetch(`${API_BASE_URL}/items/${id}`, {
@@ -115,7 +116,9 @@ export const itemUpdate = async (id, itemData) => {
       throw new Error(errorData || 'Failed to update item');
     }
 
-    return response.json();
+    const result = await response.json();
+    console.log('Server response:', result);
+    return result;
   } catch (error) {
     console.error("Error updating item:", error);
     throw error;

@@ -8,12 +8,12 @@
     border: none;
 }
 
-.left-btn>button {
+.left-btn > button {
     background-color: white;
     border: none;
 }
 
-.left-btn>button>img {
+.left-btn > button > img {
     width: 60%;
     height: auto;
 }
@@ -22,10 +22,8 @@
     width: 100%;
     border: none;
     border-top: 1px solid #ccc;
-    /* 색상을 더 진하게 변경 */
     margin: 20px 0;
     display: block;
-    /* 이 속성을 추가 */
 }
 
 .right-btn {
@@ -36,18 +34,16 @@
     padding: 10px;
     background-color: white;
     border: none;
-
     display: flex;
     align-items: center;
 }
 
-.right-btn>button {
+.right-btn > button {
     background-color: white;
     border: none;
-
 }
 
-.right-btn>button>div>img {
+.right-btn > button > div > img {
     width: 40%;
     height: auto;
     max-width: 50%;
@@ -79,20 +75,50 @@
     margin-bottom: 0;
 }
 
+.header-bottom {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;  
+    margin-right: 0; 
+    padding-left: 10px;
+}
+
 .category-nav {
     border-bottom: 1px solid #ccc;
     width: 100%;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: flex-start;  
+    padding-right: 0;  /* 오른쪽 패딩 제거 */
+    padding-left: 2%;  /* 왼쪽에 약간의 패딩 추가 */
 }
 
-.category-nav>button {
+.category-nav > button {
     background-color: white;
     border: none;
-    margin-right: 1rem;
+    margin-right: 1rem; 
+    margin-left: 0.5%;  
 }
 
-.category-nav>button>p {
+.category-nav > button > p {
     font-size: 170%;
     display: inline-block;
     margin: 0 auto 1rem;
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 */
+@media (max-width: 768px) {
+    .header-bottom {
+        justify-content: center;
+        padding-right: 0;
+    }
+
+    .category-nav {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .category-nav > button {
+        margin: 0.5rem;
+    }
 }

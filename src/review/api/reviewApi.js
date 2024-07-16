@@ -35,13 +35,13 @@ export function call(api, method, request) {
           // response.ok가 true이면 정상적인 응답, 아니면 에러 응답
           return Promise.reject(json);
         }
-        console.log(json);
+        // console.log(json);
         return json;
       })
     )
     .catch((error) => {
       // 에러 처리
-      console.log(error.status);
+      // console.log(error.status);
       if (error.status === 403) {
         // 403 에러(권한 없음)인 경우 로그인 페이지로 리디렉션
         window.location.href = "/login";

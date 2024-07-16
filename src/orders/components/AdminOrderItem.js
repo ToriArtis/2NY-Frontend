@@ -18,8 +18,6 @@ export function AdminOrderItem({ order, onUpdateOrderStatus }) {
         }
     }
 
-    console.log(order);
-
     return (
         <div className="admin-order-item">
             <div className="admin-order-details">

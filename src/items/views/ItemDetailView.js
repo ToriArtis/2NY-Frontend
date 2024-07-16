@@ -63,7 +63,7 @@ const ItemDetailView = () => {
   const fetchItemAndReviews = useCallback(async (page = 0) => {
     try {
       const data = await fetchItem(id, page);
-      console.log('Fetched data:', data);
+      // console.log('Fetched data:', data);
       if (data && data.item) {
         setItemData(data.item);
         setSelectedColor(Array.isArray(data.item.color) ? data.item.color[0] : data.item.color);
@@ -83,7 +83,7 @@ const ItemDetailView = () => {
 
       await fetchTopSellingItems();
     } catch (err) {
-      console.error('Error in fetchItemAndReviews:', err);
+      // console.error('Error in fetchItemAndReviews:', err);
       setError(err.message);
     } finally {
       setIsLoading(false);

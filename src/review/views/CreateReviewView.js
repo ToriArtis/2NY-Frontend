@@ -16,7 +16,7 @@ function CreateReviewView({ itemId: propItemId, userId: propUserId, orderId: pro
     const finalUserId = propUserId || urlUserId;
     const finalOrderId = propOrderId || urlOrderId;
 
-    console.log("itemId:", finalItemId, "userId:", finalUserId, "orderId:", finalOrderId);
+    // console.log("itemId:", finalItemId, "userId:", finalUserId, "orderId:", finalOrderId);
 
     const { content, star, handleChange, handleSubmit, handleStarChange, error } = CreateReviewViewModel(finalItemId, finalUserId, finalOrderId);
 

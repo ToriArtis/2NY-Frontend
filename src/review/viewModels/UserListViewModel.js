@@ -17,7 +17,7 @@ export default function UserListViewModel() {
         try {
             // API를 호출하여 리뷰 목록을 가져옴
             const fetchedReviews = await userReviewList(page);
-            console.log('Fetched reviews:', fetchedReviews);
+            // console.log('Fetched reviews:', fetchedReviews);
 
             // 페이지네이션 객체에서 content 배열 확인
             if (fetchedReviews && Array.isArray(fetchedReviews.content)) {
@@ -25,12 +25,12 @@ export default function UserListViewModel() {
                 setTotalPages(fetchedReviews.totalPages);
             } else {
                 // 배열이 아니면 에러 로그를 출력하고 빈 배열로 설정
-                console.error('Fetched reviews is not an array:', fetchReviews);
+                // console.error('Fetched reviews is not an array:', fetchReviews);
                 setReviews([]);
             }
         } catch (error) {
             // 에러가 발생하면 error state를 업데이트
-            setError(error.message || 'An error occurred while fetching reviews');
+            alert(error.message || '리뷰를 가져오는 동안 오류가 발생했습니다.');
         }
     }
 
@@ -43,7 +43,7 @@ export default function UserListViewModel() {
             setReviews(reviews.filter(review => review.reviewId !== reviewId));
             fetchReviews(currentPage);
         } catch (error) {
-            setError(error.message || 'An error occurred while deleting the review');
+            alert(error.message || '리뷰를 삭제하는 동안 오류가 발생했습니다.');
         }
     };
 

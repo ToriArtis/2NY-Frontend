@@ -62,7 +62,7 @@ export function useSignUpViewModel() {
   };
 
   const handleSubmit = async (event) => {
-    console.log(address);
+    // console.log(address);
     event.preventDefault();
     setError(null);
     

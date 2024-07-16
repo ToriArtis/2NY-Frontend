@@ -36,14 +36,14 @@ const ItemAllListView = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (category) {
-        console.log('Fetching items for category:', category);
+        // console.log('Fetching items for category:', category);
         resetFilters();
         await fetchItems(0, 1000, category);
       } else if (searchKeyword) {
-        console.log('Fetching items for search:', searchKeyword);
+        // console.log('Fetching items for search:', searchKeyword);
         await fetchItems(0, 1000, null, searchKeyword);
       } else {
-        console.log('Fetching all items');
+        // console.log('Fetching all items');
         await fetchItems(0, 1000);
       }
     };

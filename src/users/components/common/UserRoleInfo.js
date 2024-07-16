@@ -73,6 +73,12 @@ function UserInfo() {
     const handlePasswordVerification = (isValid) => {
       setIsPasswordVerified(isValid);
     };
+
+    useEffect(() => {
+        if (localStorage.getItem("PROVIDER")) {
+            setIsPasswordVerified(true);
+        }
+    }, []);
   
     return (
       <Container>

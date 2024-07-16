@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./css/rainbow.css";
 
 
 export default function BlueButton({ 

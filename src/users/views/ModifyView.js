@@ -127,7 +127,7 @@ export default function ModifyView(userInfo) {
                       onClick={openDaumPostcode}
                       className='modify-input-box'
                     >
-                      우편번호 찾기
+                      찾기
                     </PostcodeButton>
                   </Box>
                 </Grid>

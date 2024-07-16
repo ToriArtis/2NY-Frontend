@@ -42,7 +42,7 @@ const call = async (api, method, request) => {
 
 // 아이템 생성
 export const itemCreate = async (itemData) => {
-  console.log("Attempting to create item:", itemData);
+  // console.log("Attempting to create item:", itemData);
   const formData = new FormData();
 
   // ItemDTO 데이터를 JSON 문자열로 변환하여 추가
@@ -90,7 +90,7 @@ export const itemCreate = async (itemData) => {
 
     return response.json();
   } catch (error) {
-    console.error("Error creating item:", error);
+    // console.error("Error creating item:", error);
     throw error;
   }
 };
@@ -99,7 +99,7 @@ export const itemCreate = async (itemData) => {
 // 아이템 수정
 
 export const itemUpdate = async (id, itemData) => {
-  console.log("itemUpdate", id);
+  // console.log("itemUpdate", id);
 
   try {
     const response = await fetch(`${API_BASE_URL}/items/${id}`, {
@@ -112,15 +112,15 @@ export const itemUpdate = async (id, itemData) => {
 
     if (!response.ok) {
       const errorData = await response.text();
-      console.error('Server error response:', errorData);
+      // console.error('Server error response:', errorData);
       throw new Error(errorData || 'Failed to update item');
     }
 
     const result = await response.json();
-    console.log('Server response:', result);
+    // console.log('Server response:', result);
     return result;
   } catch (error) {
-    console.error("Error updating item:", error);
+    // console.error("Error updating item:", error);
     throw error;
   }
 };
@@ -128,9 +128,9 @@ export const itemUpdate = async (id, itemData) => {
 // 아이템 목록 조회
 export const itemList = async (page = 0, size = 20) => {
   try {
-    console.log(`Calling itemList API with page: ${page}, size: ${size}`);
+    // console.log(`Calling itemList API with page: ${page}, size: ${size}`);
     const response = await call(`/items?page=${page}&size=${size}`, "GET");
-    console.log('API response:', response);
+    // console.log('API response:', response);
 
     if (response && Array.isArray(response.content)) {
       return {
@@ -144,11 +144,11 @@ export const itemList = async (page = 0, size = 20) => {
         number: response.number
       };
     } else {
-      console.error('Invalid API response structure:', response);
+      // console.error('Invalid API response structure:', response);
       return { content: [], totalPages: 0, totalElements: 0, size: 0, number: 0 };
     }
   } catch (error) {
-    console.error('Error fetching items:', error);
+    // console.error('Error fetching items:', error);
     throw error;
   }
 };
@@ -158,23 +158,23 @@ export const itemList = async (page = 0, size = 20) => {
 export const getItemDetail = async (id, page = 0, size = 10) => {
   try {
     const response = await call(`/items/${id}?page=${page}&size=${size}`, "GET");
-    console.log('API response:', response);
+    // console.log('API response:', response);
     return response;
   } catch (error) {
-    console.error(`Error fetching item with id ${id}:`, error);
+    // console.error(`Error fetching item with id ${id}:`, error);
     throw error;
   }
 };
 
 // 아이템 삭제 (함수 추가)
 export const itemDelete = async (id) => {
-  console.log("itemDelete");
+  // console.log("itemDelete");
   try {
     const response = await call(`/items/${id}`, "DELETE");
-    console.log(response);
+    // console.log(response);
     return !!response;
   } catch (error) {
-    console.error("Error deleting item:", error);
+    // console.error("Error deleting item:", error);
     return false;
   }
 };
@@ -182,7 +182,7 @@ export const itemDelete = async (id) => {
 // 카테고리별 아이템 목록 조회
 export const getItemsByCategory = async (category, page = 0, size = 20) => {
   try {
-    console.log(`Calling getItemsByCategory API with category: ${category}, page: ${page}, size: ${size}`);
+    // console.log(`Calling getItemsByCategory API with category: ${category}, page: ${page}, size: ${size}`);
     const response = await fetch(`${API_BASE_URL}/items/category/${category}?page=${page}&size=${size}`, {
       method: "GET",
       headers: {
@@ -200,7 +200,7 @@ export const getItemsByCategory = async (category, page = 0, size = 20) => {
     }
 
     const data = await response.json();
-    console.log('API response:', data);
+    // console.log('API response:', data);
 
     if (data && Array.isArray(data.content)) {
       return {
@@ -214,11 +214,11 @@ export const getItemsByCategory = async (category, page = 0, size = 20) => {
         number: data.number
       };
     } else {
-      console.error('Invalid API response structure:', data);
+      // console.error('Invalid API response structure:', data);
       return { content: [], totalPages: 0, totalElements: 0, size: 0, number: 0 };
     }
   } catch (error) {
-    console.error('Error fetching items by category:', error);
+    // console.error('Error fetching items by category:', error);
     throw error;
   }
 };
@@ -243,7 +243,7 @@ export const searchItems = async (keyword) => {
       return { content: [], totalPages: 0, totalElements: 0, size: 0, number: 0 };
     }
   } catch (error) {
-    console.error('Error searching items:', error);
+    // console.error('Error searching items:', error);
     throw error;
   }
 };

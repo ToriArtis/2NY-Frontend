@@ -21,7 +21,7 @@ function OAuth2RedirectHandler() {
       const provider = sessionStorage.getItem('oauth_provider');
   
       if (state !== storedState) {
-        console.error('OAuth state does not match');
+        // console.error('OAuth state does not match');
         setError('OAuth state mismatch. Please try logging in again.');
         setIsLoading(false);
         return;

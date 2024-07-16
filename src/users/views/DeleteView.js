@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Logout from '../api/userLoginApi';
 
 export default function DeleteView() {
-    console.log("DeleteView");
+    // console.log("DeleteView");
     const [openModal, setOpenModal] = useState(true);  // 컴포넌트 마운트 시 모달 표시
     const [deleteStatus, setDeleteStatus] = useState(null);
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ export default function DeleteView() {
                 }, 3000);  // 3초 후 로그아웃 및 홈으로 이동
             }
         } catch (error) {
-            console.error("Error during user deletion:", error);
+            // console.error("Error during user deletion:", error);
             setDeleteStatus(false);
         }
     };

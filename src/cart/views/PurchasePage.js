@@ -79,7 +79,7 @@ function PurchasePage() {
         detailAddress: user.detailAddress
       });
     } catch (error) {
-      console.error('회원 정보 가져오기 중 오류:', error);
+      alert('회원 정보 가져오는 중 오류가 발생했습니다.');
     }
   };
 
@@ -95,7 +95,7 @@ function PurchasePage() {
             discountPrice: detailedItem.item.discountPrice || item.price
           };
         } catch (error) {
-          console.error(`Error fetching details for item ${item.itemId}:`, error);
+          alert('아이템을 가져오는 도중 오류가 발생했습니다.');
           return item;
         }
       }));
@@ -106,7 +106,7 @@ function PurchasePage() {
     } else if (items && items.length > 0) {
       setOrderItems(await fetchItemDetails(items));
     } else {
-      console.log("아이템이 없어요 !");
+      alert("아이템이 없어요 !");
     }
   };
 
@@ -181,7 +181,6 @@ function PurchasePage() {
       alert('주문이 완료되었습니다. 선택하신 계좌로 입금해주세요.');
       navigate('/');
     } catch (error) {
-      console.error('주문 생성 중 오류:', error);
       alert('주문 생성 중 오류가 발생했습니다.');
     }
     handleModalClose();
@@ -200,7 +199,6 @@ function PurchasePage() {
       alert('주문이 완료되었습니다.');
       navigate(`/`);
     } catch (error) {
-      console.error('주문 생성 중 오류:', error);
       alert('주문 생성 중 오류가 발생했습니다.');
     }
   };

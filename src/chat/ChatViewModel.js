@@ -27,7 +27,7 @@ export class ChatViewModel {
       this.model.addMessage(botResponse);
       this.notifyMessagesChanged();
     } catch (error) {
-      console.error('Error:', error);
+      // console.error('Error:', error);
       // Handle error (e.g., add an error message to the chat)
     }
   }

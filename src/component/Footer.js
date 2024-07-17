@@ -63,14 +63,14 @@ const Footer = () => {
 
             <IconButton aria-label="jira" color="primary">
               <img src="/assets/jira.png" 
-              onClick={() => window.open('https://jira.toriarthub.com')} 
+              onClick={() => window.open('https://toriartis.atlassian.net/jira/software/projects/NY/boards/1')} 
               style={{ maxWidth: '28px', height: 'auto' }}
               />
             </IconButton>
 
             <IconButton aria-label="figma" color="primary">
               <img src="/assets/figma.png" 
-              onClick={() => window.open('https://jira.toriarthub.com')} 
+              onClick={() => window.open('https://www.figma.com/design/BfalW82kus5Dk5rpSRcUai/2NY?node-id=0-1&t=kae53lHwnBUHaHu8-1.com')} 
               style={{ maxWidth: '25px', height: 'auto' }}
               />
             </IconButton>

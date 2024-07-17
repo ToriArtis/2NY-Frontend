@@ -42,10 +42,18 @@ const ItemEditView = () => {
       [{ 'header': [1, 2, 3, false] }],
       ['bold', 'italic', 'underline', 'strike'],
       [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      ['link', 'image'],
       ['clean']
     ],
   };
+
+  const formats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike',
+    'list', 'bullet', 'indent',
+    'link', 'image',
+    'align', 'color', 'background'
+  ];
+
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div className="error-message">{error}</div>;
@@ -143,7 +151,7 @@ const ItemEditView = () => {
                   <option value="">선택하세요</option>
                   <option value="SKIRT">SKIRT</option>
                   <option value="TOP">TOP</option>
-                  <option value="BOTTOM">BOTTOM</option>
+                  <option value="PANTS">PANTS</option>
                   <option value="DRESS">DRESS</option>
                   <option value="OUTER">OUTER</option>
                 </select>

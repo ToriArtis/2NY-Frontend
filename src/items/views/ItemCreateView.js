@@ -139,7 +139,7 @@ const ItemCreateView = () => {
                   <option value="TOP">TOP</option>
                   <option value="OUTER">OUTER</option>.
                   <option value="SKIRT">SKIRT</option>
-                  <option value="BOTTOM">BOTTOM</option>
+                  <option value="PANTS">PANTS</option>
                   <option value="DRESS">DRESS</option>
 
                 </select>

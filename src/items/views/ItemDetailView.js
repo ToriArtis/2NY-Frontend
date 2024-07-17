@@ -27,14 +27,16 @@ const ImageCarousel = ({ images }) => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    adaptiveHeight: true
+    adaptiveHeight: true,
+    height: '700px'
+
   };
 
   return (
-    <Slider {...settings}>
+<Slider {...settings}>
       {images.map((img, index) => (
         <div key={index}>
-          <img src={img} alt={`상세 이미지 ${index + 1}`} className="carousel-image" />
+          <img src={img} alt={`상세 이미지 ${index + 1}`} style={{ height : "700px"}} className="carousel-image" />
         </div>
       ))}
     </Slider>
@@ -156,11 +158,11 @@ const ItemDetailView = () => {
   return (
     <>
       <Header />
-      <div className="item-detail-container">
+      <div className="item-detail-container" >
         <div className="item-images">
           {itemData.thumbnail && itemData.descriptionImage && (
             <ImageCarousel
-              images={[getImageUrl(itemData.thumbnail), ...itemData.descriptionImage.map(img => getImageUrl(img))]}
+              images={[getImageUrl(itemData.thumbnail), ...itemData.descriptionImage.map(img => getImageUrl(img))]} 
             />
           )}
         </div>

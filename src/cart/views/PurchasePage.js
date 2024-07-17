@@ -102,9 +102,11 @@ function PurchasePage() {
     };
 
     if (isFromCart && carts && carts.length > 0) {
-      setOrderItems(await fetchItemDetails(carts));
+      const updatedItems = await fetchItemDetails(carts);
+      setOrderItems(updatedItems);
     } else if (items && items.length > 0) {
-      setOrderItems(await fetchItemDetails(items));
+      const updatedItems = await fetchItemDetails(items);
+      setOrderItems(updatedItems);
     }
   };
 

@@ -105,8 +105,6 @@ function PurchasePage() {
       setOrderItems(await fetchItemDetails(carts));
     } else if (items && items.length > 0) {
       setOrderItems(await fetchItemDetails(items));
-    } else {
-      alert("아이템이 없어요 !");
     }
   };
 

@@ -1,8 +1,10 @@
 import React from "react";
 import { getImageUrl } from "../../config/app-config";
+import { useNavigate } from "react-router-dom";
 
 // 개별 장바구니 아이템 컴포넌트
 export function CartItem({ cart, onUpdateQuantity, onRemoveItem }) {
+    const navigate = useNavigate();
 
     // 장바구니 수량 업데이트 핸들러
     const handleUpdateQuantity = (itemCartId, upDown) => {
@@ -13,13 +15,17 @@ export function CartItem({ cart, onUpdateQuantity, onRemoveItem }) {
         onUpdateQuantity(itemCartId, upDown);
     };
 
+    const hamdleItemClick = () => {
+        navigate(`/items/${cart.itemId}`);
+    }
+
     return (
         <div className="cart-item">
             <div className="cart-product">
                 <img src={getImageUrl(cart.thumbnail[0])} alt={cart.itemTitle} />
 
                 <div className="product-info">
-                    <h3>{cart.itemTitle}</h3>
+                    <h3 onClick={hamdleItemClick}>{cart.itemTitle}</h3>
                     <p>₩{parseInt(cart.price).toLocaleString()}</p>
 
                     <div className="quantity-control">

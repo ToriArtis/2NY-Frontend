@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Container, Grid, Typography, Link, IconButton } from '@mui/material';
 import { GitHub } from '@mui/icons-material';
 
-const Footer = () => {
+const Footer = ({isEmptyResult} ) => {
   const textStyle = {
     color: '#8A8A8A',
   };
@@ -13,6 +13,12 @@ const Footer = () => {
       sx={{
         backgroundColor: '#464646',
         p: 6,
+        ...(isEmptyResult && {
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          width: '100%',
+        }),
       }}
     >
       <Container maxWidth="lg">

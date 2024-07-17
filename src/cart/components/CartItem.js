@@ -15,9 +15,9 @@ export function CartItem({ cart, onUpdateQuantity, onRemoveItem }) {
         onUpdateQuantity(itemCartId, upDown);
     };
 
-    const hamdleItemClick = () => {
-        navigate(`/items/${cart.itemId}`);
-    }
+    const handleItemClick = (itemId) => {
+        navigate(`/items/${itemId}`);
+    };
 
     return (
         <div className="cart-item">
@@ -25,7 +25,7 @@ export function CartItem({ cart, onUpdateQuantity, onRemoveItem }) {
                 <img src={getImageUrl(cart.thumbnail[0])} alt={cart.itemTitle} />
 
                 <div className="product-info">
-                    <h3 onClick={hamdleItemClick}>{cart.itemTitle}</h3>
+                    <h3 onClick={() => handleItemClick(cart.itemId)}>{cart.itemTitle}</h3>
                     <p>₩{parseInt(cart.price).toLocaleString()}</p>
 
                     <div className="quantity-control">

@@ -25,7 +25,7 @@ export function useEmailFindViewModel() {
         setError('이메일을 찾지 못했습니다.');
       }
     } catch (error) {
-      console.error('이메일 찾기 실패:', error);
+      // console.error('이메일 찾기 실패:', error);
       setError('이메일 찾기 중 오류가 발생했습니다.');
     }
   };

@@ -11,6 +11,7 @@ const ItemAllListView = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const searchKeyword = searchParams.get('search');
+  const [isEmptyResult, setIsEmptyResult] = useState(false);
   
   const { 
     items, 
@@ -36,28 +37,17 @@ const ItemAllListView = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (category) {
-        console.log('Fetching items for category:', category);
         resetFilters();
         await fetchItems(0, 1000, category);
       } else if (searchKeyword) {
-        console.log('Fetching items for search:', searchKeyword);
         await fetchItems(0, 1000, null, searchKeyword);
       } else {
-        console.log('Fetching all items');
         await fetchItems(0, 1000);
       }
     };
   
     fetchData();
   }, [fetchItems, category, searchKeyword, resetFilters]);
-
-  const handleItemClick = (itemId) => {
-    navigate(`/items/${itemId}`);
-  };
-
-  const handleSortChange = (event) => {
-    changeSort(event.target.value);
-  };
 
   const sortedItems = useMemo(() => {
     let sorted = [...items];
@@ -83,9 +73,21 @@ const ItemAllListView = () => {
   const paginatedItems = useMemo(() => {
     const startIndex = currentPage * itemsPerPage;
     return sortedItems.slice(startIndex, startIndex + itemsPerPage);
-  }, [sortedItems, currentPage]);
+  }, [sortedItems, currentPage, itemsPerPage]);
+
+  useEffect(() => {
+    setIsEmptyResult(paginatedItems.length === 0);
+  }, [paginatedItems]);
 
   const totalPages = Math.ceil(sortedItems.length / itemsPerPage);
+
+  const handleItemClick = (itemId) => {
+    navigate(`/items/${itemId}`);
+  };
+
+  const handleSortChange = (event) => {
+    changeSort(event.target.value);
+  };
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -110,40 +112,42 @@ const ItemAllListView = () => {
   }, [category, searchKeyword]);
 
   return (
-    <>
+    <div>
       <Header onSearch={handleSearch} clearSearch={clearSearch} />
-      <div className="all-items-container">
-      <div className="items-header">
-  <h1 className="all-items-title">{title}</h1>
-  <div className="items-header-controls">
-    <select className="sort-select" value={sortOption} onChange={handleSortChange}>
-      <option value="latest">최신순</option>
-      <option value="priceHigh">높은 가격순</option>
-      <option value="priceLow">낮은 가격순</option>
-    </select>
-    <select value={filterColor} onChange={(e) => handleColorFilter(e.target.value)}>
-      <option value="">All Colors</option>
-      <option value="BLACK">Black</option>
-      <option value="WHITE">White</option>
-      <option value="GRAY">Gray</option>
-    </select>
-    <select value={filterSize} onChange={(e) => handleSizeFilter(e.target.value)}>
-      <option value="">All Sizes</option>
-      <option value="XS">XS</option>
-      <option value="S">S</option>
-      <option value="M">M</option>
-      <option value="L">L</option>
-      <option value="XL">XL</option>
-      <option value="XXL">XXL</option>
-    </select>
-  </div>
-</div>
+      <div className="all-items-container" style={{ flex: 1 }}>
+        <div className="items-header">
+          <h1 className="all-items-title">{title}</h1>
+          <div className="items-header-controls">
+            <select className="sort-select" value={sortOption
+
+            } onChange={handleSortChange}>
+              <option value="latest">최신순</option>
+              <option value="priceHigh">높은 가격순</option>
+              <option value="priceLow">낮은 가격순</option>
+            </select>
+            <select value={filterColor} onChange={(e) => handleColorFilter(e.target.value)}>
+              <option value="">All Colors</option>
+              <option value="BLACK">Black</option>
+              <option value="WHITE">White</option>
+              <option value="GRAY">Gray</option>
+            </select>
+            <select value={filterSize} onChange={(e) => handleSizeFilter(e.target.value)}>
+              <option value="">All Sizes</option>
+              <option value="XS">XS</option>
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+              <option value="XXL">XXL</option>
+            </select>
+          </div>
+        </div>
         {loading ? (
           <div className="loading">상품을 불러오는 중입니다...</div>
         ) : error ? (
           <div className="error">오류가 발생했습니다: {error}</div>
         ) : paginatedItems.length === 0 ? (
-          <div className="no-results">검색 결과가 없습니다.</div>
+          <div className="no-results">{searchKeyword ? `"${searchKeyword}" 검색 결과가 없습니다.` : "검색 결과가 없습니다."}</div>
         ) : (
           <>
             <div className="all-items-grid">
@@ -176,8 +180,8 @@ const ItemAllListView = () => {
           </>
         )}
       </div>
-      <Footer />
-    </>
+      <Footer isEmptyResult={isEmptyResult} />
+    </div>
   );
 };
 

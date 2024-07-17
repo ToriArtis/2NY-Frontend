@@ -97,7 +97,7 @@ export function itemCreate(itemData) {
 
 // 아이템 수정
 export function itemUpdate(id, itemData) {
-  console.log("itemUpdate", id, itemData);
+  // console.log("itemUpdate", id, itemData);
   return call(`/items/${id}`, "PUT", itemData);
 }
 // 아이템 목록 조회
@@ -124,13 +124,13 @@ export function getItemDetail(id) {
 }
 // 아이템 삭제
 export const itemDelete = async (id) => {
-  console.log("itemDelete");
+  // console.log("itemDelete");
   try {
     const response = await call(`/items/${id}`, "DELETE");
-    console.log(response);
+    // console.log(response);
     return !!response; // response가 truthy면 true, falsy면 false 반환
   } catch (error) {
-    console.error("Error deleting item:", error);
+    // console.error("Error deleting item:", error);
     return false;
   }
 };

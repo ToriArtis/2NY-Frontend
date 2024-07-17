@@ -33,7 +33,7 @@ export async function login(userDTO) {
       }
   
       const result = await response.json();
-      console.log("로그인 성공:", result);
+      // console.log("로그인 성공:", result);
   
       if (result.accessToken) {
         localStorage.setItem(ACCESS_TOKEN, result.accessToken);
@@ -52,14 +52,14 @@ export async function login(userDTO) {
   
       return result;
     } catch (error) {
-      console.error("로그인 오류:", error);
+      // console.error("로그인 오류:", error);
       throw error;  // 오류를 상위로 전파하여 컴포넌트에서 처리할 수 있게 함
     }
   }
   
   // 로그아웃 함수
   export default function Logout() {
-    console.log("signout");
+    // console.log("signout");
     // 로컬 스토리지에 제거
     localStorage.removeItem(ACCESS_TOKEN);
     localStorage.removeItem(USER_NICKNAME);

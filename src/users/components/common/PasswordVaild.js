@@ -17,7 +17,7 @@ export default function PasswordVaild({ onVerify }) {
         const isValid = await verifyPassword(passwordVaild);
         onVerify(isValid);
       } catch (error) {
-        console.error('Error during password verification:', error);
+        // console.error('Error during password verification:', error);
       }
     };
   

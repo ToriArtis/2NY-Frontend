@@ -153,7 +153,7 @@ export default function useItemEditViewModel(id) {
       
       if (values.thumbnail instanceof File) {
         formData.append('thumbnailFiles', values.thumbnail);
-        console.log('Appending new thumbnail file:', values.thumbnail);
+        // console.log('Appending new thumbnail file:', values.thumbnail);
       }
       
       values.descriptionImages.forEach((file, index) => {
@@ -164,16 +164,16 @@ export default function useItemEditViewModel(id) {
   
       // FormData 내용 로깅
       for (let [key, value] of formData.entries()) {
-        console.log(key, value);
+        // console.log(key, value);
       }
   
       const result = await itemUpdate(id, formData);
-      console.log('Update result:', result);
+      // console.log('Update result:', result);
   
       alert("상품이 성공적으로 수정되었습니다.");
       navigate(`/items/${id}`);
     } catch (error) {
-      console.error("Error in handleSubmit:", error);
+      // console.error("Error in handleSubmit:", error);
       setError("상품 수정 중 오류가 발생했습니다. 다시 시도해 주세요.");
     }
   };

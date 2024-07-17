@@ -71,7 +71,7 @@ export function useCart() {
           : cart
       ));
     } catch (err) {
-      console.error('수량 업데이트 중 오류가 발생했습니다:', error);
+      alert('수량 업데이트 중 오류가 발생했습니다.');
     } finally {
       setLoading(false);
     }
@@ -109,7 +109,7 @@ export function useCart() {
       setPage(0);
       setHasMore(true);
     } catch (err) {
-      console.error('빠른 장바구니 비우기 중 오류가 발생했습니다:', error);
+      alert('빠른 장바구니 비우기 중 오류가 발생했습니다.');
       setError(err.message || 'Failed to clear cart');
     }
   }, []);

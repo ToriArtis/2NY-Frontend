@@ -57,7 +57,7 @@ export async function signup(userDTO) {
   try {
     const response = await call("/users", "POST", userDTO);
     
-    console.log("회원가입 성공:", response);
+    // console.log("회원가입 성공:", response);
     if (response && response.email) {
       alert("회원가입이 성공적으로 완료되었습니다.");
       window.location.href = "/login";
@@ -65,11 +65,11 @@ export async function signup(userDTO) {
       alert("회원가입에 실패했습니다. 다시 시도해 주세요.");
       // 에러 메시지가 있다면 표시
       if (response && response.message) {
-        console.error("회원가입 실패 이유:", response.message);
+        // console.error("회원가입 실패 이유:", response.message);
       }
     }
   } catch (error) {
-    console.error("회원가입 중 오류 발생:", error);
+    // console.error("회원가입 중 오류 발생:", error);
     alert("회원가입 실패 했습니다. 다시 시도해 주세요.", error);
   }
 }
@@ -85,17 +85,17 @@ export function verifyPassword(passwordVaild){
 
 export async function deleteUser() {
   try {
-    console.log("deleteUser");
+    // console.log("deleteUser");
     const response = await call("/users", "DELETE");
     return !!response; // response가 truthy면 true, falsy면 false 반환
   } catch (error) {
-    console.error("Error deleting user:", error);
+    // console.error("Error deleting user:", error);
     return false;
   }
 }
 
 export function modify(userDTO){
-  console.log("modify" , userDTO);
+  // console.log("modify" , userDTO);
   return call("/users", "PUT", userDTO);
 }
 
@@ -105,7 +105,7 @@ export function getUserInfo() {
 }
 
 export async function passwordFind(userDTO) {
-  console.log("passwordFind", userDTO);
+  // console.log("passwordFind", userDTO);
   try {
     const response = await call("/users/find", "POST", userDTO);
     
@@ -120,18 +120,18 @@ export async function passwordFind(userDTO) {
       return false;
     }
   } catch (error) {
-    console.error('비밀번호 찾기 오류:', error);
+    // console.error('비밀번호 찾기 오류:', error);
     alert("비밀번호 찾기 중 오류가 발생했습니다. 나중에 다시 시도해 주세요.");
     return false;
   }
 }
 
 export async function emailFind(phone) {
-  console.log("emailFind", phone);
+  // console.log("emailFind", phone);
   try {
     const response = await call("/users/findemail", "POST", { phone });
     
-    console.log('이메일 찾기 응답:', response);
+    // console.log('이메일 찾기 응답:', response);
     
     if (response && response.email) {
       return { success: true, email: response.email };
@@ -139,7 +139,7 @@ export async function emailFind(phone) {
       return { success: false, message: '이메일을 찾지 못했습니다.' };
     }
   } catch (error) {
-    console.error('이메일 찾기 오류:', error);
+    // console.error('이메일 찾기 오류:', error);
     throw error;
   }
 }

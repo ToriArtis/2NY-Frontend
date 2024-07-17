@@ -26,7 +26,7 @@ export const useItemViewModel = () => {
     };
 
     const fetchItems = useCallback(async (page = 0, size = 20, category = null, keyword = null) => {
-        console.log('fetchItems called', { keyword, category, filterColor, filterSize });
+        // console.log('fetchItems called', { keyword, category, filterColor, filterSize });
         setLoading(true);
         try {
             let data;
@@ -40,7 +40,7 @@ export const useItemViewModel = () => {
                 data = await itemList(page, size);
                 setCurrentCategory(null);
             }
-            console.log('Fetched data:', data);
+            // console.log('Fetched data:', data);
             if (data && data.content) {
                 setItems(data.content);
                 setPagination({
@@ -55,7 +55,7 @@ export const useItemViewModel = () => {
             }
             setError(null);
         } catch (err) {
-            console.error('Error fetching items:', err);
+            // console.error('Error fetching items:', err);
             setError(err.message);
             setItems([]);;
             setPagination({});
@@ -68,7 +68,7 @@ export const useItemViewModel = () => {
         setLoading(true);
         try {
             const response = await getItemDetail(itemId, page, size);
-            console.log('API response:', response);
+            // console.log('API response:', response);
             if (!response || (!response.item && !response.reviews)) {
                 throw new Error('Invalid response structure');
             }
@@ -76,7 +76,7 @@ export const useItemViewModel = () => {
             setError(null);
             return response;
         } catch (error) {
-            console.error('Error fetching item detail:', error);
+            // console.error('Error fetching item detail:', error);
             setError(error.message);
             setItem(null);
             throw error;
@@ -93,7 +93,7 @@ export const useItemViewModel = () => {
             setTopSellingItems(sorted.slice(0, 4));
             setError(null);
         } catch (err) {
-            console.error('Error fetching top selling items:', err);
+            // console.error('Error fetching top selling items:', err);
             setError(err.message);
             setTopSellingItems([]);
         } finally {
@@ -135,7 +135,7 @@ export const useItemViewModel = () => {
     }, []);
 
     const handleSearch = useCallback((keyword) => {
-        console.log('handleSearch called with keyword:', keyword);
+        // console.log('handleSearch called with keyword:', keyword);
         setSearchKeyword(keyword);
         fetchItems(0, 1000, null, keyword);
     }, [fetchItems]);
@@ -147,7 +147,7 @@ export const useItemViewModel = () => {
     }, []);
 
     const clearSearch = useCallback(() => {
-        console.log('clearSearch called');
+        // console.log('clearSearch called');
         setSearchKeyword('');
         setCurrentCategory(null);
         resetFilters();

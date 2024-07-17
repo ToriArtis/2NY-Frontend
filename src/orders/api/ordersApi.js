@@ -44,7 +44,7 @@ export function call(api, method, request) {
       })
     )
     .catch((error) => {
-      console.log(error.status);
+      // console.log(error.status);
       // 403 에러 시 로그인 페이지로 리다이렉트
       if (error.status === 403) {
         window.location.href = "/login";
@@ -75,7 +75,7 @@ export function createOrderFromCart() {
       return clearCart().then(() => response);
     })
     .catch(error => {
-      console.error("Error creating order from cart:", error);
+      alert("주문 생성 중 오류가 발생했습니다.");
       throw error;
     });
 }

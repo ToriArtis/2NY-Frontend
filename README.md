@@ -22,7 +22,7 @@ You - 고객 개개인을 중요하게 여긴다는 메세지를 전달
 
 ### 프로젝트 개요
 
-블로그 및 게시판 형식을 활용한 커뮤니티 사이트 개발
+API를 이용한 웹 애플리케이션
 
 **앱 이름**: 2NY
 
@@ -58,7 +58,7 @@ You - 고객 개개인을 중요하게 여긴다는 메세지를 전달
 
 ### 활용 장비 및 재료
 
-<img src="./tool.png" width="700">
+<img src="./public/assets/2NY_Tools.png" width="700">
 
 - Visual Studio Code
 - React
@@ -77,10 +77,20 @@ You - 고객 개개인을 중요하게 여긴다는 메세지를 전달
 
 #### ERD 및 아키텍처
 
-<img src="./Architecture.png" width="700">
-<img src="./erd.png" width="700">
-  
+<img src="./public/assets/2NY_erd.png" width="700">
+<img src="./public/assets/2NY_Architecture.png" width="700">
+
+### 기대 효과
+
+1. **개인화된 쇼핑 경험 향상**:
+    - ChatBot 기능과 맞춤형 상품 추천을 통해 각 고객의 스타일 니즈를 파악하고 충족시킬 수 있습니다.
+
+2. **최적화된 서비스**:
+    - 직관적인 상품 페이지 구성과 간편한 결제 시스템을 통해 쇼핑 시간을 절감 할 수 있습니다.
+
+3. **브랜드 가치 상승과 시장 확대**:
+    - 다양한 사이즈와 스타일을 제공함으로써 브랜드 가치를 창출하고, 이를 통해 잠재적 고객층을 확대할 수 있습니다.
 
 # 프로젝트 수행결과
 
-![1-ezgif com-video-to-gif-converter](https://github.com/CheHyeonYeong/Do-tori/assets/62824602/f5655bcb-b77a-4c79-b5b7-92499c4812a8)
+https://url.kr/5lp1cg

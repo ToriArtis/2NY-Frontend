@@ -73,29 +73,84 @@ npm start
 ```plaintext
 2ny-frontend/
 ├── public/
+│   ├── assets/
+│   │   └── favicon.ico
 │   ├── index.html
-│   └── favicon.ico
+│   ├── manifest.json
+│   └── robots.txt
 ├── src/
-│   ├── components/
-│   │   ├── Common/
-│   │   ├── Layout/
-│   │   └── TBO
-│   ├── pages/
-│   │   ├── Home/
-│   │   ├── About/
-│   │   └── ...
-│   ├── styles/
-│   │   ├── global.css
-│   │   └── ...
-│   ├── utils/
-│   ├── services/
-│   ├── hooks/
-│   ├── context/
+│   ├── cart/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── models/
+│   │   ├── viewModels/
+│   │   └── views/
+│   ├── chat/
+│   │   ├── ChatbotView.css
+│   │   ├── ChatbotView.js
+│   │   ├── chatModel.js
+│   │   └── ChatViewModel.js
+│   ├── component/
+│   │   ├── css/
+│   │   ├── pages/
+│   │   ├── BlueButton.js
+│   │   ├── Footer.js
+│   │   ├── Header.js
+│   │   └── WhiteButton.js
+│   ├── config/
+│   │   └── app-config.js
+│   ├── error/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── models/
+│   │   ├── viewModels/
+│   │   └── views/
+│   ├── items/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── models/
+│   │   ├── viewModels/
+│   │   └── views/
+│   ├── orders/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── models/
+│   │   ├── viewModels/
+│   │   └── views/
+│   ├── review/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── models/
+│   │   ├── viewModels/
+│   │   └── views/
+│   ├── users/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── models/
+│   │   ├── viewModels/
+│   │   └── views/
+│   ├── App.css
 │   ├── App.js
-│   └── index.js
+│   ├── App.test.js
+│   ├── AppRouter.js
+│   ├── Config.js
+│   ├── index.css
+│   ├── index.js
+│   ├── logo.svg
+│   ├── reportWebVitals.js
+│   └── setupTests.js
+├── .env
+├── .gitignore
+├── package-lock.json
 ├── package.json
 ├── README.md
-└── .gitignore
+└── README.old.md
 
 
 ```

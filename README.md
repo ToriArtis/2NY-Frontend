@@ -46,12 +46,12 @@ git clone https://github.com/ToriArtis/2NY-Frontend.git
 cd 2NY-Frontend
 
 # 의존성 설치
-npm install
-npm install @mui/material @mui/styled-engine-sc styled-components
-npm install react-slick slick-carousel
-npm install react-kakao-login
-npm install react-naver-login
-npm install @react-oauth/google
+npm install <br />
+npm install @mui/material @mui/styled-engine-sc styled-components <br />
+npm install react-slick slick-carousel <br />
+npm install react-kakao-login <br />
+npm install react-naver-login <br />
+npm install @react-oauth/google <br />
 npm install react-quill
 
 # 개발 서버 실행

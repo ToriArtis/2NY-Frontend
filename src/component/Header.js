@@ -71,7 +71,6 @@ function Header({ onSearch, clearSearch }) {
                 </Grid>
                 <Grid item container direction="column" alignItems="center" className="header-bottom">
                     <div className="category-nav">
-                        <button onClick={() => { if (typeof onSearch === 'function') clearSearch(); nav('/') }}><p></p></button>
                         <button onClick={() => { if (typeof onSearch === 'function') clearSearch(); nav('/items') }}><p>ALL</p></button>
                         <button onClick={() => { if (typeof onSearch === 'function') clearSearch(); nav('/items/category/TOP') }}><p>상의</p></button>
                         <button onClick={() => { if (typeof onSearch === 'function') clearSearch(); nav('/items/category/OUTER') }}><p>아우터</p></button>

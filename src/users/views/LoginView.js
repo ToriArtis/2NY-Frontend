@@ -4,7 +4,7 @@ import "../components/css/users.css";
 import Input from "../components/common/Input";
 import Footer from "../../component/Footer";
 import { useLoginViewModel } from "../viewModels/useLoginViewModel";
-import { googleKey, naverKey, kakaoKey, redirectUri } from "../../Config";
+// import { googleKey, naverKey, kakaoKey, redirectUri } from "../../Config";
 
 function LoginView() {
   if(localStorage.getItem("ACCESS_TOKEN") ) {
@@ -28,21 +28,21 @@ const handleSocialLogin = (provider) => {
   sessionStorage.setItem('oauth_provider', provider);
 
   let authUrl;
-  switch(provider) {
-    case 'google':
-      authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleKey}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=email%20profile&state=${state}`;
-      break;
-    case 'naver':
-      authUrl = `https://nid.naver.com/oauth2.0/authorize?client_id=${naverKey}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&state=${state}`;
-      break;
-    case 'kakao':
-      authUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoKey}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&state=${state}`;
-      break;
-    default:
-      return;
-    }
-    window.location.href = authUrl;
-  };
+  // switch(provider) {
+  //   case 'google':
+  //     authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleKey}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=email%20profile&state=${state}`;
+  //     break;
+  //   case 'naver':
+  //     authUrl = `https://nid.naver.com/oauth2.0/authorize?client_id=${naverKey}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&state=${state}`;
+  //     break;
+  //   case 'kakao':
+  //     authUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoKey}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&state=${state}`;
+  //     break;
+  //   default:
+  //     return;
+  //   }
+  //   window.location.href = authUrl;
+   };
 
 
   return (

@@ -10,8 +10,7 @@ import ItemCreateView from '../../../items/views/ItemCreateView';
 
 import OrderListPage from '../../../orders/views/OrderListPage';
 import AdminOrdersListPage from '../../../orders/views/AdminOrdersListPage';
-
-
+import Dashboard from '../../../component/Dashboard';
 
 
 export default function AdminRoleInfo() {
@@ -25,7 +24,7 @@ export default function AdminRoleInfo() {
 
     const handleClick = (viewName) => {
         setActiveButton(viewName);
-        switch(viewName) {
+        switch (viewName) {
             case "정보 수정":
                 setActiveView(<UserInfo isAdmin activeButton={activeButton} />);
                 break;
@@ -33,13 +32,14 @@ export default function AdminRoleInfo() {
                 setActiveView(<AdminOrdersListPage isAdmin={true} activeButton={activeButton} />);
                 break;
             case "상품 등록":
-
                 setActiveView(<ItemCreateView isAdmin activeButton={activeButton} />);
-
                 break;
             case "상품 조회":
                 setActiveView(<MypageItemCreateView isAdmin activeButton={activeButton} />);
                 break;
+            case "수익 관리":
+                setActiveView(<Dashboard isAdmin activeButton={activeButton} />);
+                break;    
             default:
                 setActiveView(<UserInfo isAdmin activeButton={activeButton} />);
         }
@@ -62,6 +62,9 @@ export default function AdminRoleInfo() {
                     <Button fullWidth onClick={() => handleClick("상품 조회")} sx={{ justifyContent: "flex-start", mb: 1 }} className={activeButton === "상품 조회" ? "active" : ""}>
                         상품 조회
                     </Button>
+                    <Button fullWidth onClick={() => handleClick("수익 관리")} sx={{ justifyContent: "flex-start", mb: 1 }} className={activeButton === "수익 관리" ? "active" : ""}>
+                        수익 관리
+                    </Button>
                 </Container>
             </Grid>
 
@@ -77,18 +80,18 @@ export default function AdminRoleInfo() {
 function UserInfo({ isAdmin }) {
     const [isPasswordVerified, setIsPasswordVerified] = useState(false);
     const userInfo = useInfoViewModel();
-  
+
     const handlePasswordVerification = (isValid) => {
-      setIsPasswordVerified(isValid);
+        setIsPasswordVerified(isValid);
     };
-  
+
     return (
-      <Container>
-        {!isPasswordVerified ? (
-          <PasswordVaild onVerify={handlePasswordVerification} />
-        ) : (
-          <ModifyView {...userInfo} isAdmin = {isAdmin} />
-        )}
-      </Container>
+        <Container>
+            {!isPasswordVerified ? (
+                <PasswordVaild onVerify={handlePasswordVerification} />
+            ) : (
+                <ModifyView {...userInfo} isAdmin={isAdmin} />
+            )}
+        </Container>
     );
-  }
+}

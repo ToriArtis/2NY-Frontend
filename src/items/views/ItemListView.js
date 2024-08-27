@@ -130,7 +130,7 @@ const ItemListView = () => {
         <div className='arrivals-banner'>
           <img src='/assets/bannder.png' alt="New Arrivals Banner" className="arrivals-image" />
           <div className="banner-text">NEW ARRIVALS</div>
-          <div className='banner-text2'>지금 주목해야 할 여름 신상</div>
+          <div className='banner-text2'>지금 주목해야 할 가을 신상</div>
         </div>
         
         <div className="main-content">

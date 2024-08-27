@@ -5,7 +5,7 @@ const hostname = window && window.location && window.location.hostname;
 if (hostname === "localhost") {
   backendHost = "http://localhost:8080";
 } else {
-  backendHost = "2ny-backendV1-env.eba-amejpzgi.ap-northeast-2.elasticbeanstalk.com ";
+  backendHost = "http://2ny-backendv1-env.eba-amejpzgi.ap-northeast-2.elasticbeanstalk.com";
 }
 
 

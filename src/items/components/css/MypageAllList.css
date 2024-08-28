@@ -1,85 +1,108 @@
 .item-all-list-view {
-    border: 1px solid #e0e0e0;
-    margin: 0 auto;
-    padding: 5rem 1.2rem;
-    max-width: 1200px;
+  border: 1px solid #e0e0e0;
+  margin: 0 auto;
+  padding: 5rem 1.2rem;
+}
+
+.item-all-list-view h2 {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  margin-left: 1rem;
+}
+
+.item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.item-item {
+  display: flex;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+}
+
+.item-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.item-item h3 {
+  margin: 0 0 10px 0;
+}
+
+.item-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.item-date {
+  font-size: 0.9em;
+  color: #888;
+}
+
+.item-description {
+  margin: 0;
+  word-break: break-word;
+}
+
+.item-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  font-size: 0.9em;
+  color: #888;
+}
+
+/* 큰 화면에서는 오른쪽 정렬 */
+@media screen and (min-width: 768px) {
+  .item-actions {
+    margin-left: auto;
+    padding-left: 20px;
   }
-  
-  .page-title {
-    border-bottom: 1px solid #ddd !important;
-    padding-bottom: 10px !important;
-    margin-bottom: 20px !important;
-    margin-left: 1rem !important;
-    text-align: left;
-  }
-  
-  .item-list {
-    display: flex;
+}
+
+/* 작은 화면에서는 새로운 줄에 표시하고 왼쪽 정렬 */
+@media screen and (max-width: 767px) {
+  .item-item {
     flex-direction: column;
-    gap: 20px;
   }
-  
-  .item {
-    display: flex;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+
+  .item-actions {
+    align-self: flex-start;
+    margin-top: 10px;
+    padding-left: 0;
   }
-  
-  .item:hover {
-    background-color: #f9f9f9;
-  }
-  
-  .item-image {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    margin-right: 20px;
-  }
-  
-  .item-content {
-    flex: 1;
-  }
-  
-  .item h3 {
-    margin: 0 0 10px 0;
-    font-size: 1.1em;
-  }
-    
-  .discount-price {
-    font-weight: bold;
-    color: #ff0000;
-  }
-  
-  .original-price {
-    text-decoration: line-through;
-    color: #888;
-    font-size: 0.9em;
-  }
-  
-  .loading, .error {
-    text-align: center;
-    padding: 20px;
-    font-style: italic;
-    color: #888;
-  }
-  
-  @media (max-width: 768px) {
-    .item-all-list-view {
-      padding: 2rem 1rem;
-    }
-  
-    .item {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-  
-    .item-image {
-      width: 80%;
-      height: auto;
-      margin-right: 0;
-      margin-bottom: 10px;
-    }
-  }
+}
+
+.action-link {
+  cursor: pointer;
+  text-decoration: none;
+  color: #888;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.pagination span {
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+}
+
+.pagination span.active {
+  background-color: #f0f0f0;
+}

@@ -1,106 +1,78 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useItemViewModel } from '../hooks/useItemViewModel';
-import { Typography } from '@mui/material';
-import Pagination from "../../review/components/Pagination";
-import '../components/css/MypageAllList.css'
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import mypageItemListViewModel from "../../items/viewModels/mypageItemListViewModel";
+import Pagination from '../../review/components/Pagination';
 import { getImageUrl } from "../../config/app-config";
+import { itemDelete } from '../api/itemApi';
+import "../components/css/MypageAllList.css"
 
 const ItemAllListView = () => {
-  const { category } = useParams();
-  const location = useLocation();
-  const { items, loading, error, fetchItems, changeSort, sortOption, searchKeyword, handleSearch, clearSearch } = useItemViewModel();
+  const { items, error, currentPage, totalPages, paginate } = mypageItemListViewModel();
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const [isAdmin, setIsAdmin] = useState(false);
+  const { id } = useParams();
 
   useEffect(() => {
-    if (category) {
-      clearSearch();
-    }
-    fetchItems(0, 1000, category);
-  }, [fetchItems, category, searchKeyword, clearSearch]);
+    const userRoles = localStorage.getItem("USER_ROLESET");
+    setIsAdmin(userRoles && userRoles.includes("ADMIN"));
+  }, []);
 
-  useEffect(() => {
-    if (location.pathname === '/items') {
-      clearSearch();
+  const handleUpdate = (id) => {
+    if (isAdmin) {
+      navigate(`/items/${id}/edit`);
+    } else {
+      alert("관리자 권한이 없습니다.");
     }
-  }, [location, clearSearch]);
-
-  const handleItemClick = (itemId) => {
-    navigate(`/items/${itemId}`);
   };
 
-  const sortedItems = useMemo(() => {
-    let sorted = [...items];
-    switch (sortOption) {
-      case 'latest':
-        sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        break;
-      case 'oldest':
-        sorted.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-        break;
-      case 'priceHigh':
-        sorted.sort((a, b) => b.price - a.price);
-        break;
-      case 'priceLow':
-        sorted.sort((a, b) => a.price - b.price);
-        break;
-      default:
-        break;
+  const handleDeleteClick = async () => {
+    if (window.confirm('정말로 이 상품을 삭제하시겠습니까?')) {
+      try {
+        await itemDelete(id);
+        alert('상품이 성공적으로 삭제되었습니다.');
+        navigate('/items');
+      } catch (error) {
+        alert(error.message);
+      }
     }
-    return sorted;
-  }, [items, sortOption]);
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = sortedItems.slice(indexOfFirstItem, indexOfLastItem);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  const totalPages = Math.ceil(sortedItems.length / itemsPerPage);
-
-  const categoryTitles = {
-    'TOP': '상의',
-    'OUTER': '아우터',
-    'DRESS': '원피스',
-    'SKIRT': '스커트',
-    'PANTS': '팬츠',
   };
 
-  const title = category
-    ? `${categoryTitles[category] || category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()}`
-    : '상품 조회';
+  // 날짜
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return dateString; // 유효하지 않은 날짜면 원본 문자열 반환
+    return date.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\. /g, '.').slice(0, -1);
+  };
 
   return (
     <div className="item-all-list-view">
-      <Typography component="h1" variant="h5" className="page-title">
-        <b>{title}</b>
-      </Typography>
-      {loading && items.length === 0 ? (
-        <div className="loading">상품을 불러오는 중입니다...</div>
-      ) : error ? (
-        <div className="error">오류가 발생했습니다: {error}</div>
-      ) : (
-        <>
-          <div className="item-list">
-            {currentItems.map(item => (
-              <div key={item.itemId} className="item" onClick={() => handleItemClick(item.itemId)}>
-                <img src={getImageUrl(item.thumbnail)} alt={`Item ${item.itemId}`} className="review-item-image" />
-                <div className="item-content">
-                  <h3>{item.title}</h3>
-                </div>
+      <h2>상품 목록 조회</h2>
+      <div className="item-list">
+        {items.map((item) => (
+          <div key={item.itemId} className="item-item">
+            <img src={getImageUrl(item.thumbnail)} alt={`Item ${item.itemId}`} className="item-image" />
+            <div className="item-content">
+              <h3>{item.title}</h3>
+              <div className="item-info">
+                <span className="item-date">
+                  {item.updatedAt && item.updatedAt !== item.createdAt
+                    ? `${formatDate(item.updatedAt)}`
+                    : formatDate(item.createdAt)}
+                </span>
               </div>
-            ))}
+              <p className="item-description">{item.description}</p>
+            </div>
+            <div className="item-actions">
+              <span onClick={() => handleUpdate(item.itemId)} className="action-link">
+                수정
+              </span>
+              | <span onClick={() => handleDeleteClick(item.itemId)} className="action-link">삭제</span>
+            </div>
           </div>
-          {loading && <div className="loading">추가 상품을 불러오는 중...</div>}
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            paginate={paginate}
-          />
-        </>
-      )}
+        ))}
+      </div>
+      <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />
     </div>
   );
 };

@@ -28,25 +28,20 @@ const Dashboard = () => {
           <Paper elevation={3}><CardFour /></Paper>
         </Grid>
 
-        {/* 차트들 */}
-        <Grid item xs={12} md={8}>
+        {/* 매출표 */}
+        <Grid item xs={12} md={50}>
           <Paper elevation={3}><ChartOne /></Paper>
         </Grid>
-        <Grid item xs={12} md={4}>
-          <Paper elevation={3}><ChartTwo /></Paper>
-        </Grid>
 
-        {/* Top Channels */}
+        {/* 매출 상위 품목 */}
         <Grid item xs={12} md={8}>
           <Paper elevation={3}><TableOne /></Paper>
         </Grid>
 
-        {/* 원형차트 */}
+        {/* 카테고리 상위 품목 */}
         <Grid item xs={12} md={4}>
           <Paper elevation={3}><ChartThree /></Paper>
         </Grid>
-
-        
 
         {/* Chat Card */}
         {/* <Grid item xs={12} md={4}>

@@ -30,13 +30,9 @@
   margin-right: 20px;
 }
 
-.item-content {
+.item-titles {
   flex: 1;
   min-width: 0;
-}
-
-.item-item h3 {
-  margin: 0 0 10px 0;
 }
 
 .item-info {

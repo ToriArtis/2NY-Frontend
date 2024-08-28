@@ -39,7 +39,10 @@ export default function AdminRoleInfo() {
                 break;
             case "수익 관리":
                 setActiveView(<Dashboard isAdmin activeButton={activeButton} />);
-                break;    
+                break;
+            case "사용자 목록":
+                setActiveView(< isAdmin activeButton={activeButton} />);
+                break;
             default:
                 setActiveView(<UserInfo isAdmin activeButton={activeButton} />);
         }
@@ -64,6 +67,9 @@ export default function AdminRoleInfo() {
                     </Button>
                     <Button fullWidth onClick={() => handleClick("수익 관리")} sx={{ justifyContent: "flex-start", mb: 1 }} className={activeButton === "수익 관리" ? "active" : ""}>
                         수익 관리
+                    </Button>
+                    <Button fullWidth onClick={() => handleClick("사용자 목록")} sx={{ justifyContent: "flex-start", mb: 1 }} className={activeButton === "수익 관리" ? "active" : ""}>
+                        사용자 목록
                     </Button>
                 </Container>
             </Grid>

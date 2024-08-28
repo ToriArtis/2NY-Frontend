@@ -52,7 +52,7 @@ const ItemAllListView = () => {
         {items.map((item) => (
           <div key={item.itemId} className="item-item">
             <img src={getImageUrl(item.thumbnail)} alt={`Item ${item.itemId}`} className="item-image" />
-            <div className="item-content">
+            <div className="item-titles">
               <h3>{item.title}</h3>
               <div className="item-info">
                 <span className="item-date">

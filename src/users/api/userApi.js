@@ -1,4 +1,3 @@
-// app-config.js 파일에서 API_BASE_URL을 가져옵니다.
 import { API_BASE_URL, ACCESS_TOKEN } from "../../config/app-config";
 
 // API 호출을 위한 함수
@@ -13,6 +12,13 @@ export function call(api, method, request) {
   if (accessToken && accessToken !== null) {
     // 액세스 토큰이 있으면 Authorization 헤더에 추가
     headers.append("Authorization", "Bearer " + accessToken);
+  }
+
+  // 리프레시 토큰 가져오기
+  const refreshToken = localStorage.getItem("REFRESH_TOKEN");
+  if (refreshToken && refreshToken !== null) {
+    // 리프레시 토큰이 있으면 Refresh-Token 헤더에 추가
+    headers.append("Refresh-Token", refreshToken);
   }
 
   // API 요청 옵션 설정
@@ -31,6 +37,13 @@ export function call(api, method, request) {
   return fetch(options.url, options)
     .then((response) =>
       response.json().then((json) => {
+        if (response.status === 401) {
+          // 액세스 토큰이 만료된 경우
+          return refreshAccessToken().then(() => {
+            // 새로운 액세스 토큰으로 원래 요청 재시도
+            return call(api, method, request);
+          });
+        }
         if(response.status === 400){
           alert("다시 시도하시오")
           return json;
@@ -52,6 +65,41 @@ export function call(api, method, request) {
     });
 }
 
+// 액세스 토큰 갱신 함수
+async function refreshAccessToken() {
+  const refreshToken = localStorage.getItem("REFRESH_TOKEN");
+  if (!refreshToken) {
+    // 리프레시 토큰이 없으면 로그인 페이지로 리디렉트
+    window.location.href = "/login";
+    return Promise.reject("No refresh token available");
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ refreshToken }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      localStorage.setItem("ACCESS_TOKEN", data.accessToken);
+      return Promise.resolve();
+    } else {
+      // 리프레시 토큰도 만료된 경우 로그아웃 처리
+      localStorage.removeItem("ACCESS_TOKEN");
+      localStorage.removeItem("REFRESH_TOKEN");
+      window.location.href = "/login";
+      return Promise.reject("Failed to refresh token");
+    }
+  } catch (error) {
+    console.error("Error refreshing token:", error);
+    window.location.href = "/login";
+    return Promise.reject(error);
+  }
+}
 // 회원가입 함수
 export async function signup(userDTO) {
   try {

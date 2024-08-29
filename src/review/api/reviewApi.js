@@ -1,8 +1,7 @@
-// app-config.js 파일에서 API_BASE_URL을 가져옵니다.
 import { API_BASE_URL, ACCESS_TOKEN } from "../../config/app-config";
 
 // API 호출을 위한 함수
-export function call(api, method, request) {
+export async function call(api, method, request) {
   // 기본 헤더 설정
   let headers = new Headers({
     "Content-Type": "application/json",
@@ -27,27 +26,50 @@ export function call(api, method, request) {
     options.body = JSON.stringify(request);
   }
 
-  // fetch를 사용하여 API 호출
-  return fetch(options.url, options)
-    .then((response) =>
-      response.json().then((json) => {
-        if (!response.ok) {
-          // response.ok가 true이면 정상적인 응답, 아니면 에러 응답
-          return Promise.reject(json);
+  try {
+    // fetch를 사용하여 API 호출
+    const response = await fetch(options.url, options);
+    const json = await response.json();
+
+    if (response.status === 401) {
+      // 액세스 토큰이 만료된 경우
+      const refreshToken = localStorage.getItem("REFRESH_TOKEN");
+      if (refreshToken) {
+        const refreshResponse = await fetch(`${API_BASE_URL}/auth/refresh`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ refreshToken }),
+        });
+
+        if (refreshResponse.ok) {
+          const refreshData = await refreshResponse.json();
+          localStorage.setItem("ACCESS_TOKEN", refreshData.accessToken);
+          // 새로운 액세스 토큰으로 원래 요청 재시도
+          return call(api, method, request);
+        } else {
+          // 리프레시 토큰도 만료된 경우 로그아웃 처리
+          localStorage.removeItem("ACCESS_TOKEN");
+          localStorage.removeItem("REFRESH_TOKEN");
+          window.location.href = "/login";
         }
-        // console.log(json);
-        return json;
-      })
-    )
-    .catch((error) => {
-      // 에러 처리
-      // console.log(error.status);
-      if (error.status === 403) {
-        // 403 에러(권한 없음)인 경우 로그인 페이지로 리디렉션
+      } else {
+        // 리프레시 토큰이 없는 경우 로그인 페이지로 리다이렉트
         window.location.href = "/login";
       }
-      return Promise.reject(error);
-    });
+    }
+
+    if (!response.ok) {
+      return Promise.reject(json);
+    }
+    return json;
+  } catch (error) {
+    if (error.status === 403) {
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
 }
 
 // 리뷰 등록 

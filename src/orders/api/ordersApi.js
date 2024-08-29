@@ -2,7 +2,7 @@ import { API_BASE_URL } from "../../config/app-config";
 import { clearCart } from "../../cart/api/cartApi";
 
 // API 호출을 위한 기본 함수
-export function call(api, method, request) {
+export async function call(api, method, request) {
   // 헤더 설정
   let headers = new Headers({
     "Content-Type": "application/json",
@@ -26,33 +26,72 @@ export function call(api, method, request) {
     options.body = JSON.stringify(request);
   }
 
-  // fetch를 사용하여 API 호출
-  return fetch(options.url, options)
-    .then((response) =>
-      response.text().then((text) => {
-        if (!response.ok) {
-          // 응답이 JSON 형식이면 JSON으로 파싱하여 반환, 그렇지 않으면 일반 텍스트 반환
-          try {
-            const json = JSON.parse(text);
-            return Promise.reject(json);
-          } catch (error) {
-            return Promise.reject({ message: text });
-          }
+  try {
+    // fetch를 사용하여 API 호출
+    const response = await fetch(options.url, options);
+    const text = await response.text();
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        // 액세스 토큰 만료 시 리프레시
+        const refreshed = await refreshAccessToken();
+        if (refreshed) {
+          // 새 액세스 토큰으로 원래 요청 재시도
+          return call(api, method, request);
+        } else {
+          // 리프레시 실패 시 로그인 페이지로 리다이렉트
+          window.location.href = "/login";
+          return Promise.reject({ message: "세션이 만료되었습니다. 다시 로그인해주세요." });
         }
-        // 응답이 빈 경우를 고려하여 처리
-        return text ? JSON.parse(text) : {};
-      })
-    )
-    .catch((error) => {
-      // console.log(error.status);
-      // 403 에러 시 로그인 페이지로 리다이렉트
-      if (error.status === 403) {
-        window.location.href = "/login";
       }
-      return Promise.reject(error);
-    });
+      // 다른 에러의 경우
+      try {
+        const json = JSON.parse(text);
+        return Promise.reject(json);
+      } catch (error) {
+        return Promise.reject({ message: text });
+      }
+    }
+    // 응답이 빈 경우를 고려하여 처리
+    return text ? JSON.parse(text) : {};
+  } catch (error) {
+    if (error.status === 403) {
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
 }
 
+// 액세스 토큰 갱신 함수
+async function refreshAccessToken() {
+  const refreshToken = localStorage.getItem("REFRESH_TOKEN");
+  if (!refreshToken) {
+    return false;
+  }
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ refreshToken }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      localStorage.setItem("ACCESS_TOKEN", data.accessToken);
+      return true;
+    } else {
+      localStorage.removeItem("ACCESS_TOKEN");
+      localStorage.removeItem("REFRESH_TOKEN");
+      return false;
+    }
+  } catch (error) {
+    console.error("Error refreshing token:", error);
+    return false;
+  }
+}
 // 주문 목록 조회 API
 export function list(page = 0, size = 6) {
   return call(`/orders/list?page=${page}&size=${size}`, "GET");

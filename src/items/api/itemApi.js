@@ -10,6 +10,10 @@ const call = async (api, method, request) => {
   if (accessToken) {
     headers.append("Authorization", "Bearer " + accessToken);
   }
+  const refreshToken = localStorage.getItem("REFRESH_TOKEN");
+  if (refreshToken) {
+    headers.append("Authorization", "Bearer " + refreshToken);
+  }
 
   const options = {
     headers: headers,

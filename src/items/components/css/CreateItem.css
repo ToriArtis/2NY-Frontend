@@ -1,156 +1,166 @@
 .create-item-container {
-    display: flex;
-    width: 100%;
-  }
-  .sidebar {
-    width: 25%;
-    padding: 20px;
-    background-color: #f0f0f0;
-  }
-  
-  .sidebar-title {
-    font-size: 2em;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .sidebar ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .sidebar li {
-    margin-bottom: 15px;
-  }
-  
-  .sidebar a {
-    text-decoration: none;
-    font-weight: bold;
-    color: #333;
-    font-size: 2em;
-    transition: color 0.3s ease;
-  }
-  
-  .sidebar a:hover {
-    color: #0056b3;
-  }
-  
-  .main-content h1 {
-    font-size: 2em;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  .main-content {
-    width: 75%;
-    padding: 20px;
-  }
-  
-  .main-content h1 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  .error-message {
-    color: red;
-    margin-bottom: 15px;
-  }
-  
-  .form-container {
-    display: flex;
-    gap: 50px;
-  }
-  
-  .image-upload-section,
-  .item-details-section {
-    width: 40%;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .button-group {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  
-  .button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .button-cancel {
-    background-color: #ccc;
-  }
-  
-  .button-submit {
-    background-color: #007bff;
-    color: white;
-  }
-  .form-group select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: white;
-    font-size: 16px;
-  }
-  
-  .form-group select:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 2px rgba(0,123,255,.25);
-  }
+  width: 1000px;  /* 너비를 줄임 */
+  margin: 0 auto;
+  padding: 0rem;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
 
-  
+.main-content h1 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;  /* 세로 배치로 변경 */
+  gap: 1rem;
+  width: 100%;
+}
+
+.image-upload-section, .item-details-section {
+  width: 100%;  /* 전체 너비 사용 */
+  margin: 0 auto;
+}
+.item-details-section {
+  width: 1000px;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-group input[type="file"] {
+  border: 1px dashed #ddd;
+  padding: 1rem;
+  border-radius: 4px;
+  width: 100%;
+}
+
 .image-preview {
-    margin-top: 10px;
-    max-width: 200px;
-    max-height: 200px;
-    overflow: hidden;
-  }
-  
-  .image-preview img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
-  
-  .image-preview-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 10px;
-  }
-  
-  .image-preview-container .image-preview {
-    width: 250px;
-    height: 250px;
-  }
-  
-  .image-preview-container .image-preview img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  margin-top: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.image-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.image-preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.image-preview-container .image-preview {
+  width: calc(33.333% - 0.67rem);
+}
+.button-group {
+  display: flex;
+  justify-content: flex-end;  /* 이 부분은 이미 flex-end로 되어 있지만, 확실히 하기 위해 남겨둡니다 */
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-right: 1rem;  /* 오른쪽에 약간의 여백을 추가합니다 */
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button-cancel {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.button-submit {
+  background-color: #007bff;
+  color: white;
+}
+
+.button-cancel:hover {
+  background-color: #e0e0e0;
+}
+
+.button-submit:hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: #dc3545;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* React Quill 에디터 스타일 */
+.quill {
+  margin-bottom: 1rem;
+}
+
+.ql-container {
+  min-height: 200px;
+}
+.file-input-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.file-input-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.file-input-wrapper .btn-file-input {
+  border: 2px solid #4a90e2;
+  color: #4a90e2;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.file-input-wrapper .btn-file-input:hover {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.file-input-name {
+  margin-left: 10px;
+  font-style: italic;
+}
+

@@ -4,7 +4,7 @@ import UserReviewListPage from '../../../component/pages/UserReviewListPage';
 import useInfoViewModel from '../../viewModels/useInfoViewModel';
 import PasswordVaild from './PasswordVaild';
 import ModifyView from '../../views/ModifyView';
-
+import UserListView from '../../views/UserListView';
 import MypageItemCreateView from '../../../items/views/MypageItemCreateView';
 import ItemCreateView from '../../../items/views/ItemCreateView';
 
@@ -41,7 +41,7 @@ export default function AdminRoleInfo() {
                 setActiveView(<Dashboard isAdmin activeButton={activeButton} />);
                 break;
             case "사용자 목록":
-                setActiveView(< isAdmin activeButton={activeButton} />);
+                setActiveView(<UserListView  isAdmin activeButton={activeButton} />);
                 break;
             default:
                 setActiveView(<UserInfo isAdmin activeButton={activeButton} />);

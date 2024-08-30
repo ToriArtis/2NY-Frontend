@@ -1,5 +1,4 @@
 import { API_BASE_URL } from "../../config/app-config";
-
 // API 호출을 위한 기본 함수
 const call = async (api, method, request) => {
   const headers = new Headers({
@@ -10,9 +9,10 @@ const call = async (api, method, request) => {
   if (accessToken) {
     headers.append("Authorization", "Bearer " + accessToken);
   }
+  
   const refreshToken = localStorage.getItem("REFRESH_TOKEN");
   if (refreshToken) {
-    headers.append("Authorization", "Bearer " + refreshToken);
+    headers.append("Refresh-Token", refreshToken);
   }
 
   const options = {
@@ -29,8 +29,32 @@ const call = async (api, method, request) => {
     const json = await response.json();
 
     if (response.status === 401) {
-      // 401 에러 처리 (예: 토큰 만료)
-      // 여기에 적절한 처리 로직 추가
+      // 액세스 토큰 만료 시 리프레시 토큰으로 새로운 액세스 토큰 요청
+      const refreshToken = localStorage.getItem("REFRESH_TOKEN");
+      if (refreshToken) {
+        const refreshResponse = await fetch(`${API_BASE_URL}/auth/refresh`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ refreshToken }),
+        });
+
+        if (refreshResponse.ok) {
+          const refreshData = await refreshResponse.json();
+          localStorage.setItem("ACCESS_TOKEN", refreshData.accessToken);
+          // 새로운 액세스 토큰으로 원래 요청 재시도
+          return call(api, method, request);
+        } else {
+          // 리프레시 토큰도 만료된 경우 로그아웃 처리
+          localStorage.removeItem("ACCESS_TOKEN");
+          localStorage.removeItem("REFRESH_TOKEN");
+          window.location.href = "/login";
+        }
+      } else {
+        // 리프레시 토큰이 없는 경우 로그인 페이지로 리다이렉트
+        window.location.href = "/login";
+      }
     } else if (!response.ok) {
       return Promise.reject(json);
     }

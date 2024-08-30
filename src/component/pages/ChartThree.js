@@ -20,12 +20,28 @@ const ChartThree = () => {
       const response = await itemList(0, 1000);  // 모든 아이템 가져오기
       const items = response.content;
       
-      // 카테고리별 판매량 집계
+      const now = new Date();
       const categoryData = items.reduce((acc, item) => {
-        if (!acc[item.category]) {
-          acc[item.category] = 0;
+        const itemDate = new Date(item.createdAt);
+        
+        // timeFrame에 따라 필터링
+        if (timeFrame === 'Monthly' && (
+          itemDate.getMonth() === now.getMonth() &&
+          itemDate.getFullYear() === now.getFullYear()
+        )) {
+          // 월별 데이터
+          if (!acc[item.category]) {
+            acc[item.category] = 0;
+          }
+          acc[item.category] += item.sales;
+        } else if (timeFrame === 'Yearly' && itemDate.getFullYear() === now.getFullYear()) {
+          // 연도별 데이터
+          if (!acc[item.category]) {
+            acc[item.category] = 0;
+          }
+          acc[item.category] += item.sales;
         }
-        acc[item.category] += item.sales;
+        
         return acc;
       }, {});
 
@@ -38,6 +54,7 @@ const ChartThree = () => {
       console.error('Error fetching category data:', error);
     }
   };
+
 
   const options = {
     chart: {
@@ -62,22 +79,17 @@ const ChartThree = () => {
     },
     responsive: [
       {
-        breakpoint: 2600,
+        breakpoint: 480,
         options: {
           chart: {
-            width: 380,
+            width: '100%',
           },
-        },
-      },
-      {
-        breakpoint: 640,
-        options: {
-          chart: {
-            width: 200,
-          },
-        },
-      },
-    ],
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    ]
   };
 
   const handleTimeFrameChange = (event) => {
@@ -88,18 +100,23 @@ const ChartThree = () => {
     <Card>
       <CardContent>
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-          <Typography variant="h6">상품 카테고리 매출 분석</Typography>
+          <Typography variant="h6">
+            카테고리별 매출 분석
+          </Typography>
           <Select value={timeFrame} onChange={handleTimeFrameChange} size="small">
-            <MenuItem value="Monthly">Monthly</MenuItem>
-            <MenuItem value="Yearly">Yearly</MenuItem>
+            <MenuItem value="Monthly">월별</MenuItem>
+            <MenuItem value="Yearly">연간</MenuItem>
           </Select>
         </Box>
-        <ReactApexChart
-          options={options}
-          series={chartData.series}
-          type="donut"
-          height={350}
-        />
+        <Box width="100%" height="350px">
+          <ReactApexChart
+            options={options}
+            series={chartData.series}
+            type="donut"
+            width="100%"
+            height="100%"
+          />
+        </Box>
         <Grid container spacing={2} mt={2}>
           {chartData.labels.map((category, index) => (
             <Grid item xs={6} key={index}>

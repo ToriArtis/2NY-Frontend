@@ -39,7 +39,7 @@ const TableOne = () => {
   return (
     <Card>
       <CardContent>
-        <Typography variant="h6" gutterBottom>상위 상품 목록</Typography>
+        <Typography variant="h6" gutterBottom>매출 상위 품목</Typography>
         <TableContainer>
           <Table>
             <TableHead>

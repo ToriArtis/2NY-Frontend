@@ -164,7 +164,7 @@ const ChartOne = () => {
         break;
 
       case 'week':
-        // 이번 주의 일별 판매량
+        // 이번주 일별 판매량
         salesData = new Array(7).fill(0);
         const weekStart = new Date(now.setDate(now.getDate() - now.getDay()));
         categories = Array.from({length: 7}, (_, i) => {
@@ -182,7 +182,7 @@ const ChartOne = () => {
         break;
 
       case 'month':
-        // 이번 달 일별 판매량
+        // 이번달 일별 판매량
         const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
         salesData = new Array(daysInMonth).fill(0);
         categories = Array.from({length: daysInMonth}, (_, i) => `${i + 1}`);

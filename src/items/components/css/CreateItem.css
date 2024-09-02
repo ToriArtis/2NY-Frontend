@@ -1,7 +1,8 @@
 .create-item-container {
-  width: 1000px;  /* 너비를 줄임 */
+  width: 100%;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0rem;
+  padding: 3rem;
   background-color: #ffffff;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   border-radius: 8px;
@@ -10,54 +11,70 @@
 .main-content h1 {
   color: #333;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .form-container {
   display: flex;
-  flex-direction: column;  /* 세로 배치로 변경 */
-  gap: 1rem;
-  width: 100%;
+  flex-direction: column;
+  gap: 2rem;
+  width: 220%;
 }
 
-.image-upload-section, .item-details-section {
-  width: 100%;  /* 전체 너비 사용 */
-  margin: 0 auto;
+.image-upload-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 3rem;
 }
+
+.image-upload-group {
+  flex: 1;
+  min-width: 0;
+}
+
 .item-details-section {
-  width: 1000px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   font-weight: 600;
   color: #555;
+  font-size: 1.1rem;
 }
 
 .form-group input[type="text"],
 .form-group input[type="number"],
 .form-group select {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .form-group input[type="file"] {
   border: 1px dashed #ddd;
-  padding: 1rem;
+  padding: 1.5rem;
   border-radius: 4px;
   width: 100%;
 }
 
 .image-preview {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   border: 1px solid #ddd;
   border-radius: 4px;
   overflow: hidden;
@@ -72,25 +89,26 @@
 .image-preview-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .image-preview-container .image-preview {
-  width: calc(33.333% - 0.67rem);
+  width: calc(33.333% - 1rem);
 }
+
 .button-group {
   display: flex;
-  justify-content: flex-end;  /* 이 부분은 이미 flex-end로 되어 있지만, 확실히 하기 위해 남겨둡니다 */
-  gap: 1rem;
-  margin-top: 2rem;
-  padding-right: 1rem;  /* 오른쪽에 약간의 여백을 추가합니다 */
+  justify-content: flex-end;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  padding-right: 1.5rem;
 }
 
 .button {
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: 1.1rem;
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -115,18 +133,19 @@
 
 .error-message {
   color: #dc3545;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   text-align: center;
+  font-size: 1.1rem;
 }
 
-/* React Quill 에디터 스타일 */
 .quill {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .ql-container {
-  min-height: 200px;
+  min-height: 250px;
 }
+
 .file-input-wrapper {
   position: relative;
   overflow: hidden;
@@ -145,9 +164,9 @@
   border: 2px solid #4a90e2;
   color: #4a90e2;
   background-color: white;
-  padding: 8px 20px;
+  padding: 10px 24px;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 1.1rem;
   font-weight: bold;
   display: inline-block;
   cursor: pointer;
@@ -160,7 +179,7 @@
 }
 
 .file-input-name {
-  margin-left: 10px;
+  margin-left: 15px;
   font-style: italic;
+  font-size: 1.1rem;
 }
-

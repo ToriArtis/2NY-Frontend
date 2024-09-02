@@ -54,15 +54,11 @@ const ItemCreateView = () => {
   return (
     <div className="create-item-container">
       <div className="main-content">
-        {/* 에러 메시지 표시 */}
         {error && <p className="error-message">{error}</p>}
         
-        {/* 상품 등록 폼 */}
         <form onSubmit={handleSubmit}>
           <div className="form-container">
-            {/* 이미지 업로드 섹션 */}
             <div className="image-upload-section">
-              {/* 썸네일 이미지 업로드 */}
               <div className="image-upload-group">
                 <label htmlFor="thumbnail">썸네일 이미지</label>
                 {thumbnailPreview && (
@@ -88,7 +84,6 @@ const ItemCreateView = () => {
                 </div>
               </div>
   
-              {/* 상세 이미지 업로드 */}
               <div className="image-upload-group">
                 <label htmlFor="descriptionImage">상세 이미지</label>
                 <div className="image-preview-container">
@@ -116,13 +111,10 @@ const ItemCreateView = () => {
                   </span>
                 </div>
               </div>
-              
             </div>
   
-            {/* 상품 상세 정보 입력 섹션 */}
             <div className="item-details-section">
-              {/* 상품명 입력 */}
-              <div className="form-group">
+              <div className="form-group full-width">
                 <label htmlFor="title">상품명</label>
                 <input
                   type="text"
@@ -133,8 +125,7 @@ const ItemCreateView = () => {
                 />
               </div>
   
-              {/* 상품 정보 입력 (React Quill 에디터 사용) */}
-              <div className="form-group">
+              <div className="form-group full-width">
                 <label htmlFor="content">상품 정보</label>
                 <ReactQuill
                   value={content}
@@ -145,7 +136,6 @@ const ItemCreateView = () => {
                 />
               </div>
   
-              {/* 상품 가격 입력 */}
               <div className="form-group">
                 <label htmlFor="price">상품 가격</label>
                 <input
@@ -157,7 +147,6 @@ const ItemCreateView = () => {
                 />
               </div>
   
-              {/* 할인율 입력 */}
               <div className="form-group">
                 <label htmlFor="discountRate">할인율</label>
                 <input
@@ -169,7 +158,6 @@ const ItemCreateView = () => {
                 />
               </div>
   
-              {/* 상품 분류 선택 */}
               <div className="form-group">
                 <label htmlFor="category">상품 분류</label>
                 <select
@@ -187,7 +175,6 @@ const ItemCreateView = () => {
                 </select>
               </div>
   
-              {/* 색상 선택 */}
               <div className="form-group">
                 <label htmlFor="color">색상</label>
                 <select
@@ -205,7 +192,6 @@ const ItemCreateView = () => {
                 </select>
               </div>
   
-              {/* 사이즈 선택 */}
               <div className="form-group">
                 <label htmlFor="size">사이즈</label>
                 <select
@@ -225,7 +211,6 @@ const ItemCreateView = () => {
             </div>
           </div>
   
-          {/* 버튼 그룹 */}
           <div className="button-group">
             <button type="button" className="button button-cancel" onClick={() => window.history.back()}>취소</button>
             <button type="submit" className="button button-submit">등록</button>
@@ -235,4 +220,5 @@ const ItemCreateView = () => {
     </div>
   );
 }
+
 export default ItemCreateView;

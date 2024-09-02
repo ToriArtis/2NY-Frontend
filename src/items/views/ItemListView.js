@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../components/css/MainPage.css";
 import Header from '../../component/Header';
@@ -47,33 +47,49 @@ const ItemCard = ({ item, onClick }) => {
   );
 };
 
-const ItemSection = ({ title, items, currentPage, setCurrentPage, onItemClick }) => {
+const ItemSection = ({ title, items, onItemClick }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 3;
-  const pageCount = Math.ceil(items.length / itemsPerPage);
+  const totalItems = items.length;
+  const carouselRef = useRef(null);
 
-  const handlePrevPage = () => {
-    setCurrentPage((prev) => (prev > 0 ? prev - 1 : prev));
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % totalItems);
+    }, 5000);  // 5초마다 자동 슬라이드
+
+    return () => clearInterval(interval);
+  }, [totalItems]);
+
+  useEffect(() => {
+    if (carouselRef.current) {
+      carouselRef.current.style.transform = `translateX(-${currentIndex * (100 / itemsPerPage)}%)`;
+    }
+  }, [currentIndex]);
+
+  const handlePrevClick = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + totalItems) % totalItems);
   };
 
-  const handleNextPage = () => {
-    setCurrentPage((prev) => (prev < pageCount - 1 ? prev + 1 : prev));
+  const handleNextClick = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % totalItems);
   };
 
   return (
     <div className="item-section">
       <h2 className="section-title">{title}</h2>
-      <div className="item-carousel">
-        <button onClick={handlePrevPage} className="nav-btn prev-btn" disabled={currentPage === 0}>
-          &lt;
-        </button>
-        <div className="item-grid">
-          {items.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage).map(item => (
-            <ItemCard key={item.id} item={item} onClick={onItemClick} />
-          ))}
+      <div className="item-carousel-container">
+        <button onClick={handlePrevClick} className="nav-btn prev-btn">&lt;</button>
+        <div className="item-carousel-wrapper">
+          <div className="item-carousel" ref={carouselRef}>
+            {items.map((item, index) => (
+              <div key={item.id} className="item-slide">
+                <ItemCard item={item} onClick={onItemClick} />
+              </div>
+            ))}
+          </div>
         </div>
-        <button onClick={handleNextPage} className="nav-btn next-btn" disabled={currentPage === pageCount - 1}>
-          &gt;
-        </button>
+        <button onClick={handleNextClick} className="nav-btn next-btn">&gt;</button>
       </div>
     </div>
   );
@@ -84,8 +100,6 @@ const ItemListView = () => {
   const { items, loading, error, fetchItems } = useItemViewModel();
   const [brandItems, setBrandItems] = useState([]);
   const [mdItems, setMdItems] = useState([]);
-  const [brandPage, setBrandPage] = useState(0);
-  const [mdPage, setMdPage] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -136,16 +150,12 @@ const ItemListView = () => {
         <div className="main-content">
           <ItemSection 
             title="BREND'S BEST" 
-            items={brandItems} 
-            currentPage={brandPage} 
-            setCurrentPage={setBrandPage} 
+            items={brandItems}
             onItemClick={handleItemClick}
           />
           <ItemSection 
             title="MD'S PICK" 
-            items={mdItems} 
-            currentPage={mdPage} 
-            setCurrentPage={setMdPage} 
+            items={mdItems}
             onItemClick={handleItemClick}
           />
         </div>
@@ -168,6 +178,7 @@ const ItemListView = () => {
 };
 
 export default ItemListView;
+
 const floatingButtonStyle = {
   position: 'fixed',
   bottom: '5%',

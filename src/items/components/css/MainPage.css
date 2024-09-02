@@ -57,39 +57,46 @@
   text-align: left;
 }
 
-.item-carousel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 1000px;
+.item-carousel-container {
   position: relative;
+  overflow: hidden;
+  width: 100%;
 }
 
-.item-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  width: 100%;
+.item-carousel-wrapper {
+  overflow: hidden;
+}
+
+.item-carousel {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.item-slide {
+  flex: 0 0 calc(100% / 3);
+  max-width: calc(100% / 3);
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 
 .nav-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 0 10px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  font-size: 24px;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10;
 }
 
 .prev-btn {
-  left: -40px;
+  left: 10px;
 }
 
 .next-btn {
-  right: -40px;
+  right: 10px;
 }
 
 .item-card {
@@ -206,13 +213,9 @@
 }
 
 @media (max-width: 1100px) {
-  .item-carousel {
+  .item-carousel-container {
     max-width: 90%;
-  }
-
-  .nav-btn {
-    position: static;
-    transform: none;
+    margin: 0 auto;
   }
 }
 
@@ -229,9 +232,9 @@
     font-size: 0.9rem;
   }
 
-  .item-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+  .item-slide {
+    flex: 0 0 50%;
+    max-width: 50%;
   }
 
   .lookbook-section {
@@ -268,9 +271,9 @@
     font-size: 0.8rem;
   }
 
-  .item-grid {
-    grid-template-columns: 1fr;
-    gap: 10px;
+  .item-slide {
+    flex: 0 0 100%;
+    max-width: 100%;
   }
 
   .lookbook-overlay h2 {

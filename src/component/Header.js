@@ -1,6 +1,7 @@
-import { Container, Grid } from "@mui/material";
 import React, { useState } from "react";
+import { Container, Grid, Hidden, IconButton, Menu, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import MenuIcon from '@mui/icons-material/Menu';
 import "./css/header.css";
 import Input from "../users/components/common/Input";
 
@@ -9,8 +10,8 @@ function Header({ onSearch, clearSearch }) {
     const userRoles = localStorage.getItem("USER_ROLESET");
     const [searchKeyword, setSearchKeyword] = useState("");
     const [isSearchVisible, setIsSearchVisible] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
 
-    // 검색 핸들러
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         onSearch(searchKeyword);
@@ -29,6 +30,14 @@ function Header({ onSearch, clearSearch }) {
         setIsSearchVisible(!isSearchVisible);
     };
 
+    const handleMenuClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
     return (
         <Container component="header" className="header-container">
             <Grid container direction="column" alignItems="center">
@@ -36,10 +45,10 @@ function Header({ onSearch, clearSearch }) {
                     <div className="left-btn">
                         <button onClick={() => nav('/')}><img src="/assets/logo.png" alt="Logo" /></button>
                     </div>
-                    <div className="right-btn">
-                        <div className="search-box">
-                            {isSearchVisible ? (
-                                <>
+                    <Hidden mdDown>
+                        <div className="right-btn">
+                            <div className="search-box">
+                                {isSearchVisible && (
                                     <form onSubmit={handleSearchSubmit} className="search-form">
                                         <Input
                                             label="검색"
@@ -48,26 +57,52 @@ function Header({ onSearch, clearSearch }) {
                                             autoFocus
                                         />
                                     </form>
-                                </>
-                            ) : null}
-                            <button onClick={toggleSearch} className="search-icon-button">
-                                <div><img src="/assets/Search.png" alt="Search" className="search-icon" /></div>
-                                검색
-                            </button>
+                                )}
+                                <button onClick={toggleSearch} className="search-icon-button">
+                                    <div><img src="/assets/Search.png" alt="Search" className="search-icon" /></div>
+                                    검색
+                                </button>
+                            </div>
+                            {localStorage.getItem("ACCESS_TOKEN") ? (
+                                <button onClick={() => nav('/mypage')}><div><img src="/assets/User.png" alt="User" /></div>마이페이지</button>
+                            ) : (
+                                <button onClick={() => nav('/login')}><div><img src="/assets/User.png" alt="User" /></div>로그인</button>
+                            )}
+                            {(userRoles === null || userRoles.includes("ADMIN"))
+                                ? (<></>)
+                                : (<button onClick={handleCartClick}><div><img src="/assets/Shopping bag.png" alt="Cart" /></div>장바구니</button>)}
+                            {localStorage.getItem("ACCESS_TOKEN") && (
+                                <button onClick={() => nav('/logout')}><div><img src="/assets/Logout.png" alt="Logout" /></div>로그아웃</button>
+                            )}
                         </div>
-
-                        {localStorage.getItem("ACCESS_TOKEN") ? (
-                            <button onClick={() => nav('/mypage')}><div><img src="/assets/User.png" alt="User" /></div>마이페이지</button>
-                        ) : (<button onClick={() => nav('/login')}><div><img src="/assets/User.png" alt="User" /></div>로그인</button>)}
-
-                        {(userRoles === null || userRoles.includes("ADMIN"))
-                            ? (<></>)
-                            : (<button onClick={handleCartClick}><div><img src="/assets/Shopping bag.png" alt="Cart" /></div>장바구니</button>)}
-
-                        {localStorage.getItem("ACCESS_TOKEN") ? (
-                            <button onClick={() => nav('/logout')}><div><img src="/assets/Logout.png" alt="Logout" /></div>로그아웃</button>
-                        ) : (<></>)}
-                    </div>
+                    </Hidden>
+                    <Hidden mdUp>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            onClick={handleMenuClick}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Menu
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={Boolean(anchorEl)}
+                            onClose={handleMenuClose}
+                        >
+                            <MenuItem onClick={() => { toggleSearch(); handleMenuClose(); }}>검색</MenuItem>
+                            <MenuItem onClick={() => { nav(localStorage.getItem("ACCESS_TOKEN") ? '/mypage' : '/login'); handleMenuClose(); }}>
+                                {localStorage.getItem("ACCESS_TOKEN") ? '마이페이지' : '로그인'}
+                            </MenuItem>
+                            {(userRoles === null || !userRoles.includes("ADMIN")) && (
+                                <MenuItem onClick={() => { handleCartClick(); handleMenuClose(); }}>장바구니</MenuItem>
+                            )}
+                            {localStorage.getItem("ACCESS_TOKEN") && (
+                                <MenuItem onClick={() => { nav('/logout'); handleMenuClose(); }}>로그아웃</MenuItem>
+                            )}
+                        </Menu>
+                    </Hidden>
                 </Grid>
                 <Grid item container direction="column" alignItems="center" className="header-bottom">
                     <div className="category-nav">

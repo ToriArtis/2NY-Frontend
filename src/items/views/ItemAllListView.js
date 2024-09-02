@@ -93,6 +93,7 @@ const ItemAllListView = () => {
     setCurrentPage(newPage);
   };
 
+  
   const categoryTitles = {
     'TOP': '상의',
     'OUTER': '아우터',

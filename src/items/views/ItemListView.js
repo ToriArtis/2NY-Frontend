@@ -168,11 +168,10 @@ const ItemListView = () => {
 };
 
 export default ItemListView;
-
 const floatingButtonStyle = {
   position: 'fixed',
   bottom: '5%',
-  right: '10%',
+  right: '5%',
   backgroundColor: 'white', 
   color: 'black',
   borderRadius: '50%',
@@ -184,9 +183,11 @@ const floatingButtonStyle = {
 const chatWindowStyle = {
   position: 'fixed',
   bottom: '15%',
-  right: '10%',
-  width: 'auto',
-  height: 'auto',
+  right: '5%',
+  width: '90%',
+  maxWidth: '400px',
+  height: '60%',
+  maxHeight: '500px',
   backgroundColor: 'white',
   borderRadius: '8px',
   boxShadow: '0 3px 10px rgba(0,0,0,0.2)',

@@ -1,0 +1,48 @@
+body {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .admin-role-info-container {
+    display: flex;
+    margin-top: 8%;
+  }
+  
+  .roleSidebar {
+    width: 30%;
+    padding: 0 15px;
+  }
+  
+  .content {
+    width: 70%;
+    padding-left: 30px;
+  }
+  
+  .sidebar-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: larger;
+    text-align: center;
+    font-family: inherit;
+    background: #FFFFFF;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .sidebar-button.active {
+    font-weight: bold;
+    background-color: #FFFFFF;
+  }
+  
+
+  
+  @media (max-width: 768px) {
+    .admin-role-info-container {
+      flex-direction: column;
+    }
+  
+    .roleSidebar, .content {
+      width: 100%;
+    }
+  }

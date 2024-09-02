@@ -17,12 +17,12 @@ export default function PasswordVaild({ onVerify }) {
         const isValid = await verifyPassword(passwordVaild);
         onVerify(isValid);
       } catch (error) {
-        // console.error('Error during password verification:', error);
+        console.error('Error during password verification:', error);
       }
     };
   
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{width: "80%"}}>
         <h2>비밀번호 재확인</h2>
         <div className="input-box">
           <div>
@@ -48,7 +48,6 @@ export default function PasswordVaild({ onVerify }) {
               <WhiteButton className="button" type="submit" btnName="확인" />
             </div>
           </div>
-          {/* <WhiteButton className="button" type="submit" btnName="확인" /> */}
         </div>
       </form>
     );

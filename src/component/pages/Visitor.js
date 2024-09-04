@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
-import { Card, CardContent, Typography } from '@mui/material'; // Import necessary components from Material-UI
+import { Card, CardContent, Typography, Grid, Paper } from '@mui/material';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -129,11 +129,26 @@ const Visitor = () => {
         <Card>
             <CardContent>
                 <Typography variant="h6" gutterBottom>방문자 통계</Typography>
-                <div>
-                    <span>오늘 방문수: {today.activeUsers}</span>
-                    <span>어제 방문수: {yesterday.activeUsers}</span>
-                    <span>누적 방문수: {totalVisitors}</span>
-                </div>
+                <Grid container spacing={2} sx={{ mb: 2 }}>
+                    <Grid item xs={4}>
+                        <Paper elevation={3} sx={{ p: 2, textAlign: 'center' }}>
+                            <Typography variant="h6">{today.activeUsers}</Typography>
+                            <Typography variant="body2">오늘 방문수</Typography>
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Paper elevation={3} sx={{ p: 2, textAlign: 'center' }}>
+                            <Typography variant="h6">{yesterday.activeUsers}</Typography>
+                            <Typography variant="body2">어제 방문수</Typography>
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Paper elevation={3} sx={{ p: 2, textAlign: 'center' }}>
+                            <Typography variant="h6">{totalVisitors}</Typography>
+                            <Typography variant="body2">누적 방문수</Typography>
+                        </Paper>
+                    </Grid>
+                </Grid>
                 <div style={{ textAlign: 'center', width: '100%', height: '35vh' }}>
                     <Line data={chartData} options={options} />
                 </div>

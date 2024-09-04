@@ -8,6 +8,7 @@ import { IconButton } from '@mui/material';
 import { AddBox } from '@mui/icons-material';
 import ChatbotView from '../../chat/ChatbotView';
 import { getImageUrl } from '../../config/app-config';
+import { useMediaQuery } from '@mui/material';
 
 const ItemCard = ({ item, onClick }) => {
   const [imageLoaded, setImageLoaded] = useState(true);
@@ -46,33 +47,45 @@ const ItemCard = ({ item, onClick }) => {
     </div>
   );
 };
-
 const ItemSection = ({ title, items, onItemClick }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const itemsPerPage = 3;
+  const [itemsPerPage, setItemsPerPage] = useState(3);
   const totalItems = items.length;
   const carouselRef = useRef(null);
 
+  const isMobile = useMediaQuery('(max-width:768px)');
+  const isSmallMobile = useMediaQuery('(max-width:480px)');
+
+  useEffect(() => {
+    if (isSmallMobile) {
+      setItemsPerPage(1);
+    } else if (isMobile) {
+      setItemsPerPage(2);
+    } else {
+      setItemsPerPage(3);
+    }
+  }, [isMobile, isSmallMobile]);
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % totalItems);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % Math.ceil(totalItems / itemsPerPage));
     }, 5000);  // 5초마다 자동 슬라이드
 
     return () => clearInterval(interval);
-  }, [totalItems]);
+  }, [totalItems, itemsPerPage]);
 
   useEffect(() => {
     if (carouselRef.current) {
-      carouselRef.current.style.transform = `translateX(-${currentIndex * (100 / itemsPerPage)}%)`;
+      carouselRef.current.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
-  }, [currentIndex]);
+  }, [currentIndex, itemsPerPage]);
 
   const handlePrevClick = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + totalItems) % totalItems);
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + Math.ceil(totalItems / itemsPerPage)) % Math.ceil(totalItems / itemsPerPage));
   };
 
   const handleNextClick = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % totalItems);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % Math.ceil(totalItems / itemsPerPage));
   };
 
   return (
@@ -83,7 +96,7 @@ const ItemSection = ({ title, items, onItemClick }) => {
         <div className="item-carousel-wrapper">
           <div className="item-carousel" ref={carouselRef}>
             {items.map((item, index) => (
-              <div key={item.id} className="item-slide">
+              <div key={item.id} className="item-slide" style={{ flex: `0 0 ${100 / itemsPerPage}%`, maxWidth: `${100 / itemsPerPage}%` }}>
                 <ItemCard item={item} onClick={onItemClick} />
               </div>
             ))}

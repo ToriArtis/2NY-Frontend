@@ -1,6 +1,7 @@
 .header-container {
     width: 100%;
     overflow-x: hidden;
+
 }
 
 .left-btn,
@@ -46,6 +47,7 @@
 .header-divider {
     width: 100%;
     border: none;
+    border-top: 1px solid #ccc;
     margin: 20px 0;
     display: block;
 }
@@ -67,35 +69,33 @@
 /* 카테고리 네비게이션 */
 .header-bottom {
     width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
-}
-.header-bottom::-webkit-scrollbar {
-    display: none;
-}
-.category-nav {
     display: flex;
-    flex-wrap: nowrap;
-    padding: 10px 0;
-    margin: 0;
-    white-space: nowrap;
     justify-content: flex-start;
+    margin-right: 0;
+    padding-left: 10px;
+}
+
+.category-nav {
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: flex-start;
+    padding-right: 0;
+    padding-left: 2%;
 }
 
 .category-nav > button {
-    flex: 0 0 auto;
-    padding: 5px 10px;
-    margin: 0 5px;
     background-color: white;
     border: none;
+    margin-right: 1rem;
+    margin-left: 0.5%;
 }
 
 .category-nav > button > p {
-    font-size: 16px;
-    margin: 0;
-    white-space: nowrap;
+    font-size: 170%;
+    display: inline-block;
+    margin: 0 auto 1rem;
 }
 
 /* 검색 폼 */
@@ -108,7 +108,6 @@
     flex-grow: 1;
     margin-right: 10px;
 }
-
 /* 반응형 스타일 */
 @media (max-width: 960px) {
     .header-container {
@@ -178,7 +177,7 @@
     }
 
     .category-nav > button > p {
-        font-size: 12px;
+        font-size: 16px;
     }
 
     .right-btn {

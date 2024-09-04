@@ -104,7 +104,7 @@ const ChartThree = () => {
             카테고리별 매출 분석
           </Typography>
           <Select value={timeFrame} onChange={handleTimeFrameChange} size="small">
-            <MenuItem value="Monthly">월별</MenuItem>
+            <MenuItem value="Monthly">월간</MenuItem>
             <MenuItem value="Yearly">연간</MenuItem>
           </Select>
         </Box>

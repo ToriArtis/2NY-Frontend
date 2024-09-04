@@ -73,11 +73,10 @@
 }
 
 .item-slide {
-  flex: 0 0 calc(100% / 3);
-  max-width: calc(100% / 3);
-  padding: 0 10px;
   box-sizing: border-box;
+  padding: 0 10px;
 }
+
 
 .nav-btn {
   position: absolute;
@@ -237,6 +236,7 @@
     max-width: 50%;
   }
 
+
   .lookbook-section {
     grid-template-columns: 1fr;
   }
@@ -256,8 +256,8 @@
   .nav-btn {
     font-size: 20px;
   }
-}
 
+}
 @media (max-width: 480px) {
   .item-list-container {
     padding: 5px;

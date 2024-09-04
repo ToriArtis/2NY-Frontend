@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Grid, Hidden, IconButton, Menu, MenuItem } from "@mui/material";
+import { Container, Grid, Hidden, IconButton, Menu, MenuItem, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
 import "./css/header.css";
@@ -11,6 +11,8 @@ function Header({ onSearch, clearSearch }) {
     const [searchKeyword, setSearchKeyword] = useState("");
     const [isSearchVisible, setIsSearchVisible] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
@@ -68,9 +70,9 @@ function Header({ onSearch, clearSearch }) {
                             ) : (
                                 <button onClick={() => nav('/login')}><div><img src="/assets/User.png" alt="User" /></div>로그인</button>
                             )}
-                            {(userRoles === null || userRoles.includes("ADMIN"))
-                                ? (<></>)
-                                : (<button onClick={handleCartClick}><div><img src="/assets/Shopping bag.png" alt="Cart" /></div>장바구니</button>)}
+                            {(userRoles === null || !userRoles.includes("ADMIN")) && (
+                                <button onClick={handleCartClick}><div><img src="/assets/Shopping bag.png" alt="Cart" /></div>장바구니</button>
+                            )}
                             {localStorage.getItem("ACCESS_TOKEN") && (
                                 <button onClick={() => nav('/logout')}><div><img src="/assets/Logout.png" alt="Logout" /></div>로그아웃</button>
                             )}

@@ -1,4 +1,8 @@
-/* 공통 스타일 */
+.header-container {
+    width: 100%;
+    overflow-x: hidden;
+}
+
 .left-btn,
 .right-btn {
     margin: 10px;
@@ -42,7 +46,6 @@
 .header-divider {
     width: 100%;
     border: none;
-    border-top: 1px solid #ccc;
     margin: 20px 0;
     display: block;
 }
@@ -64,33 +67,35 @@
 /* 카테고리 네비게이션 */
 .header-bottom {
     width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    margin-right: 0;
-    padding-left: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
 }
-
+.header-bottom::-webkit-scrollbar {
+    display: none;
+}
 .category-nav {
-    border-bottom: 1px solid #ccc;
-    width: 100%;
-    margin-bottom: 2rem;
     display: flex;
+    flex-wrap: nowrap;
+    padding: 10px 0;
+    margin: 0;
+    white-space: nowrap;
     justify-content: flex-start;
-    padding-right: 0;
-    padding-left: 2%;
 }
 
 .category-nav > button {
+    flex: 0 0 auto;
+    padding: 5px 10px;
+    margin: 0 5px;
     background-color: white;
     border: none;
-    margin-right: 1rem;
-    margin-left: 0.5%;
 }
 
 .category-nav > button > p {
-    font-size: 170%;
-    display: inline-block;
-    margin: 0 auto 1rem;
+    font-size: 16px;
+    margin: 0;
+    white-space: nowrap;
 }
 
 /* 검색 폼 */
@@ -107,11 +112,11 @@
 /* 반응형 스타일 */
 @media (max-width: 960px) {
     .header-container {
-        padding: 10px;
+        padding: 5px;
     }
 
     .left-btn img {
-        width: 80px;
+        width: 60px;
     }
 
     .category-nav {
@@ -129,47 +134,54 @@
         width: 100%;
     }
 }
-
 @media (max-width: 768px) {
     .header-bottom {
-        justify-content: center;
+        justify-content: flex-start;
         padding-right: 0;
     }
 
     .category-nav {
-        justify-content: center;
-        flex-wrap: wrap;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        overflow-x: auto;
     }
 
     .category-nav > button {
-        margin: 0.5rem;
+        margin: 0 10px 0 0;
+    }
+
+    .category-nav > button:last-child {
+        margin-right: 0;
     }
 }
-
 @media (max-width: 600px) {
+    .header-container {
+        padding: 5px;
+    }
+
     .header-top {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-wrap: nowrap;
     }
 
-    .right-btn {
-        margin-top: 10px;
-        width: 100%;
-        justify-content: space-between;
+    .left-btn > button > img {
+        width: 60px;
+        height: auto;
     }
 
-    .search-box {
-        width: 100%;
-        margin-bottom: 10px;
+    .header-bottom {
+        margin-top: 5px;
     }
 
     .category-nav {
-        flex-direction: column;
-        align-items: center;
+        padding: 5px 0;
+        margin-bottom: 0.5rem;
     }
 
-    .category-nav button {
-        width: 100%;
-        margin: 5px 0;
+    .category-nav > button > p {
+        font-size: 12px;
+    }
+
+    .right-btn {
+        display: none;
     }
 }

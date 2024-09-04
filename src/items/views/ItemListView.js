@@ -69,7 +69,7 @@ const ItemSection = ({ title, items, onItemClick }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % Math.ceil(totalItems / itemsPerPage));
-    }, 5000);  // 5초마다 자동 슬라이드
+    }, 2000);  // 5초마다 자동 슬라이드
 
     return () => clearInterval(interval);
   }, [totalItems, itemsPerPage]);

@@ -3,7 +3,7 @@ import { Card, Box, CardContent, Typography, Table, TableBody, TableCell, TableC
 import { itemList } from '../../items/api/itemApi';
 import { getImageUrl } from '../../config/app-config';
 
-const TableOne = () => {
+const TopSalesChart = () => {
   const [topItems, setTopItems] = useState([]);
 
   useEffect(() => {
@@ -74,4 +74,4 @@ const TableOne = () => {
   );
 };
 
-export default TableOne;
+export default TopSalesChart;

@@ -12,7 +12,24 @@ if (hostname === "localhost") {
 export const API_BASE_URL = `${backendHost}`;
 
 // 이미지 URL 생성
-export const getImageUrl = (filename) => `${API_BASE_URL}/items/images/${filename}`;
+export const getImageUrl = (imageData) => {
+  if (!imageData) return '';
+  
+  const getFilename = (url) => {
+    const parts = url.split('/');
+    return parts[parts.length - 1];
+  };
+
+  if (typeof imageData === 'string') {
+    return `${API_BASE_URL}/items/images/${getFilename(imageData)}`;
+  }
+  
+  if (Array.isArray(imageData) && imageData.length > 0) {
+    return `${API_BASE_URL}/items/images/${getFilename(imageData[0])}`;
+  }
+  
+  return '';
+};
 
 // 액세스 토큰을 저장하기 위한 키 상수
 export const ACCESS_TOKEN = "ACCESS_TOKEN";

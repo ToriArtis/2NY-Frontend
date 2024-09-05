@@ -100,8 +100,6 @@ export const itemCreate = async (itemData) => {
       formData.append(`descriptionImageFiles`, file);
     });
   }
-
-
   try {
     const response = await fetch(`${API_BASE_URL}/items`, {
       method: "POST",
@@ -115,14 +113,26 @@ export const itemCreate = async (itemData) => {
       const errorData = await response.json();
       throw new Error(errorData.message || 'Failed to create item');
     }
+    const data = await response.json();
+    console.log('Response data:', data);
 
-    return response.json();
-  } catch (error) {
-    // console.error("Error creating item:", error);
+    // thumbnail과 descriptionImage 처리
+    if (data.thumbnail) {
+      data.thumbnail = Array.isArray(data.thumbnail) 
+        ? data.thumbnail.map(url => url.split('/').pop())
+        : data.thumbnail.split('/').pop();
+    }
+
+    if (data.descriptionImage) {
+      data.descriptionImage = data.descriptionImage.map(url => url.split('/').pop());
+    }
+
+  return data;
+    } catch (error) {
+    console.error('Error in itemCreate:', error);
     throw error;
   }
 };
-
 
 // 아이템 수정
 

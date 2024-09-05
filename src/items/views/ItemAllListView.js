@@ -6,6 +6,8 @@ import Header from '../../component/Header';
 import Footer from '../../component/Footer';
 import ItemCard from '../components/ItemCard';
 
+
+
 const ItemAllListView = () => {
   const { category } = useParams();
   const location = useLocation();
@@ -154,8 +156,7 @@ const ItemAllListView = () => {
                 <ItemCard 
                   key={item.itemId} 
                   item={item} 
-                  onClick={() => handleItemClick(item.itemId)} 
-                  calculateFinalPrice={calculateFinalPrice}
+                  onClick={() => handleItemClick(item.itemId)}
                 />
               ))}
             </div>

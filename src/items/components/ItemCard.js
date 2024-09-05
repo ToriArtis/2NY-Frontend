@@ -4,12 +4,12 @@ import { getImageUrl } from '../../config/app-config';
 const ItemCard = ({ item, onClick }) => {
   const [imageLoaded, setImageLoaded] = useState(true);
 
-  const handleImageError = () => {
+  const handleImageError = (e) => {
+    console.error('Image loading error:', e);
     setImageLoaded(false);
   };
 
   const thumbnailUrl = getImageUrl(item.thumbnail);
-
 
   return (
     <div className="item-card" onClick={() => onClick(item.id)}>
@@ -28,16 +28,7 @@ const ItemCard = ({ item, onClick }) => {
         )}
       </div>
       <h3 className="item-title">{item.title}</h3>
-      <p className="item-price">
-        {item.discountPrice !== item.price ? (
-          <>
-            <span className="original-price">₩{item.price.toLocaleString()}</span>
-            <span className="discount-price">₩{item.discountPrice.toLocaleString()}</span>
-          </>
-        ) : (
-          <span>₩{item.price.toLocaleString()}</span>
-        )}
-      </p>
+      <p className="item-price">₩{item.price.toLocaleString()}</p>
     </div>
   );
 };

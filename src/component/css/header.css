@@ -1,6 +1,7 @@
 .header-container {
     width: 100%;
     overflow-x: hidden;
+    position: relative;
 
 }
 
@@ -182,5 +183,58 @@
 
     .right-btn {
         display: none;
+    }
+}
+
+/* 사이드바 */
+.sidebar-drawer {
+    width: 250px;
+}
+
+.search-form {
+    padding: 0 16px;
+}
+
+.search-form .input-container {
+    margin-bottom: 0;
+}
+
+@media (max-width: 600px) {
+    .header-container {
+        padding: 5px;
+    }
+
+    .header-top {
+        flex-wrap: nowrap;
+    }
+
+    .left-btn > button > img {
+        width: 60px;
+        height: auto;
+    }
+
+    .header-bottom {
+        margin-top: 5px;
+    }
+
+    .category-nav {
+        padding: 5px 0;
+        margin-bottom: 0.5rem;
+    }
+
+    .category-nav > button > p {
+        font-size: 16px;
+    }
+
+    .right-btn {
+        display: none;
+    }
+
+    .sidebar-drawer {
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .sidebar-drawer.MuiDrawer-paper {
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
     }
 }

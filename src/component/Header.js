@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Container, Grid, Hidden, IconButton, Drawer, List, ListItem, ListItemText, useMediaQuery, useTheme, ListItemIcon } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
 import "./css/header.css";
 import Input from "../users/components/common/Input";
 
 function Header({ onSearch, clearSearch }) {
     let nav = useNavigate();
+    const location = useLocation();
     const userRoles = localStorage.getItem("USER_ROLESET");
     const [searchKeyword, setSearchKeyword] = useState("");
     const [isSearchVisible, setIsSearchVisible] = useState(false);
@@ -40,24 +41,28 @@ function Header({ onSearch, clearSearch }) {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
+    const hideSearch = ["/", "/mypage"];
+
     const sidebarContent = (
         <List>
-            <ListItem style={{ height: '70px' }}>
-                <ListItemIcon sx={{ minWidth: 0, mr: 1 }} onClick={handleSearchSubmit}>
-                    <img src="/assets/Search.png" alt="Search" style={{ width: '24x', height: '24px' }} />
-                </ListItemIcon>
-                <form onSubmit={handleSearchSubmit} className="search-form" style={{ flex: 1 }}>
-                    <Input
-                        label="검색"
-                        value={searchKeyword}
-                        onChange={(e) => setSearchKeyword(e.target.value)}
-                        autoFocus
-                    />
-                </form>
-            </ListItem>
+            {!hideSearch.includes(location.pathname) && (
+                <ListItem style={{ height: '70px' }}>
+                    <ListItemIcon sx={{ minWidth: 0, mr: 1 }} onClick={handleSearchSubmit}>
+                        <img src="/assets/Search.png" alt="Search" style={{ width: '24x', height: '24px' }} />
+                    </ListItemIcon>
+                    <form onSubmit={handleSearchSubmit} className="search-form" style={{ flex: 1 }}>
+                        <Input
+                            label="검색"
+                            value={searchKeyword}
+                            onChange={(e) => setSearchKeyword(e.target.value)}
+                            autoFocus
+                        />
+                    </form>
+                </ListItem>
+            )}
 
             <ListItem button onClick={() => { nav(localStorage.getItem("ACCESS_TOKEN") ? '/mypage' : '/login'); toggleSidebar(); }}>
-                <ListItemText primary={localStorage.getItem("ACCESS_TOKEN") ? '마이페이지' : '로그인'} />
+                <ListItemText primary={localStorage.gettItem("ACCESS_TOKEN") ? '마이페이지' : '로그인'} />
             </ListItem>
             {(userRoles === null || !userRoles.includes("ADMIN")) && (
                 <ListItem button onClick={handleCartClick}>

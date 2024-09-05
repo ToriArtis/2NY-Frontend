@@ -31,12 +31,16 @@ const ImageCarousel = ({ images }) => {
     height: '700px'
 
   };
-
-  return (
-<Slider {...settings}>
+return (
+    <Slider {...settings}>
       {images.map((img, index) => (
         <div key={index}>
-          <img src={img} alt={`상세 이미지 ${index + 1}`} style={{ height : "700px"}} className="carousel-image" />
+          <img 
+            src={getImageUrl(img)} 
+            alt={`상세 이미지 ${index + 1}`} 
+            style={{ height: "700px" }} 
+            className="carousel-image" 
+          />
         </div>
       ))}
     </Slider>

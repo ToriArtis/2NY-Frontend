@@ -9,44 +9,8 @@ import { AddBox } from '@mui/icons-material';
 import ChatbotView from '../../chat/ChatbotView';
 import { getImageUrl } from '../../config/app-config';
 import { useMediaQuery } from '@mui/material';
+import ItemCard from '../components/ItemCard';  // ItemCard 컴포넌트 import
 
-const ItemCard = ({ item, onClick }) => {
-  const [imageLoaded, setImageLoaded] = useState(true);
-
-  const handleImageError = () => {
-    setImageLoaded(false);
-  };
-
-  return (
-    <div className="item-card" onClick={() => onClick(item.id)}>
-      <div className="item-thumbnail-container">
-        {imageLoaded ? (
-          <img
-            src={getImageUrl(item.thumbnail)}
-            alt={item.title}
-            className="item-thumbnail"
-            onError={handleImageError}
-          />
-        ) : (
-          <div className="item-thumbnail-placeholder">
-            이미지를 불러올 수 없습니다
-          </div>
-        )}
-      </div>
-      <h3 className="item-title" style={{fontWeight: 'bold'}}>{item.title}</h3>
-      <p className="item-price">
-        {item.discountPrice !== item.price ? (
-          <>
-            <span className="original-price">₩{item.price.toLocaleString()}</span> &nbsp;
-            <span className="discount-price">₩{item.discountPrice.toLocaleString()}</span>
-          </>
-        ) : (
-          <span>₩{item.price.toLocaleString()}</span>
-        )}
-      </p>
-    </div>
-  );
-};
 const ItemSection = ({ title, items, onItemClick }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(3);
@@ -95,9 +59,9 @@ const ItemSection = ({ title, items, onItemClick }) => {
         <button onClick={handlePrevClick} className="nav-btn prev-btn">&lt;</button>
         <div className="item-carousel-wrapper">
           <div className="item-carousel" ref={carouselRef}>
-            {items.map((item, index) => (
+            {items.map((item) => (
               <div key={item.id} className="item-slide" style={{ flex: `0 0 ${100 / itemsPerPage}%`, maxWidth: `${100 / itemsPerPage}%` }}>
-                <ItemCard item={item} onClick={onItemClick} />
+                <ItemCard item={item} onClick={() => onItemClick(item.id)} />
               </div>
             ))}
           </div>

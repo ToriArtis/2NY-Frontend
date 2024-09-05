@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../components/css/MainPage.css";
 import Header from '../../component/Header';
@@ -75,22 +75,20 @@ const ItemSection = ({ title, items, onItemClick }) => {
 const ItemListView = () => {
   const [showChat, setShowChat] = useState(false);
   const { items, loading, error, fetchItems } = useItemViewModel();
-  const [brandItems, setBrandItems] = useState([]);
-  const [mdItems, setMdItems] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchItems();
-  }, [fetchItems]);
+  }, []);
 
-  useEffect(() => {
-    if (items.length > 0) {
-      const mid = Math.ceil(items.length / 2);
-      setBrandItems(items.slice(0, mid));
-      setMdItems(items.slice(mid));
-    }
+  const { brandItems, mdItems } = useMemo(() => {
+    const mid = Math.ceil(items.length / 2);
+    return {
+      brandItems: items.slice(0, mid),
+      mdItems: items.slice(mid)
+    };
   }, [items]);
-
+  
   const handleItemClick = (itemId) => {
     navigate(`/items/${itemId}`);
   };
@@ -98,6 +96,7 @@ const ItemListView = () => {
   const toggleChat = () => {
     setShowChat(!showChat);
   };
+
 
   if (loading) return <div className="loading">Loading...</div>;
   if (error) return <div className="error">Error: {error}</div>;

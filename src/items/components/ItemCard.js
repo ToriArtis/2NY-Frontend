@@ -5,7 +5,6 @@ const ItemCard = ({ item, onClick }) => {
   const [imageLoaded, setImageLoaded] = useState(true);
 
   const handleImageError = (e) => {
-    console.error('Image loading error:', e);
     setImageLoaded(false);
   };
 

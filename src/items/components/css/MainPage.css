@@ -59,8 +59,10 @@
 
 .item-carousel-container {
   position: relative;
-  overflow: hidden;
+  overflow: visible;  /* Changed from hidden to visible */
   width: 100%;
+  padding: 0 40px;  /* Added padding to make room for buttons */
+  box-sizing: border-box;
 }
 
 .item-carousel-wrapper {
@@ -91,11 +93,11 @@
 }
 
 .prev-btn {
-  left: 10px;
+  left: 0;
 }
 
 .next-btn {
-  right: 10px;
+  right: 0;
 }
 
 .item-card {

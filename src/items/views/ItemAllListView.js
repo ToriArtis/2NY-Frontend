@@ -143,9 +143,7 @@ const ItemAllListView = () => {
             </select>
           </div>
         </div>
-        {loading ? (
-          <div className="loading">상품을 불러오는 중입니다...</div>
-        ) : error ? (
+        {error ? (
           <div className="error">오류가 발생했습니다: {error}</div>
         ) : paginatedItems.length === 0 ? (
           <div className="no-results">{searchKeyword ? `"${searchKeyword}" 검색 결과가 없습니다.` : "검색 결과가 없습니다."}</div>

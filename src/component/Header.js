@@ -62,7 +62,7 @@ function Header({ onSearch, clearSearch }) {
             )}
 
             <ListItem button onClick={() => { nav(localStorage.getItem("ACCESS_TOKEN") ? '/mypage' : '/login'); toggleSidebar(); }}>
-                <ListItemText primary={localStorage.gettItem("ACCESS_TOKEN") ? '마이페이지' : '로그인'} />
+                <ListItemText primary={localStorage.getItem("ACCESS_TOKEN") ? '마이페이지' : '로그인'} />
             </ListItem>
             {(userRoles === null || !userRoles.includes("ADMIN")) && (
                 <ListItem button onClick={handleCartClick}>

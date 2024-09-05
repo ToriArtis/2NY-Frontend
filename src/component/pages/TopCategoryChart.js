@@ -3,7 +3,7 @@ import { Card, CardContent, Typography, Box, Select, MenuItem, Grid } from '@mui
 import ReactApexChart from 'react-apexcharts';
 import { itemList } from '../../items/api/itemApi';
 
-const ChartThree = () => {
+const TopCategoryChart = () => {
   const [chartData, setChartData] = useState({
     series: [],
     labels: [],
@@ -117,21 +117,19 @@ const ChartThree = () => {
             height="100%"
           />
         </Box>
-        <Grid container spacing={2} mt={2}>
+        <Box display="flex" flexWrap="wrap" justifyContent="center" mt={2}>
           {chartData.labels.map((category, index) => (
-            <Grid item xs={6} key={index}>
-              <Box display="flex" alignItems="center">
-                <Box width={16} height={16} bgcolor={options.colors[index]} mr={1} />
-                <Typography variant="body2">
-                  {category}: {((chartData.series[index] / chartData.series.reduce((a, b) => a + b, 0)) * 100).toFixed(1)}%
-                </Typography>
-              </Box>
-            </Grid>
+            <Box key={index} display="flex" alignItems="center" mr={2} mb={1}>
+              <Box width={12} height={12} bgcolor={options.colors[index]} mr={1} />
+              <Typography variant="body2">
+                {category}: {((chartData.series[index] / chartData.series.reduce((a, b) => a + b, 0)) * 100).toFixed(1)}%
+              </Typography>
+            </Box>
           ))}
-        </Grid>
+        </Box>
       </CardContent>
     </Card>
   );
 };
 
-export default ChartThree;
+export default TopCategoryChart;

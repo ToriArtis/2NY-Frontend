@@ -3,7 +3,7 @@ import { Card, CardContent, Typography, Box, Button, ButtonGroup } from '@mui/ma
 import ReactApexChart from 'react-apexcharts';
 import { itemList } from '../../items/api/itemApi';
 
-const ChartOne = () => {
+const SalesChart = () => {
   const [state, setState] = useState({
     series: [
       {
@@ -226,4 +226,4 @@ const ChartOne = () => {
   );
 };
 
-export default ChartOne;
+export default SalesChart;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Grid, Hidden, IconButton, Menu, MenuItem, useMediaQuery, useTheme } from "@mui/material";
+import { Container, Grid, Hidden, IconButton, Drawer, List, ListItem, ListItemText, useMediaQuery, useTheme, ListItemIcon } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
 import "./css/header.css";
@@ -10,14 +10,17 @@ function Header({ onSearch, clearSearch }) {
     const userRoles = localStorage.getItem("USER_ROLESET");
     const [searchKeyword, setSearchKeyword] = useState("");
     const [isSearchVisible, setIsSearchVisible] = useState(false);
-    const [anchorEl, setAnchorEl] = useState(null);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const handleSearchSubmit = (e) => {
-        e.preventDefault();
-        onSearch(searchKeyword);
-        setIsSearchVisible(false);
+        if (e) e.preventDefault();
+        if (searchKeyword.trim()) {  // 검색어가 비어있지 않은 경우에만 실행
+            onSearch(searchKeyword);
+            setIsSearchVisible(false);
+            setIsSidebarOpen(false);
+        }
     };
 
     const handleCartClick = () => {
@@ -26,19 +29,48 @@ function Header({ onSearch, clearSearch }) {
         } else {
             nav('/cart');
         }
+        setIsSidebarOpen(false);
     };
 
     const toggleSearch = () => {
         setIsSearchVisible(!isSearchVisible);
     };
 
-    const handleMenuClick = (event) => {
-        setAnchorEl(event.currentTarget);
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
     };
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
+    const sidebarContent = (
+        <List>
+            <ListItem style={{ height: '70px' }}>
+                <ListItemIcon sx={{ minWidth: 0, mr: 1 }} onClick={handleSearchSubmit}>
+                    <img src="/assets/Search.png" alt="Search" style={{ width: '24x', height: '24px' }} />
+                </ListItemIcon>
+                <form onSubmit={handleSearchSubmit} className="search-form" style={{ flex: 1 }}>
+                    <Input
+                        label="검색"
+                        value={searchKeyword}
+                        onChange={(e) => setSearchKeyword(e.target.value)}
+                        autoFocus
+                    />
+                </form>
+            </ListItem>
+
+            <ListItem button onClick={() => { nav(localStorage.getItem("ACCESS_TOKEN") ? '/mypage' : '/login'); toggleSidebar(); }}>
+                <ListItemText primary={localStorage.getItem("ACCESS_TOKEN") ? '마이페이지' : '로그인'} />
+            </ListItem>
+            {(userRoles === null || !userRoles.includes("ADMIN")) && (
+                <ListItem button onClick={handleCartClick}>
+                    <ListItemText primary="장바구니" />
+                </ListItem>
+            )}
+            {localStorage.getItem("ACCESS_TOKEN") && (
+                <ListItem button onClick={() => { nav('/logout'); toggleSidebar(); }}>
+                    <ListItemText primary="로그아웃" />
+                </ListItem>
+            )}
+        </List>
+    );
 
     return (
         <Container component="header" className="header-container">
@@ -83,27 +115,20 @@ function Header({ onSearch, clearSearch }) {
                             edge="start"
                             color="inherit"
                             aria-label="menu"
-                            onClick={handleMenuClick}
+                            onClick={toggleSidebar}
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Menu
-                            anchorEl={anchorEl}
-                            keepMounted
-                            open={Boolean(anchorEl)}
-                            onClose={handleMenuClose}
+                        <Drawer
+                            anchor="right"
+                            open={isSidebarOpen}
+                            onClose={toggleSidebar}
+                            classes={{
+                                paper: 'sidebar-drawer'
+                            }}
                         >
-                            <MenuItem onClick={() => { toggleSearch(); handleMenuClose(); }}>검색</MenuItem>
-                            <MenuItem onClick={() => { nav(localStorage.getItem("ACCESS_TOKEN") ? '/mypage' : '/login'); handleMenuClose(); }}>
-                                {localStorage.getItem("ACCESS_TOKEN") ? '마이페이지' : '로그인'}
-                            </MenuItem>
-                            {(userRoles === null || !userRoles.includes("ADMIN")) && (
-                                <MenuItem onClick={() => { handleCartClick(); handleMenuClose(); }}>장바구니</MenuItem>
-                            )}
-                            {localStorage.getItem("ACCESS_TOKEN") && (
-                                <MenuItem onClick={() => { nav('/logout'); handleMenuClose(); }}>로그아웃</MenuItem>
-                            )}
-                        </Menu>
+                            {sidebarContent}
+                        </Drawer>
                     </Hidden>
                 </Grid>
                 <Grid item container direction="column" alignItems="center" className="header-bottom">

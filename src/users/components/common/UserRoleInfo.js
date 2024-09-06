@@ -70,6 +70,7 @@ export default function UserRoleInfo() {
     );
 }
 
+
 function UserInfo() {
     const [isPasswordVerified, setIsPasswordVerified] = useState(false);
     const userInfo = useInfoViewModel();
@@ -94,6 +95,5 @@ function UserInfo() {
           </div>
         )}
         </>
-
     );
 }

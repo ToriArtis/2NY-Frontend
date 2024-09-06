@@ -4,17 +4,18 @@ body {
 
 .user-role-info-container {
   display: flex;
-  margin-top: 8%;
+  margin-top: 0; /* 상단 여백 제거 */
 }
 
 .roleSidebar {
-  width: 30%;
-  padding: 0 15px;
+  width: 150px;
+  padding-right: 20px;
 }
 
 .content {
-  width: 70%;
-  padding-left: 30px;
+  flex-grow: 1;
+  padding-left: 20px;
+  border-left: 1px solid #e0e0e0;
 }
 
 .sidebar-button {
@@ -22,20 +23,23 @@ body {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
-  font-size: larger;
-  text-align: center;
+  font-size: 16px;
+  text-align: left;
   font-family: inherit;
   background: #FFFFFF;
   border: none;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .sidebar-button.active {
   font-weight: bold;
-  background-color: #FFFFFF;
+  background-color: #f0f0f0;
 }
 
-
+.sidebar-button:hover {
+  background-color: #f0f0f0;
+}
 
 @media (max-width: 768px) {
   .user-role-info-container {
@@ -44,5 +48,11 @@ body {
 
   .roleSidebar, .content {
     width: 100%;
+  }
+
+  .content {
+    border-left: none;
+    padding-left: 0;
+    margin-top: 20px;
   }
 }

@@ -4,7 +4,7 @@ body {
 
 .user-role-info-container {
   display: flex;
-  margin-top: 0; /* 상단 여백 제거 */
+  margin-top: 0;
 }
 
 .roleSidebar {
@@ -15,7 +15,6 @@ body {
 .content {
   flex-grow: 1;
   padding-left: 20px;
-  border-left: 1px solid #e0e0e0;
 }
 
 .sidebar-button {

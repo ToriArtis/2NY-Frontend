@@ -27,16 +27,15 @@ function InfoPage() {
     return (
         <>
             <Header />
-            <div style={{ padding: '20px 5%', display: 'flex', alignItems: 'flex-start' }}>
-                <Typography component="h1" variant="h5" style={{ marginRight: '20px', width: '150px', textAlign: 'left' }}>
-                    <b>{nickName} 님</b>
-                </Typography>
+            <div className="all-items-container" style={{ flex: 1 }}>
+                <div className="items-header">
+                    <h1 className="all-items-title"><b>{nickName} 님</b></h1>
+                </div>
                 <div style={{ flexGrow: 1 }}>
                     {role.includes("ADMIN") ? <AdminRoleInfo /> : <UserRoleInfo />}
                 </div>
             </div>
             <Footer />
-
         </>
     );
 }

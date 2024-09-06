@@ -5,11 +5,11 @@ body {
   .admin-role-info-container {
     display: flex;
     margin-top: 8%;
+    margin-top: 0;
   }
   
   .roleSidebar {
-    width: 30%;
-    padding: 0 15px;
+    width: 20%;
   }
   
   .content {
@@ -18,13 +18,13 @@ body {
   }
   
   .sidebar-button {
+    text-align: left;
     display: block;
     width: 100%;
-    padding: 10px;
     margin-bottom: 10px;
     font-size: larger;
-    text-align: center;
     font-family: inherit;
+    padding: 10px 10px 10px 0;
     background: #FFFFFF;
     border: none;
     cursor: pointer;

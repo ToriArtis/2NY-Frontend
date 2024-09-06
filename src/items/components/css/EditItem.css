@@ -1,165 +1,189 @@
-.create-item-container {
-    display: flex;
-    width: 100%;
-  }
-  .sidebar {
-    width: 25%;
-    padding: 20px;
-    background-color: #f0f0f0;
-  }
-  
-  .sidebar-title {
-    font-size: 2em;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .sidebar ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .sidebar li {
-    margin-bottom: 15px;
-  }
-  
-  .sidebar a {
-    text-decoration: none;
-    font-weight: bold;
-    color: #333;
-    font-size: 2em;
-    transition: color 0.3s ease;
-  }
-  
-  .sidebar a:hover {
-    color: #0056b3;
-  }
-  
-  .main-content h1 {
-    font-size: 2em;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  .main-content {
-    width: 75%;
-    padding: 20px;
-  }
-  
-  .main-content h1 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  .error-message {
-    color: red;
-    margin-bottom: 15px;
-  }
-  
-  .form-container {
-    display: flex;
-    gap: 50px;
-  }
-  .color-section {
-    width: 40%;
-  }
+.edit-item-container {
+  border: 1px solid #e0e0e0;
+  margin: auto;
+}
 
-  .image-upload-section,
-  .item-details-section {
-    width: 40%;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .button-group {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-    margin-right: 130px;
-  }
-  
-  .button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .button-cancel {
-    background-color: #ccc;
-  }
-  
-  .button-submit {
-    background-color: #007bff;
-    color: white;
-  }
-  .button-delete {
-    background-color: #dc3545;
-    color: white;
-  }
+.edit-item-container,
+.main-content {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
 
-  .form-group select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: white;
-    font-size: 16px;
-  }
-  
-  .form-group select:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 2px rgba(0,123,255,.25);
-  }
+.form-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 3rem;
+  box-sizing: border-box;
+}
 
-  
+.image-upload-section {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.image-upload-group {
+  width: 100%;
+  align-items: center;
+}
+
+.item-details-section {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select,
+.quill {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.button-group {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-right: 3rem;
+}
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.button-cancel {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.button-submit {
+  background-color: #007bff;
+  color: white;
+}
+
+.button-delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.button-cancel:hover {
+  background-color: #e0e0e0;
+}
+
+.button-submit:hover {
+  background-color: #0056b3;
+}
+
+.button-delete:hover {
+  background-color: #c82333;
+}
+
+.error-message {
+  color: #dc3545;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.quill {
+  margin-bottom: 1.5rem;
+}
+
+.ql-container {
+  min-height: 250px;
+}
+
+.file-input-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.file-input-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.file-input-wrapper .btn-file-input {
+  border: 2px solid #4a90e2;
+  color: #4a90e2;
+  background-color: white;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.file-input-wrapper .btn-file-input:hover {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.file-input-name {
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
 .image-preview {
-    margin-top: 10px;
-    max-width: 200px;
-    max-height: 200px;
-    overflow: hidden;
-  }
-  
-  .image-preview img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
-  
-  .image-preview-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 10px;
-  }
-  
-  .image-preview-container .image-preview {
-    width: 250px;
-    height: 250px;
-  }
-  
-  .image-preview-container .image-preview img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  margin-top: 10px;
+  max-width: 200px;
+  max-height: 200px;
+  overflow: hidden;
+}
+
+.image-preview img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.image-preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.image-preview-container .image-preview {
+  width: 250px;
+  height: 250px;
+}
+
+.image-preview-container .image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.edit-item-container h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-left: 40px;
+  color: #333;
+}

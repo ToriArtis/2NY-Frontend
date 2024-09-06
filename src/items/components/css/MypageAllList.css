@@ -1,5 +1,5 @@
 .item-all-list-view {
-  border: 1px solid #e0e0e0;
+  /* border: 1px solid #e0e0e0; */
   margin: 0 auto;
   padding: 5rem 1.2rem;
 }
@@ -63,7 +63,7 @@
 @media screen and (min-width: 768px) {
   .item-actions {
     margin-left: auto;
-
+    padding-left: 20px;
   }
 }
 

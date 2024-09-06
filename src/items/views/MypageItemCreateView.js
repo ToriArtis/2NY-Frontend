@@ -5,7 +5,6 @@ import Pagination from '../../review/components/Pagination';
 import { getImageUrl } from "../../config/app-config";
 import { itemDelete } from '../api/itemApi';
 import "../components/css/MypageAllList.css"
-import { getItem } from "../../users/utils/storage";
 
 const ItemAllListView = () => {
   const { items, error, currentPage, totalPages, paginate } = mypageItemListViewModel();
@@ -14,7 +13,7 @@ const ItemAllListView = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    const userRoles = getItem("USER_ROLESET");
+    const userRoles = localStorage.getItem("USER_ROLESET");
     setIsAdmin(userRoles && userRoles.includes("ADMIN"));
   }, []);
 

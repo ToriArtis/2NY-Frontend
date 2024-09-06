@@ -11,7 +11,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import '../components/css/ItemDetail.css';
 import Pagination from '../../review/components/Pagination';
-import { getItem } from "../../users/utils/storage";
 
 const StarRating = ({ rating }) => (
   <div className="star-rating">
@@ -106,7 +105,7 @@ const ItemDetailView = () => {
   useEffect(() => {
     fetchItemAndReviews();
 
-    const userRoles = getItem("USER_ROLESET");
+    const userRoles = localStorage.getItem("USER_ROLESET");
     setIsAdmin(userRoles && userRoles.includes("ADMIN"));
   }, [fetchItemAndReviews]);
 

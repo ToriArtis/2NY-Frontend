@@ -38,11 +38,9 @@ export async function login(userDTO) {
     // console.log("로그인 성공:", result);
 
     if (result.accessToken) {
-      // localStorage.setItem(ACCESS_TOKEN, result.accessToken);
+      localStorage.setItem(ACCESS_TOKEN, result.accessToken);
       // localStorage.setItem(USER_NICKNAME, result.nickName);
       // localStorage.setItem(USER_EMAIL, result.email);
-
-      setItem(ACCESS_TOKEN, result.accessToken);
       setItem(USER_NICKNAME, result.nickName);
       setItem(USER_EMAIL, result.email);
 
@@ -76,6 +74,7 @@ export default function Logout() {
   removeItem(ACCESS_TOKEN);
   removeItem(USER_NICKNAME);
   removeItem(USER_EMAIL);
+  removeItem('USER_ROLESET');
   
   // 로그인 페이지로 리디렉션
   window.location.href = "/login";

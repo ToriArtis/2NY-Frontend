@@ -7,8 +7,7 @@ const call = async (api, method, request) => {
     "Content-Type": "application/json",
   });
 
-  //const accessToken = localStorage.getItem("ACCESS_TOKEN");
-  const accessToken = getItem('ACCESS_TOKEN');
+  const accessToken = localStorage.getItem("ACCESS_TOKEN");
   if (accessToken) {
     headers.append("Authorization", "Bearer " + accessToken);
   }

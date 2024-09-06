@@ -9,6 +9,7 @@ import Footer from "../../component/Footer";
 import '../components/css/PurchasePage.css';
 import { getImageUrl } from '../../config/app-config';
 import { getItemDetail } from '../../items/api/itemApi';
+import { getItem } from "../../users/utils/storage";
 
 function PurchasePage() {
   // 주문 관련 상태 변수들
@@ -61,7 +62,7 @@ function PurchasePage() {
 
   // 관리자 권한 체크 함수
   const checkAdminRights = () => {
-    const userRoles = localStorage.getItem("USER_ROLESET");
+    const userRoles = getItem("USER_ROLESET");
     if (userRoles === 'ADMIN,USER' || userRoles === 'USER,ADMIN') {
       navigate("/");
       alert("관리자는 구매할 수 없습니다.");

@@ -162,12 +162,14 @@ export default function ModifyView(userInfo) {
                 btnName="수정하기"
                 disabled={isSubmitting}
               />
-              <BlueButton
-                className="delete-button"
-                type="button"
-                btnName="회원탈퇴"
-                onClick={() => setShowDeleteView(true)}
-              />
+              {(!userRoles || !userRoles.includes("BOSS")) && (
+                <BlueButton
+                  className="delete-button"
+                  type="button"
+                  btnName="회원탈퇴"
+                  onClick={() => setShowDeleteView(true)}
+                />
+              )}
             </Grid>
           </Grid>
         </form>

@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh', // 전체 뷰포트 높이를 사용
+        minHeight: '50vh', // 전체 뷰포트 높이를 사용
       }}
     >
       {children}

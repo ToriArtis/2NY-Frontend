@@ -1,11 +1,14 @@
 import { API_BASE_URL } from "../../config/app-config";
+import { getItem } from "../../users/utils/storage";
+
 // API 호출을 위한 기본 함수
 const call = async (api, method, request) => {
   const headers = new Headers({
     "Content-Type": "application/json",
   });
 
-  const accessToken = localStorage.getItem("ACCESS_TOKEN");
+  //const accessToken = localStorage.getItem("ACCESS_TOKEN");
+  const accessToken = getItem('ACCESS_TOKEN');
   if (accessToken) {
     headers.append("Authorization", "Bearer " + accessToken);
   }

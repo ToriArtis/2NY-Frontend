@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import WhiteButton from '../../../component/WhiteButton';
 import { verifyPassword } from '../../api/userApi';
 import Input from './Input'; 
+import { getItem } from '../../utils/storage';
 
 
 export default function PasswordVaild({ onVerify }) {
     const [password, setPassword] = useState('');
-    const email = localStorage.getItem("USER_EMAIL");
+    const email = getItem("USER_EMAIL");
     const passwordVaild = {
       email: email,
       password: password

@@ -1,5 +1,6 @@
 import { API_BASE_URL } from "../../config/app-config";
 import { clearCart } from "../../cart/api/cartApi";
+import { getItem } from "../../users/utils/storage";
 
 // API 호출을 위한 기본 함수
 export async function call(api, method, request) {
@@ -9,7 +10,8 @@ export async function call(api, method, request) {
   });
 
   // 로컬 스토리지에서 액세스 토큰 가져오기
-  const accessToken = localStorage.getItem("ACCESS_TOKEN");
+  //const accessToken = localStorage.getItem("ACCESS_TOKEN");
+  const accessToken = getItem('ACCESS_TOKEN');
   if (accessToken && accessToken !== null) {
     headers.append("Authorization", "Bearer " + accessToken);
   }

@@ -17,7 +17,7 @@ function Header({ onSearch, clearSearch }) {
 
     const handleSearchSubmit = (e) => {
         if (e) e.preventDefault();
-        if (searchKeyword.trim()) {  // 검색어가 비어있지 않은 경우에만 실행
+        if (searchKeyword.trim()) {  // 검색어가 있는 경우에만 실행
             onSearch(searchKeyword);
             setIsSearchVisible(false);
             setIsSidebarOpen(false);
@@ -41,7 +41,7 @@ function Header({ onSearch, clearSearch }) {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
-    const hideSearch = ["/", "/mypage"];
+    const hideSearch = ["/", "/mypage","/cart","/purchase"];
 
     const sidebarContent = (
         <List>
@@ -87,6 +87,8 @@ function Header({ onSearch, clearSearch }) {
                     <Hidden mdDown>
                         <div className="right-btn">
                             <div className="search-box">
+                            {!hideSearch.includes(location.pathname) && (
+                                <>
                                 {isSearchVisible && (
                                     <form onSubmit={handleSearchSubmit} className="search-form">
                                         <Input
@@ -101,6 +103,8 @@ function Header({ onSearch, clearSearch }) {
                                     <div><img src="/assets/Search.png" alt="Search" className="search-icon" /></div>
                                     검색
                                 </button>
+                                </>
+                                )}
                             </div>
                             {localStorage.getItem("ACCESS_TOKEN") ? (
                                 <button onClick={() => nav('/mypage')}><div><img src="/assets/User.png" alt="User" /></div>마이페이지</button>

@@ -15,7 +15,7 @@ function InfoPage() {
         return getItem("USER_NICKNAME") || "";
     });
     const [role, setRole] = useState(() => {
-        return getItem("USER_ROLESET") || "";
+        return localStorage.getItem("USER_ROLESET") || "";
     });
 
     useEffect(() => {

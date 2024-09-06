@@ -9,8 +9,7 @@ export async function call(api, method, request) {
   });
 
   // 로컬 스토리지에서 ACCESS TOKEN 가져오기
-  //const accessToken = localStorage.getItem("ACCESS_TOKEN");
-  const accessToken = getItem('ACCESS_TOKEN');
+  const accessToken = localStorage.getItem("ACCESS_TOKEN");
   if (accessToken && accessToken !== null) {
     // 액세스 토큰이 있으면 Authorization 헤더에 추가
     headers.append("Authorization", "Bearer " + accessToken);

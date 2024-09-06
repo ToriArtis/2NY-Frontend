@@ -1,10 +1,10 @@
 .orders-list-page {
-    border: 1px solid #e0e0e0;
+    /* border: 1px solid #e0e0e0; */
     padding: 5rem 2rem;
 }
 
 .orders-list-page>h5 {
-    margin-left: 1rem;
+    /* margin-left: 1rem; */
     border-bottom: 1px solid #e0e0e0;
     padding-bottom: 1rem;
 }

@@ -16,7 +16,7 @@ function UserReviewListPage() {
     }
 
     if (!reviews || reviews.length === 0) {
-        return <div style={{ border: "1px solid #e0e0e0", margin: "0 auto", padding: "5rem 1.2rem" }}>
+        return <div style={{margin: "0 auto", padding: "5rem 1.2rem" }}>
             <Typography component="h1" variant="h5"
                 style={{ textAlign: "left", borderBottom: "1px solid #ddd", paddingBottom: "10px", marginBottom: "20px" }}>
                 <b>Review</b>

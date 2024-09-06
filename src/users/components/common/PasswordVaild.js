@@ -23,7 +23,7 @@ export default function PasswordVaild({ onVerify }) {
     };
   
     return (
-      <form onSubmit={handleSubmit} style={{width: "80%"}}>
+      <form onSubmit={handleSubmit} style={{ padding: '5rem 2rem' }} >
         <h2>비밀번호 재확인</h2>
         <div className="input-box">
           <div>

@@ -32,8 +32,16 @@
     gtag('js', new Date());
 
     gtag('config', 'G-XN3TJ1TM55');
+    
   </script>
-  
+      <script>
+        window.env = {
+          REACT_APP_OAUTH_CLIENT_ID: "%REACT_APP_OAUTH_CLIENT_ID%",
+          REACT_APP_GA4_PROPERTY_ID: "%REACT_APP_GA4_PROPERTY_ID%",
+          // 다른 환경 변수들도 같은 방식으로 추가
+        };
+
+      </script>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>

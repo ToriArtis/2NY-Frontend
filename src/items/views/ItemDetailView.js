@@ -63,7 +63,7 @@ const ItemDetailView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addItemToCart } = useCart();
-  const { fetchItem, fetchTopSellingItems, topSellingItems, loading: itemLoading, error: itemError } = useItemViewModel();
+  const { fetchItem, fetchTopSellingItems, topSellingItems, loading: itemLoading, error: itemError, clearSearch } = useItemViewModel();
 
 
   const fetchItemAndReviews = useCallback(async (page = 0) => {
@@ -109,6 +109,9 @@ const ItemDetailView = () => {
     setIsAdmin(userRoles && userRoles.includes("ADMIN"));
   }, [fetchItemAndReviews]);
 
+  const handleSearchkeword = (keyword) => {
+    navigate(`/items?search=${encodeURIComponent(keyword)}`);
+  };
 
   const handleUpdate = () => {
     if (isAdmin) {
@@ -161,7 +164,7 @@ const ItemDetailView = () => {
 
   return (
     <>
-      <Header />
+      <Header onSearch={handleSearchkeword} clearSearch={clearSearch} />
       <div className="item-detail-container" >
         <div className="item-images">
           {itemData.thumbnail && itemData.descriptionImage && (

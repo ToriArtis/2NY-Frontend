@@ -3,10 +3,11 @@ import { Typography } from "@mui/material";
 import { OrdersList } from "../components/OrdersList";
 import "../components/css/OrdersListPage.css";
 import { useNavigate } from "react-router-dom";
+import { getItem } from '../../users/utils/storage';
 
 function OrdersListPage({ onOrderSelect, }) {
     const [nickName, setNickName] = useState(() => {
-        return localStorage.getItem("USER_NICKNAME") || "";
+        return getItem("USER_NICKNAME") || "";
     });
 
     return (

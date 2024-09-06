@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { API_BASE_URL } from '../../config/app-config';
 import OauthLoadingPage from '../views/OauthLoadingPage';
+import { setItem } from '../utils/storage';
 
 function OAuth2RedirectHandler() {
   const navigate = useNavigate();
@@ -43,12 +44,16 @@ function OAuth2RedirectHandler() {
         if (contentType && contentType.indexOf("application/json") !== -1) {
           const data = await response.json();
           if (data.accessToken) {
-            localStorage.setItem('ACCESS_TOKEN', data.accessToken);
-            localStorage.setItem('USER_NICKNAME', data.nickName);
-            localStorage.setItem('USER_EMAIL', data.email);
-            if(data.refreshToken) localStorage.setItem("REFRESH_TOKEN", data.refreshToken);
-            if(data.provider) localStorage.setItem("PROVIDER", data.provider);
-            if(data.roleSet) localStorage.setItem("USER_ROLESET", data.roleSet);
+            // localStorage.setItem('ACCESS_TOKEN', data.accessToken);
+            // localStorage.setItem('USER_NICKNAME', data.nickName);
+            // localStorage.setItem('USER_EMAIL', data.email);
+            setItem('ACCESS_TOKEN', data.accessToken);
+            setItem('USER_NICKNAME', data.nickName);
+            setItem('USER_EMAIL', data.email);
+
+            if(data.refreshToken) setItem("REFRESH_TOKEN", data.refreshToken);
+            if(data.provider) setItem("PROVIDER", data.provider);
+            if(data.roleSet) setItem("USER_ROLESET", data.roleSet);
             navigate('/');
           } else {
             throw new Error('Token not received');

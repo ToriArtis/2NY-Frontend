@@ -6,15 +6,16 @@ import UserRoleInfo from "../../users/components/common/UserRoleInfo";
 import CartsListPage from "./CartsListPage";
 import { useNavigate } from "react-router-dom";
 import AdminRoleInfo from "../../users/components/common/AdminRoleInfo";
+import { getItem } from "../../users/utils/crypto";
 
 function InfoPage() {
 
     const navigate = useNavigate();
     const [nickName, setNickName] = useState(() => {
-        return localStorage.getItem("USER_NICKNAME") || "";
+        return getItem("USER_NICKNAME") || "";
     });
     const [role, setRole] = useState(() => {
-        return localStorage.getItem("USER_ROLESET") || "";
+        return getItem("USER_ROLESET") || "";
     });
 
     useEffect(() => {

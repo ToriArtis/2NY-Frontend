@@ -76,7 +76,7 @@ export default function AdminRoleInfo() {
                 >
                     수익 관리
                 </button>
-                <button 
+                <button
                     onClick={() => handleClick("사용자 목록")} 
                     className={`sidebar-button ${activeButton === "사용자 목록" ? "active" : ""}`}
                 >

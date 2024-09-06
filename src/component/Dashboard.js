@@ -7,7 +7,7 @@ import Visitor from './pages/Visitor.js';
 
 const Dashboard = () => {
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" style={{ marginTop: "3%" , marginBottom: "3%" }} >
       <Grid container spacing={3}>
 
         {/* 방문자 통계 */}

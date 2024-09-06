@@ -60,12 +60,14 @@ const ItemCreateView = () => {
           <div className="form-container">
             <div className="image-upload-section">
               <div className="image-upload-group">
-                <label htmlFor="thumbnail">썸네일 이미지</label>
+                <label htmlFor="thumbnail" style={{lineHeight: '30px'}} >썸네일 이미지</label>
+                <br/>
                 {thumbnailPreview && (
                   <div className="image-preview">
                     <img src={thumbnailPreview} alt="썸네일 미리보기" /> 
                   </div>
                 )}
+                <br/>
                 <div className="file-input-wrapper">
                   <button type="button" className="btn-file-input" onClick={() => handleFileButtonClick(thumbnailInputRef)}>
                     파일 선택
@@ -78,6 +80,8 @@ const ItemCreateView = () => {
                     onChange={handleFileChange}
                     style={{ display: 'none' }}
                   />
+                  <br/>
+                  <br/>
                   <span className="file-input-name">
                     {thumbnailPreview ? '썸네일' : '선택된 파일 없음'}
                   </span>
@@ -93,6 +97,7 @@ const ItemCreateView = () => {
                     </div>
                   ))}
                 </div>
+                <br/>
                 <div className="file-input-wrapper">
                   <button type="button" className="btn-file-input" onClick={() => handleFileButtonClick(descriptionImageInputRef)}>
                     파일 선택
@@ -106,6 +111,7 @@ const ItemCreateView = () => {
                     multiple
                     style={{ display: 'none' }}
                   />
+                  <br/><br/>
                   <span className="file-input-name">
                     {descriptionImagePreviews.length > 0 ? `${descriptionImagePreviews.length}개의 파일` : '선택된 파일 없음'}
                   </span>
@@ -116,12 +122,14 @@ const ItemCreateView = () => {
             <div className="item-details-section">
               <div className="form-group full-width">
                 <label htmlFor="title">상품명</label>
+                <br/>
                 <input
                   type="text"
                   id="title"
                   name="title"
                   value={title}
                   onChange={handleChange}
+                  style={{ width: '50%' }}
                 />
               </div>
   

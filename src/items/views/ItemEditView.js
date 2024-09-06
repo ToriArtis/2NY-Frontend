@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { getImageUrl } from '../../config/app-config';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { itemDelete } from '../api/itemApi';
 import useItemEditViewModel from '../viewModels/useItemEditViewModel';
@@ -41,7 +42,8 @@ const ItemEditView = () => {
     toolbar: [
       [{ 'header': [1, 2, 3, false] }],
       ['bold', 'italic', 'underline', 'strike'],
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+      [{ 'align': [] }, { 'color': [] }, { 'background': [] }],
       ['clean']
     ],
   };
@@ -54,6 +56,12 @@ const ItemEditView = () => {
     'align', 'color', 'background'
   ];
 
+  const thumbnailInputRef = useRef(null);
+  const descriptionImageInputRef = useRef(null);
+
+  const handleFileButtonClick = (inputRef) => {
+    inputRef.current.click();
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div className="error-message">{error}</div>;
@@ -65,44 +73,69 @@ const ItemEditView = () => {
         <form onSubmit={(e) => handleSubmit(e, navigate)}>
           <div className="form-container">
             <div className="image-upload-section">
-              <div className="form-group">
+              <div className="image-upload-group">
                 <label htmlFor="thumbnail">썸네일 이미지</label>
-                <input
-                  type="file"
-                  id="thumbnail"
-                  name="thumbnail"
-                  onChange={handleFileChange}
-                  accept="image/*"
-                />
+                <br/><br/>
                 {thumbnailPreview && (
                   <div className="image-preview">
-                    <img src={thumbnailPreview} alt="썸네일 미리보기" />
+                    <img src={getImageUrl(thumbnailPreview)} alt="썸네일 미리보기" />
                     <button type="button" onClick={removeThumbnail}>삭제</button>
                   </div>
                 )}
+                <div className="file-input-wrapper">
+                  <button type="button" className="btn-file-input" onClick={() => handleFileButtonClick(thumbnailInputRef)}>
+                    파일 선택
+                  </button>
+                  <input
+                    ref={thumbnailInputRef}
+                    type="file"
+                    id="thumbnail"
+                    name="thumbnail"
+                    onChange={handleFileChange}
+                    style={{ display: 'none' }}
+                  />
+                  <br/><br/>
+                  <span className="file-input-name">
+                    {thumbnailPreview ? '썸네일' : '선택된 파일 없음'}
+                  </span>
+                </div>
               </div>
-              <div className="form-group">
+
+              <div className="image-upload-group">
                 <label htmlFor="descriptionImages">상세 이미지</label>
-                <input
-                  type="file"
-                  id="descriptionImages"
-                  name="descriptionImages"
-                  onChange={handleFileChange}
-                  multiple
-                  accept="image/*"
-                />
                 <div className="image-preview-container">
-                  {descriptionImagePreviews.map((preview, index) => (
-                    <div key={index} className="image-preview">
-                      <img src={preview} alt={`상세 이미지 ${index + 1}`} />
-                      <button type="button" onClick={() => removeDescriptionImage(index)}>삭제</button>
-                    </div>
+                {descriptionImagePreviews.map((preview, index) => (
+                  <div key={index} className="image-preview">
+                    <img src={getImageUrl(preview)} alt={`상세 이미지 ${index + 1}`} />
+                    <button type="button" onClick={() => removeDescriptionImage(index)}>삭제</button>
+                  </div>
                   ))}
+                </div>
+                
+                <div className="file-input-wrapper">
+                  <button type="button" className="btn-file-input" onClick={() => handleFileButtonClick(descriptionImageInputRef)}>
+                    파일 선택
+                  </button>
+                  <input
+                    ref={descriptionImageInputRef}
+                    type="file"
+                    id="descriptionImages"
+                    name="descriptionImages"
+                    onChange={handleFileChange}
+                    multiple
+                    style={{ display: 'none' }}
+                  />
+
+                  <br/><br/>
+                  <span className="file-input-name">
+                    {descriptionImagePreviews.length > 0 ? `${descriptionImagePreviews.length}개의 파일` : '선택된 파일 없음'}
+                  </span>
                 </div>
               </div>
             </div>
+
             <div className="item-details-section">
-              <div className="form-group">
+              <div className="form-group full-width">
                 <label htmlFor="title">상품명</label>
                 <input
                   type="text"
@@ -112,14 +145,18 @@ const ItemEditView = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="form-group">
+
+              <div className="form-group full-width">
                 <label htmlFor="content">상품 정보</label>
                 <ReactQuill
                   value={values.content}
                   onChange={handleContentChange}
                   modules={modules}
+                  formats={formats}
+                  theme="snow"
                 />
               </div>
+
               <div className="form-group">
                 <label htmlFor="price">상품 가격</label>
                 <input
@@ -130,6 +167,7 @@ const ItemEditView = () => {
                   onChange={handleChange}
                 />
               </div>
+
               <div className="form-group">
                 <label htmlFor="discountRate">할인율</label>
                 <input
@@ -140,6 +178,7 @@ const ItemEditView = () => {
                   onChange={handleChange}
                 />
               </div>
+
               <div className="form-group">
                 <label htmlFor="category">상품 분류</label>
                 <select
@@ -149,13 +188,14 @@ const ItemEditView = () => {
                   onChange={handleChange}
                 >
                   <option value="">선택하세요</option>
-                  <option value="SKIRT">SKIRT</option>
                   <option value="TOP">TOP</option>
+                  <option value="OUTER">OUTER</option>
+                  <option value="SKIRT">SKIRT</option>
                   <option value="PANTS">PANTS</option>
                   <option value="DRESS">DRESS</option>
-                  <option value="OUTER">OUTER</option>
                 </select>
               </div>
+
               <div className="form-group">
                 <label htmlFor="color">색상</label>
                 <select
@@ -172,6 +212,7 @@ const ItemEditView = () => {
                   ))}
                 </select>
               </div>
+
               <div className="form-group">
                 <label htmlFor="size">사이즈</label>
                 <select
@@ -190,6 +231,7 @@ const ItemEditView = () => {
               </div>
             </div>
           </div>
+
           <div className="button-group">
             <Link to={`/items/${id}`} className="button button-cancel">취소</Link>
             <button type="submit" className="button button-submit">수정</button>

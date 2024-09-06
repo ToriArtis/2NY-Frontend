@@ -191,7 +191,7 @@ const UserListView = () => {
   };
   return (
     <ThemeProvider theme={theme}>
-      <Container>
+      <Container  style={{border: '1px solid #ddd', borderRadius: '8px', padding: '20px'  }}>
         <TitleContainer>
           <Title>사용자 목록</Title>
         </TitleContainer>

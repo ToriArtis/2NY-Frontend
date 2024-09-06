@@ -1,5 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { getItemDetail, itemUpdate } from '../api/itemApi';
+import { getImageUrl } from '../../config/app-config';
+
 
 export default function useItemEditViewModel(id) {
   const [values, setValues] = useState({
@@ -39,15 +41,14 @@ export default function useItemEditViewModel(id) {
         thumbnail: data.thumbnail ? data.thumbnail[0] : null,
         descriptionImages: data.descriptionImage || []
       });
-      setThumbnailPreview(data.thumbnail ? data.thumbnail[0] : null);
-      setDescriptionImagePreviews(data.descriptionImage || []);
+      setThumbnailPreview(data.thumbnail ? getImageUrl(data.thumbnail[0]) : null);
+      setDescriptionImagePreviews(data.descriptionImage ? data.descriptionImage.map(img => getImageUrl(img)) : []);
     } catch (err) {
       setError("상품 정보를 불러오는 데 실패했습니다.");
     } finally {
       setIsLoading(false);
     }
   }, [id]);
-
   useEffect(() => {
     fetchItem();
   }, [fetchItem]);

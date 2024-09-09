@@ -53,7 +53,7 @@ export default function ModifyView(userInfo) {
       <div></div>
       {!showDeleteView ? (
         <form onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} style={{ width: 'auto', marginLeft: 0 }}>
             <Grid container spacing={2}>
               <Typography variant="h4" className='modify-login'>
                 로그인 정보

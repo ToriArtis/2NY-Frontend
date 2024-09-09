@@ -32,9 +32,9 @@ const ChatbotView = () => {
     };
   
     return (
-      <div className="chatbot">
-        <div className="header">
-        2NY : AI 챗봇이 바로 답변드려요
+      <div className="chatbot" >
+        <div className="header" style={{ margin: "10px 10px", textAlign:"center" }}>
+        2NY, AI 챗봇이 바로 답변드려요
         </div>
         <div className="chat-messages">
           {/* 메시지 목록을 렌더링합니다. */}

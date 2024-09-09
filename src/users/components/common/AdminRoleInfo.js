@@ -104,7 +104,7 @@ function UserInfo({ isAdmin }) {
         {!isPasswordVerified ? (
                 <PasswordVaild onVerify={handlePasswordVerification} />
             ) : (
-                <div className="user-info-container" style={{border: "1px solid black", padding: "10px"}}>
+                <div className="user-info-container" >
                     <ModifyView {...userInfo} isAdmin={isAdmin} />
                 </div>
             )}

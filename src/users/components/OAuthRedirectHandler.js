@@ -44,10 +44,10 @@ function OAuth2RedirectHandler() {
         if (contentType && contentType.indexOf("application/json") !== -1) {
           const data = await response.json();
           if (data.accessToken) {
-            // localStorage.setItem('ACCESS_TOKEN', data.accessToken);
+            localStorage.setItem('ACCESS_TOKEN', data.accessToken);
             // localStorage.setItem('USER_NICKNAME', data.nickName);
             // localStorage.setItem('USER_EMAIL', data.email);
-            setItem('ACCESS_TOKEN', data.accessToken);
+            // setItem('ACCESS_TOKEN', data.accessToken);
             setItem('USER_NICKNAME', data.nickName);
             setItem('USER_EMAIL', data.email);
 

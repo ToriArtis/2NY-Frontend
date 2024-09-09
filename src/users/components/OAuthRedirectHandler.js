@@ -52,9 +52,9 @@ function OAuth2RedirectHandler() {
             setItem('USER_NICKNAME', data.nickName);
             setItem('USER_EMAIL', data.email);
 
-            if(data.refreshToken) setItem("REFRESH_TOKEN", data.refreshToken);
-            if(data.provider) setItem("PROVIDER", data.provider);
-            if(data.roleSet) setItem("USER_ROLESET", data.roleSet);
+            if(data.refreshToken) localStorage.setItem("REFRESH_TOKEN", data.refreshToken);
+            if(data.provider) localStorage.setItem("PROVIDER", data.provider);
+            if(data.roleSet) localStorage.setItem("USER_ROLESET", data.roleSet);
             navigate('/');
           } else {
             throw new Error('Token not received');
